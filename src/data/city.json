@@ -1,0 +1,19 @@
+{
+  "markers": [
+    {
+      "ID": 1,
+      "name": "Lahore",
+      "position": [31.52037, 74.358749]
+    },
+    {
+      "ID": 2,
+      "name": "Karachi",
+      "position": [24.860735, 67.001137]
+    },
+    {
+      "ID": 3,
+      "name": "Islamabad",
+      "position": [33.684422, 73.047882]
+    }
+  ]
+}
