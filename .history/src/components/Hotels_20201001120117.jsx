@@ -1,0 +1,250 @@
+import React from "react";
+// import CssBaseline from "@material-ui/core/CssBaseline";
+// import cover from "../hotelCover.jpg";
+import { makeStyles, createStyles } from "@material-ui/core/styles";
+// import Sidebar from "./Sidebar";
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  // Grid,
+  // TextField,
+} from "@material-ui/core";
+
+const drawerWidth = 240;
+
+const useStyles = makeStyles((theme) =>
+  createStyles({
+    root: {
+      display: "flex",
+      marginTop: "50px",
+    },
+    drawer: {
+      [theme.breakpoints.up("sm")]: {
+        width: drawerWidth,
+        flexShrink: 0,
+      },
+    },
+    appBar: {
+      [theme.breakpoints.up("sm")]: {
+        width: `calc(100% - ${drawerWidth}px)`,
+        marginLeft: drawerWidth,
+      },
+    },
+
+    menuButton: {
+      marginRight: theme.spacing(2),
+      [theme.breakpoints.up("sm")]: {
+        display: "none",
+      },
+    },
+    // necessary for content to be below app bar
+    toolbar: theme.mixins.toolbar,
+    drawerPaper: {
+      width: drawerWidth,
+    },
+
+    divStyle: {
+      display: "block",
+    },
+    card: {
+      display: "flex",
+    },
+    details: {
+      display: "flex",
+      flexDirection: "column",
+    },
+    content: {
+      flex: "1 0 auto",
+    },
+    media: {
+      display: "flex",
+      height: 500,
+      //  objectFit: "contain",
+      alignItems: "left",
+      width: "2500px",
+    },
+  })
+);
+
+const Hotels = () => {
+  const classes = useStyles();
+
+  return (
+    // <div className={classes.root}>
+    <div style={{ marginTop: "100px" }}>
+      {/* <Grid
+        container
+        style={{
+          marginBottom: "30px",
+          marginTop: "40px",
+        }}
+      >
+        <Grid item xs={12}>
+          <img src={cover} width="100%" height="50%" alt="cover" />
+        </Grid>
+      </Grid> */}
+      <Card className={classes.card}>
+        <div className={classes.content}>
+          <CardContent className={classes.content}>
+            <div style={{ position: "relative" }}>
+              <CardMedia
+                component="img"
+                className={classes.media}
+                image="https://images.pexels.com/photos/573552/pexels-photo-573552.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+              />
+              <div
+                style={{
+                  position: "absolute",
+                  color: "white",
+                  top: 8,
+                  left: "34%",
+                  transform: "translateX(-50%)",
+                }}
+              >
+                <h3 style={{ textAlign: "center" }}>Welcom To Our Hotels </h3>
+                <h1> Find The Hotels of Pakistan! </h1>
+                <PlacesAutoComplete
+                  value={address}
+                  onChange={setAddress}
+                  onSelect={handleSelect}
+                >
+                  {({
+                    getInputProps,
+                    suggestions,
+                    getSuggestionItemProps,
+                    loading,
+                  }) => (
+                    <div style={{ marginTop: "100px" }}>
+                      <p>Latitude: {coordinates.lat}</p>
+                      <p>Longitude: {coordinates.lng} </p>
+                      <input
+                        {...getInputProps({ placeholder: "Search Location" })}
+                      />
+                      <div>
+                        {loading ? <div>....Loading </div> : null}
+                        {suggestions.map((suggestion) => {
+                          const style = {
+                            backgroundColor: suggestion.active
+                              ? "#41b6e6"
+                              : "#fff",
+                          };
+                          return (
+                            <div
+                              {...getSuggestionItemProps(suggestion, { style })}
+                            >
+                              {suggestion.description}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </PlacesAutoComplete>
+              </div>
+            </div>
+          </CardContent>
+        </div>
+      </Card>
+      {/* <Sidebar> </Sidebar>
+      <main className={classes.content}>
+        <div className={classes.toolbar} />
+        <h1 style={{ textAlign: "center" }}> Hotels Of Pakistan </h1>
+
+        <TextField style={{ position: "absolute", right: "0px" }}>
+          {" "}
+          Search Hotels{" "}
+        </TextField>
+        <hr></hr>
+
+        <Grid container wrap="wrap" spacing={2}>
+          <Grid item xs={3} className={classes.testimonials}>
+            <h1 style={{ textAlign: "center", color: "black" }}>User</h1>
+            <p>
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+              Molestias, amet? Magni blanditiis ipsa sapiente rem eum fugiat!
+              Esse laboriosam rem ipsum cupiditate, suscipit corrupti. Quidem
+              sit rem unde quae sed. Lorem, ipsum dolor sit amet consectetur
+              adipisicing elit. Molestias, amet? Magni blanditiis ipsa sapiente
+              rem eum fugiat! Esse laboriosam rem ipsum cupiditate, suscipit
+              corrupti. Quidem sit rem unde quae sed.
+            </p>
+          </Grid>
+          <Grid item xs={3} className={classes.testimonials}>
+            <h1 style={{ textAlign: "center", color: "black" }}>User</h1>{" "}
+            <p>
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+              Molestias, amet? Magni blanditiis ipsa sapiente rem eum fugiat!
+              Esse laboriosam rem ipsum cupiditate, suscipit corrupti. Quidem
+              sit rem unde quae sed. Lorem, ipsum dolor sit amet consectetur
+              adipisicing elit. Molestias, amet? Magni blanditiis ipsa sapiente
+              rem eum fugiat! Esse laboriosam rem ipsum cupiditate, suscipit
+              corrupti. Quidem sit rem unde quae sed.
+            </p>
+          </Grid>
+          <Grid item xs={3} className={classes.testimonials}>
+            <h1 style={{ textAlign: "center", color: "black" }}>User</h1>{" "}
+            <p>
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+              Molestias, amet? Magni blanditiis ipsa sapiente rem eum fugiat!
+              Esse laboriosam rem ipsum cupiditate, suscipit corrupti. Quidem
+              sit rem unde quae sed. Lorem, ipsum dolor sit amet consectetur
+              adipisicing elit. Molestias, amet? Magni blanditiis ipsa sapiente
+              rem eum fugiat! Esse laboriosam rem ipsum cupiditate, suscipit
+              corrupti. Quidem sit rem unde quae sed.
+            </p>
+          </Grid>
+          <Grid item xs={3} className={classes.testimonials}>
+            <h1 style={{ textAlign: "center", color: "black" }}>User</h1>{" "}
+            <p>
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+              Molestias, amet? Magni blanditiis ipsa sapiente rem eum fugiat!
+              Esse laboriosam rem ipsum cupiditate, suscipit corrupti. Quidem
+              sit rem unde quae sed. Lorem, ipsum dolor sit amet consectetur
+              adipisicing elit. Molestias, amet? Magni blanditiis ipsa sapiente
+              rem eum fugiat! Esse laboriosam rem ipsum cupiditate, suscipit
+              corrupti. Quidem sit rem unde quae sed.
+            </p>
+          </Grid>
+          <Grid item xs={3} className={classes.testimonials}>
+            <h1 style={{ textAlign: "center", color: "black" }}>User</h1>{" "}
+            <p>
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+              Molestias, amet? Magni blanditiis ipsa sapiente rem eum fugiat!
+              Esse laboriosam rem ipsum cupiditate, suscipit corrupti. Quidem
+              sit rem unde quae sed. Lorem, ipsum dolor sit amet consectetur
+              adipisicing elit. Molestias, amet? Magni blanditiis ipsa sapiente
+              rem eum fugiat! Esse laboriosam rem ipsum cupiditate, suscipit
+              corrupti. Quidem sit rem unde quae sed.
+            </p>
+          </Grid>
+          <Grid item xs={3} className={classes.testimonials}>
+            <h1 style={{ textAlign: "center", color: "black" }}>User</h1>{" "}
+            <p>
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+              Molestias, amet? Magni blanditiis ipsa sapiente rem eum fugiat!
+              Esse laboriosam rem ipsum cupiditate, suscipit corrupti. Quidem
+              sit rem unde quae sed. Lorem, ipsum dolor sit amet consectetur
+              adipisicing elit. Molestias, amet? Magni blanditiis ipsa sapiente
+              rem eum fugiat! Esse laboriosam rem ipsum cupiditate, suscipit
+              corrupti. Quidem sit rem unde quae sed.
+            </p>
+          </Grid>
+          <Grid item xs={3} className={classes.testimonials}>
+            <h1 style={{ textAlign: "center", color: "black" }}>User</h1>{" "}
+            <p>
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+              Molestias, amet? Magni blanditiis ipsa sapiente rem eum fugiat!
+              Esse laboriosam rem ipsum cupiditate, suscipit corrupti. Quidem
+              sit rem unde quae sed. Lorem, ipsum dolor sit amet consectetur
+              adipisicing elit. Molestias, amet? Magni blanditiis ipsa sapiente
+              rem eum fugiat! Esse laboriosam rem ipsum cupiditate, suscipit
+              corrupti. Quidem sit rem unde quae sed.
+            </p>
+          </Grid>
+        </Grid>
+      </main> */}
+    </div>
+  );
+};
+export default Hotels;
