@@ -3,6 +3,7 @@ import React, { Component, useCallback, useEffect } from "react";
 // import cover from "../hotelCover.jpg";
 import hotelService from "../../services/HotelService";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import Sidebar from "../Sidebar";
 import SearchIcon from "@material-ui/icons/Search";
 import {
@@ -11,6 +12,7 @@ import {
   CardContent,
   CardMedia,
   Grid,
+  TextField,
   // Grid,
   // TextField,
 } from "@material-ui/core";
@@ -30,7 +32,7 @@ class Hotels extends Component {
       Img: '',
       address: " ",
       hotels: [],
-
+     
     };
   };
 
@@ -54,7 +56,7 @@ class Hotels extends Component {
         });
 }
 
-
+  
   render() {
     
     //   const handleData = async () => { 
@@ -170,44 +172,28 @@ class Hotels extends Component {
                     {" "}
                   Find The Hotels of Pakistan!{" "}
                   </h1>
-                  <PlacesAutoComplete
-                    value={this.state.address}
-                    onChange={handleChange}
-                    onSelect={handleSelect}
-                  >
-                    {({
-                      getInputProps,
-                      suggestions,
-                      getSuggestionItemProps,
-                      loading,
-                    }) => (
-                        <div style={{ marginTop: "100px" }}>
-                          {/* <p>Latitude: {coordinates.lat}</p>
-                      <p>Longitude: {coordinates.lng} </p> */}
-                          <input
-                            {...getInputProps({ placeholder: "Search Hotels" })}
-                            style={{ width: "900px", height: "30px" }}
-                          />
-                          <div>
-                            {loading ? <div>....Loading </div> : null}
-                            {suggestions.map((suggestion) => {
-                              const style = {
-                                backgroundColor: suggestion.active
-                                  ? "#41b6e6"
-                                  : "black",
-                              };
-                              return (
-                                <div
-                                  {...getSuggestionItemProps(suggestion, { style })}
-                                >
-                                  {suggestion.description}
-                                </div>
-                              );
-                            })}
-                          </div>
-                        </div>
-                      )}
-                  </PlacesAutoComplete>
+        
+                </div>
+              </div>
+            </CardContent>
+          </div>
+        </Card>
+                  <Autocomplete
+                    freeSolo
+          id="free-solo-2-demo"
+          width="50%"
+                    disableClearable
+                    options={this.state.hotels.map((option) => option.HotelName)}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label="Search input"
+            margin="normal"
+            variant="outlined"
+            InputProps={{ ...params.InputProps, type: 'search' }}
+          />
+        )}
+      />
                   <Button
                     variant="contained"
                     color="default"
@@ -218,11 +204,6 @@ class Hotels extends Component {
                   >
                     Search
                 </Button>
-                </div>
-              </div>
-            </CardContent>
-          </div>
-        </Card>
         {this.state.hotels.length == 0 ? (
           <p>There are no hotels</p>
         ) : (
@@ -236,7 +217,7 @@ class Hotels extends Component {
    console.log(this.state.Img); */}
               {this.state.hotels.map((hotel, index) => (
                  hotel.Image = 'data:image/jpeg;base64,' + this.arrayBufferToBase64(hotel.Image.data.data),
-                 console.log(hotel.Image),
+                // console.log(hotel.Image),
                // <img src={hotel.Image} style={{height:"30px",width: "30px"}} alt='Helpful alt text'/>
 
                  <SingleHotel key={index} hotel={hotel} />
@@ -244,7 +225,8 @@ class Hotels extends Component {
             </Grid>
 
           )}
-
+         
+         
       </div>
     );
   };
