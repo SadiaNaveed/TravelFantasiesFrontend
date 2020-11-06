@@ -1,0 +1,561 @@
+import { FormControl, Grid, InputLabel, MenuItem, Select, TextField } from "@material-ui/core";
+import React, { Component } from "react";
+import queryString from 'query-string';  
+import roomService from "../../services/RoomService";
+import roomCategoryService from "../../services/RoomCategoryService";
+import hotelService from "../../services/HotelService";
+// import { KeyboardDatePicker } from '@material-ui/pickers';
+// import DateFnsUtils from '@date-io/date-fns';
+// import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from 'react-datepicker';
+
+
+
+class HotelBooking extends Component{
+  constructor(props) {
+        super(props);
+      this.state = {
+          hotel: [],
+        Image: " ",
+        Room: [],
+        Category: [],
+        guest: '',
+        startDate: new Date(),
+        endDate: null,
+        rooms: 0,
+        }
+        //  this.onButtonClick = this.onButtonClick.bind(this);    
+    this.handleChange = this.handleChange.bind(this);
+    this.onDateChange = this.onDateChange.bind(this);
+    this.handleRoomChange = this.handleRoomChange.bind(this);
+ 
+  }
+   handleChange = (event) => {
+     this.setState({ guest: event.target.value });
+  };
+  handleRoomChange = (event) => {
+    this.setState({ rooms: event.target.value });
+  }
+  arrayBufferToBase64(buffer) {
+    var binary = '';
+    var bytes = [].slice.call(new Uint8Array(buffer));
+    bytes.forEach((b) => binary += String.fromCharCode(b));
+    return window.btoa(binary);
+  };
+   onDateChange = dates => {
+    const [start, end] = dates;
+     this.setState({ startDate: start });
+     this.setState({ endDate: end });
+     console.log(this.state.startDate);
+     console.log(this.state.endDate);
+  };
+
+  componentDidMount() {
+     
+     const hotelId = queryString.parse(this.props.history.location.search);
+         const hotelSearch = hotelId.hotel;
+    console.log(hotelSearch);
+    const roomSearch = hotelId.room;
+    console.log(roomSearch);
+    const categorySearch = hotelId.Category;
+    console.log(categorySearch);
+    //  this.props.history.push({
+    //     pathname: '/HotelBooking',
+    //    search: '?hotel=' + hotelSearch +'&room=' +this.props.room._id,
+       
+    //  })
+     hotelService
+     .getSingleHotel(hotelSearch)
+        .then((data) => {
+            this.setState({ hotel: data });
+            this.setState({
+                Image: 'data:image/jpeg;base64,' + this.arrayBufferToBase64(this.state.hotel.Image.data.data)
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+     
+    
+    roomService
+       .getSingleRoom(roomSearch)
+       .then((data) => {
+         this.setState({ Room: data });
+         console.log(this.state.Room);
+         // setTotal(data.total);
+         // setPerPage(10);
+       })
+       .catch((err) => {
+         console.log(err);
+       });
+    
+    // const categorySearch = this.state.Room.Category;
+    // console.log(categorySearch); 
+    
+     roomCategoryService
+       .getSingleRoomCategory(categorySearch)
+       .then((data) => {
+         this.setState({ Category: data });
+         console.log(this.state.Category);
+         // setTotal(data.total);
+         // setPerPage(10);
+       })
+       .catch((err) => {
+         console.log(err);
+       });
+   };
+
+  
+  render() {
+  //  const { hotel, history } = props;
+    return (
+    
+      <div style={{marginTop:"100px" ,marginLeft:"100px" , marginBotton:"30px"}}>
+        <h1>Booking Hotel</h1> 
+        <form>
+ 
+    
+          </form>
+            <form
+          onSubmit={this.handleSubmit}
+           enctype="multipart/form-data"
+          style={{
+            marginBottom: "30px",
+            paddingLeft: "30px",
+            paddingRight: "300px",
+            borderColor: "black",
+            borderRadius: "30px",
+            borderStyle: "bold",
+          }}
+        >
+          
+          <Grid container spacing={4}>
+<Grid item xs={1}></Grid>
+            <Grid item xs={5}>
+            <h3>Hotel Name</h3>
+            {/* <select onChange={this.change} value={this.state.SelectedCategory}>
+                {this.state.Categories.map((Category, index) => (
+                     <option  key={Category._id} value={Category._id}> {Category.CategoryName} </option>
+          
+            ))}
+            </select> */}
+             <TextField
+                    id="outlined-basic"
+                    variant="outlined"
+                    name="Hotel_Name"
+                    fullWidth
+                    value={this.state.hotel.HotelName}
+                    onChange={this.handleHotelNameChange}
+                     InputProps={{
+            readOnly: true,
+          }}
+                  />
+</Grid>
+
+            <Grid item xs={1}></Grid>
+            <Grid item xs={5}>
+              <div class="row">
+                <div class="col-sm">
+                  <label>
+                    <h3>Room :</h3>
+                  </label>
+                </div>
+                <div class="col-sm">
+                  <TextField
+                    id="outlined-basic"
+                    variant="outlined"
+                    name="Hotel_Name"
+                    fullWidth
+                    value={this.state.Category.CategoryName}
+                    onChange={this.handleHotelNameChange}
+                     InputProps={{
+            readOnly: true,
+          }}
+                  />
+                </div>
+              </div>
+            </Grid>
+            <Grid item xs={1}></Grid>
+
+            <Grid item xs={5}>
+              <div class="row">
+                <div class="col-sm">
+                  <label>
+                    <label>
+                      <h3>No of Guests:</h3>
+                    </label>
+                    <FormControl variant="outlined" fullWidth >
+                      {this.state.Category.CategoryName == "Single Room" &&
+                        <Select
+                          labelId="demo-simple-select-outlined-label"
+                          id="demo-simple-select-outlined"
+                          value={this.state.guest}
+                          onChange={this.handleChange}
+                          fullWidth
+                        >
+          
+                          <MenuItem value={1}>1</MenuItem>
+                    
+                        </Select>
+                      }
+                       {this.state.Category.CategoryName == "King Double Room" &&
+                        <Select
+                          labelId="demo-simple-select-outlined-label"
+                          id="demo-simple-select-outlined"
+                          value={this.state.guest}
+                          onChange={this.handleChange}
+                          fullWidth
+                        >
+          
+                          <MenuItem value={1}>1</MenuItem>
+                          <MenuItem value={2}>2</MenuItem>
+                          <MenuItem value={3}>3</MenuItem>
+               
+                        </Select>
+                      }
+                       {this.state.Category.CategoryName == "Queen Double Room" &&
+                        <Select
+                          labelId="demo-simple-select-outlined-label"
+                          id="demo-simple-select-outlined"
+                          value={this.state.guest}
+                          onChange={this.handleChange}
+                          fullWidth
+                        >
+          
+                          <MenuItem value={1}>1</MenuItem>
+                          <MenuItem value={2}>2</MenuItem>
+                          <MenuItem value={3}>3</MenuItem>
+                          <MenuItem value={4}>4</MenuItem>
+                        </Select>
+                      }
+                       {this.state.Category.CategoryName == "Single Deluxe Room" &&
+                        <Select
+                          labelId="demo-simple-select-outlined-label"
+                          id="demo-simple-select-outlined"
+                          value={this.state.guest}
+                          onChange={this.handleChange}
+                          fullWidth
+                        >
+          
+                          <MenuItem value={1}>1</MenuItem>
+                          <MenuItem value={2}>2</MenuItem>
+                        </Select>
+                      }
+
+                      {this.state.Category.CategoryName == "Double Deluxe Room" &&
+                        <Select
+                          labelId="demo-simple-select-outlined-label"
+                          id="demo-simple-select-outlined"
+                          value={this.state.guest}
+                          onChange={this.handleChange}
+                          fullWidth
+                        >
+          
+                          <MenuItem value={1}>1</MenuItem>
+                        <MenuItem value={2}>2</MenuItem>
+                        <MenuItem value={3}>3</MenuItem>
+                        <MenuItem value={4}>4</MenuItem>
+                        </Select>
+                      }
+                      {this.state.Category.CategoryName == "Double-Double (Twin Double) Room" &&
+                        <Select
+                          labelId="demo-simple-select-outlined-label"
+                          id="demo-simple-select-outlined"
+                          value={this.state.guest}
+                          onChange={this.handleChange}
+                          fullWidth
+                        >
+          
+                          <MenuItem value={1}>1</MenuItem>
+                        <MenuItem value={2}>2</MenuItem>
+                        <MenuItem value={3}>3</MenuItem>
+                        <MenuItem value={4}>4</MenuItem>
+                        <MenuItem value={5}>5</MenuItem>
+                          <MenuItem value={6}>6</MenuItem>
+                        </Select>
+                      }
+                      {this.state.Category.CategoryName == "Twin Room" &&
+                        <Select
+                          labelId="demo-simple-select-outlined-label"
+                          id="demo-simple-select-outlined"
+                          value={this.state.guest}
+                          onChange={this.handleChange}
+                          fullWidth
+                        >
+          
+                          <MenuItem value={1}>1</MenuItem>
+                        <MenuItem value={2}>2</MenuItem>
+                        <MenuItem value={3}>3</MenuItem>
+                        </Select>
+                      }
+                      {this.state.Category.CategoryName == "Hollywood Twin Room" &&
+                        <Select
+                          labelId="demo-simple-select-outlined-label"
+                          id="demo-simple-select-outlined"
+                          value={this.state.guest}
+                          onChange={this.handleChange}
+                          fullWidth
+                        >
+          
+                          <MenuItem value={1}>1</MenuItem>
+                        <MenuItem value={2}>2</MenuItem>
+                  
+                        </Select>
+                      }
+
+                      {this.state.Category.CategoryName == "Duplex Room" &&
+                        <Select
+                          labelId="demo-simple-select-outlined-label"
+                          id="demo-simple-select-outlined"
+                          value={this.state.guest}
+                          onChange={this.handleChange}
+                          fullWidth
+                        >
+          
+                          <MenuItem value={1}>1</MenuItem>
+                        <MenuItem value={2}>2</MenuItem>
+                  
+                        </Select>
+                      }
+                      {this.state.Category.CategoryName == "Cabana Room" &&
+                        <Select
+                          labelId="demo-simple-select-outlined-label"
+                          id="demo-simple-select-outlined"
+                          value={this.state.guest}
+                          onChange={this.handleChange}
+                          fullWidth
+                        >
+          
+                          <MenuItem value={1}>1</MenuItem>
+                        <MenuItem value={2}>2</MenuItem>
+                  
+                        </Select>
+                      }
+                      {this.state.Category.CategoryName == "Studio Room" &&
+                        <Select
+                          labelId="demo-simple-select-outlined-label"
+                          id="demo-simple-select-outlined"
+                          value={this.state.guest}
+                          onChange={this.handleChange}
+                          fullWidth
+                        >
+          
+                          <MenuItem value={1}>1</MenuItem>
+                        <MenuItem value={2}>2</MenuItem>
+                  
+                        </Select>
+                      }
+                      {this.state.Category.CategoryName == "Lanai Room" &&
+                        <Select
+                          labelId="demo-simple-select-outlined-label"
+                          id="demo-simple-select-outlined"
+                          value={this.state.guest}
+                          onChange={this.handleChange}
+                          fullWidth
+                        >
+          
+                          <MenuItem value={1}>1</MenuItem>
+                        <MenuItem value={2}>2</MenuItem>
+                  
+                        </Select>
+                      }
+                      {this.state.Category.CategoryName == "Regular Suite Room" &&
+                        <Select
+                          labelId="demo-simple-select-outlined-label"
+                          id="demo-simple-select-outlined"
+                          value={this.state.guest}
+                          onChange={this.handleChange}
+                          fullWidth
+                        >
+          
+                          <MenuItem value={1}>1</MenuItem>
+                        <MenuItem value={2}>2</MenuItem>
+                  
+                        </Select>
+                      }
+                      {this.state.Category.CategoryName == "Penthouse Suite Room" &&
+                        <Select
+                          labelId="demo-simple-select-outlined-label"
+                          id="demo-simple-select-outlined"
+                          value={this.state.guest}
+                          onChange={this.handleChange}
+                          fullWidth
+                        >
+          
+                          <MenuItem value={1}>1</MenuItem>
+                        <MenuItem value={2}>2</MenuItem>
+                  
+                        </Select>
+                      }
+                      {this.state.Category.CategoryName == "Presidential Suite Room" &&
+                        <Select
+                          labelId="demo-simple-select-outlined-label"
+                          id="demo-simple-select-outlined"
+                          value={this.state.guest}
+                          onChange={this.handleChange}
+                          fullWidth
+                        >
+          
+                          <MenuItem value={1}>1</MenuItem>
+                        <MenuItem value={2}>2</MenuItem>
+                  
+                        </Select>
+                      }
+                      {this.state.Category.CategoryName == "Sico Room" &&
+                        <Select
+                          labelId="demo-simple-select-outlined-label"
+                          id="demo-simple-select-outlined"
+                          value={this.state.guest}
+                          onChange={this.handleChange}
+                          fullWidth
+                        >
+          
+                          <MenuItem value={1}>1</MenuItem>
+                        <MenuItem value={2}>2</MenuItem>
+                  
+                        </Select>
+                      }
+      </FormControl>
+                  </label>
+                </div>
+              </div>
+            </Grid>
+            <Grid item xs={1}></Grid>
+            <Grid item xs={5}>
+              <div class="row">
+                <div class="col-sm">
+                  <label>
+<label>
+                    <h3> No of Rooms:</h3>
+                  </label>
+                
+                  
+                    <FormControl variant="outlined" fullWidth >
+                      
+                       <Select
+          labelId="demo-simple-select-outlined-label"
+          id="demo-simple-select-outlined"
+          value={this.state.rooms}
+          onChange={this.handleRoomChange}
+          fullWidth
+        >
+          
+          <MenuItem value={1}>1</MenuItem>
+          <MenuItem value={2}>2</MenuItem>
+          <MenuItem value={3}>3</MenuItem>
+          <MenuItem value={4}>4</MenuItem>
+          <MenuItem value={5}>5</MenuItem>
+        </Select>
+                     
+      
+                    </FormControl>
+                      </label>
+                </div>
+                
+              </div>
+            </Grid>
+            <Grid item xs={1}></Grid>
+
+            <Grid item xs={5}>
+              <div class="row">
+                <div class="col-sm">
+               
+                    <label>
+                    <h3>Check-in and Check-out date </h3>
+                  </label>
+<DatePicker
+      selected={this.state.startDate}
+      onChange={this.onDateChange}
+      minDate={new Date()}
+      startDate={this.state.startDate}
+      endDate={this.state.endDate}
+                    selectsRange
+                    fullWidth
+                    format={"dd-MM-yyyy"}
+         // dropdownMode={'select'}
+        isClearable={true}
+      inline
+                  />  
+                  <p>Select a long date-time: </p>
+                  <DatePicker selected={this.statestartDate} onChange={date => this.setState({ startDate: date }), console.log(this.state.startDate)} />
+                    {/* <DateTimePicker
+                        format={"dd-MM-yyyy hh:mm:ss a"}
+                        defaultValue={this.state.startDate}
+                        width={200}
+                    />           */}
+                </div>
+              </div>
+            </Grid>
+            
+            <Grid item xs={1}></Grid>
+            <Grid item xs={5}>
+              <div class="row">
+                <div class="col-sm">
+                  <label>
+                    <h3>Cost Per Room/Night:</h3>
+                  </label>
+                </div>
+                <div class="col-sm">
+                  <TextField
+                    id="outlined-basic"
+                    variant="outlined"
+                    name="Hotel_Name"
+                    fullWidth
+                    value={this.state.Room.Cost}
+                  //  onChange={this.handleHotelNameChange}
+                     InputProps={{
+            readOnly: true,
+          }}
+                  />
+                </div>
+              </div>               
+               
+            </Grid>
+            <Grid item xs={1}></Grid>
+
+            <Grid item xs={5}>
+              <div class="row">
+                <div class="col-sm">
+                  <label>
+                    <h3>Cost:</h3>
+                  </label>
+                </div>
+                <div class="col-sm">
+                  <TextField
+                    id="outlined-basic"
+                    variant="outlined"
+                    name="Overall_Rating"
+                    value={this.state.Ratings}
+                    onChange={this.handleCostChange}
+                  />
+                </div>
+              </div>
+            </Grid>
+            <Grid item xs={1}></Grid>
+<Grid item xs={5}>
+            
+            </Grid>
+           
+            <Grid item xs={1}></Grid>
+          </Grid>
+          <button variant="contained" style={{color: "blue" , position:"absolute", left:"50%" , justifyContent: "center" , alignItems: "center"}}>
+            {" "}
+            Add new Hotel{" "}
+          </button>
+        </form>
+
+
+
+       
+          </div>
+
+  
+  );
+};
+}
+
+  
+  
+
+export default HotelBooking;
