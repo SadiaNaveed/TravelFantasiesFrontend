@@ -1,87 +1,92 @@
-import React from "react";
-import { Container, Row, Col } from "reactstrap";
-import 'bootstrap/dist/css/bootstrap.css';
+import React, { Component } from "react";
+import { Grid, Button, Typography, Box, makeStyles, CssBaseline } from "@material-ui/core";
+import { useHistory, withRouter } from "react-router";
+import { grey } from "@material-ui/core/colors";
+import { Link } from "react-router-dom";
+import queryString from 'query-string';  
+import placeService from "../../services/PlaceService";
+import AppBarComponenet from "../Admin/fragments/AppBar";
+//import SingleRoom from "./SingleRoom";
 
-function placeDetail() {
- // const [url, setUrl] = useState(
- //   "https://mdbootstrap.com/img/Others/documentation/1.jpg"
-// );
-  return (
-    <Container>
-      <Row>
-        <Col xs="5">
-          <Row className="mt-5">
-            <h3>Name:</h3>
 
-            <h3>
-              <br />
-              Lorem ipsum dolor sit amet, primis abhorreant ne vim. Ignota
-              diceret ei eos, ex ius nibh zril tincidunt. Malis accusamus
-            </h3>
-          </Row>
-          <Row className="mt-2">
-            <h3>Description:</h3>
 
-            <p>
-              <br />
-              Lorem ipsum dolor sit amet, primis abhorreant ne vim. Ignota
-              diceret ei eos, ex ius nibh zril tincidunt. Malis accusamus
-              vituperata id nec, eam epicuri recteque ex. Id partem ceteros
-              rationibus sit, choro habemus ius in. Quo blandit insolens
-              gloriatur eu. In dicam munere est, affert doming sit id. Suas
-              saepe scripta nam eu, ex his tritani ornatus corpora, ei solet
-              deterruisset ius. Tollit ubique intellegebat vix cu, facilis
-              voluptatibus vim et. Pericula neglegentur theophrastus usu no, et
-              mei vide mandamus. Ut vim blandit intellegam, nec id error
-              lobortis.
-            </p>
-          </Row>
-        </Col>
-        <Col xs="7">
-          <Row>
-            <img
-              style={{ height: "400px", width: "700px" }}
-              src="https://mdbootstrap.com/img/Others/documentation/1.jpg"
-              className="img-fluid"
-              alt=""
-            />
-          </Row>
-          <Row className="mt-3">
-            <Col xs="4">
-              <img
-                style={{ height: "150px" }}
-                src="https://c4.wallpaperflare.com/wallpaper/595/798/475/animals-blue-cats-eyes-wallpaper-preview.jpg"
-                id="1"
-                className="img-fluid"
-                alt=""
-                onclick="Image1()"
-              />
-            </Col>
-            <Col xs="4">
-              <img
-                style={{ height: "150px" }}
-                src="https://c4.wallpaperflare.com/wallpaper/629/286/513/anime-anime-girls-mx-shimmer-wallpaper-preview.jpg"
-                id="2"
-                className="img-fluid"
-                alt=""
-                onclick="Image2()"
-              />
-            </Col>
-            <Col xs="4">
-              <img
-                style={{ height: "150px" }}
-                src="https://mdbootstrap.com/img/Others/documentation/1.jpg"
-                id="3"
-                className="img-fluid"
-                alt=""
-                onclick="Image3()"
-              />
-            </Col>
-          </Row>
-        </Col>
-      </Row>
-    </Container>
-  );
-}
+const useStyles = makeStyles((theme) => ({
+  link: {
+    color: "#339ba5",
+    paddingRight: "2rem",
+    fontFamily: "Times New Roman",
+    //   fontDisplay: "swap",
+    fontStyle: "italic",
+    fontSize: 24,
+    fontWeight: 700,
+  },
+ 
+}));
 
-export default placeDetail;
+
+class PlaceDetail extends Component {
+  constructor(props) {
+        super(props);
+      this.state = {
+          name: [],
+          city: [],
+          Image: " "
+
+        }   
+  }
+  
+
+    arrayBufferToBase64(buffer) {
+    var binary = '';
+    var bytes = [].slice.call(new Uint8Array(buffer));
+    bytes.forEach((b) => binary += String.fromCharCode(b));
+    return window.btoa(binary);
+  };
+     componentDidMount () {
+         //const { handle } = this.props.history.hotel
+         const placeId = queryString.parse(this.props.history.location.search);
+         const placeSearch = placelId.place;
+         console.log( placeSearch);
+     placeService
+     .getSinglePlace(placeSearch)
+        .then((data) => {
+            this.setState({place : data });
+            this.setState({
+                Image: 'data:image/jpeg;base64,' + this.arrayBufferToBase64(this.state.place.Image.data.data)
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    
+         
+    };
+  
+    render() {
+        const { place, history } = this.props;
+console.log(this.props.history);
+        // const classes = useStyles();
+        return (
+          <div style={{ marginTop: "160px", marginBottom: "400px", marginLeft: "50px" }}> 
+            <CssBaseline />
+      <AppBarComponenet />
+                    <img src={this.state.Image} style={{ position:"absolute",marginLeft: "1000px", height: "500px", width: "610px", backgroundColor: grey[50] }} alt="place" /> 
+               
+            
+                    <Typography variant='h4' style={{marginLeft:"20px", color:"#339ba5" , fontStyle:"bold"}}>
+                    {this.state.place.Name}
+                </Typography>
+                <Typography variant='h5' style={{marginLeft:"20px"}}>
+                    {this.state.place.City}
+                </Typography>
+                
+
+
+                    
+   
+            </div>
+           
+        );
+    }
+};
+export default withRouter(PlaceDetail);
