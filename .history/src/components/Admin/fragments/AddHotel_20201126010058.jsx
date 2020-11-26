@@ -6,7 +6,6 @@ import ImageUploader from 'react-images-upload';
 import AppBarComponenet from "./AppBar";
 import hotelCategoryService from "../../../services/HotelCategoryService";
 import MapContainer from "./Map";
-import Map from "./Map";
 const useStyles = makeStyles((theme) => ({
   name: {
     fontSize: 130,
@@ -359,7 +358,7 @@ class addHotel extends Component {
             Add new Hotel{" "}
           </button>
         </form>
-        <Map/>
+        <MapContainer/>
       </div>
     );
   }
