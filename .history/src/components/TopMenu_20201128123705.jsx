@@ -129,7 +129,7 @@ import { Link } from "react-router-dom";
 //import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import { AppBar, Toolbar, Typography } from "@material-ui/core";
-import logo from "../Asserts/logo (2).png";
+import logo from "../../Asserts/logo (2).png";
 // import logo from "../2020-09-09 (2).png";
 
 import {
