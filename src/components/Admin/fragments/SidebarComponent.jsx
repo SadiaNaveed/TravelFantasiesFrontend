@@ -30,6 +30,14 @@ import AddRoomCategory from './AddRoomCategory';
 import AllRoomCategory from './AllRoomCategory';
 import AddRoom from './AddRoom';
 import AllHotelsAllRooms from './AllHotelsAllRooms';
+//import Place from '../../Places/PlacesToVisit';
+import AllPlaces from './AllPlaces';
+import AddPlace from './AddPlace';
+import AddBlog from './AddBlog';
+import AddBlogCategory from './AddBlogCategory';
+import AllBlogs from './AllBlogs';
+import AllBlogCategory from './AllBlogsCategory';
+
 const drawerWidth = 240;
 const useStyles = theme => ({
                   
@@ -75,6 +83,7 @@ class SideBarComponent extends Component {
              openBooking: false,
              openUser: false,
              openBlog: false,
+             openPlaces: false,
          }
 
          this.handleHotelClick = this.handleHotelClick.bind(this);    
@@ -83,6 +92,7 @@ class SideBarComponent extends Component {
          this.handleBookingClick = this.handleBookingClick.bind(this);
          this.handleUserClick = this.handleUserClick.bind(this);
          this.handleBlogClick = this.handleBlogClick.bind(this);
+         this.handlePlacesClick = this.handlePlacesClick.bind(this);
     }
         
 
@@ -108,6 +118,9 @@ class SideBarComponent extends Component {
     handleBlogClick() {
         this.setState({ openBlog: !this.state.openBlog });
     }
+    handlePlacesClick() {
+        this.setState({ openPlaces: !this.state.openPlaces });
+    }
     _renderSubComp(){
         switch(this.state.render){
             case 'addHotel': return <AddHotel/>
@@ -118,6 +131,12 @@ class SideBarComponent extends Component {
             case 'AddRoomCategory': return <AddRoomCategory />
             case 'AllRoomCategory': return <AllRoomCategory />
             case 'AllRooms': return <AllHotelsAllRooms/>
+            case 'AllPlaces': return <AllPlaces/>
+            case 'addPlace': return <AddPlace/>
+            case 'AddBlog': return <AddBlog/>
+            case 'AllBlogs': return <AllBlogs/>
+            case 'AllBlogCategory': return <AllBlogCategory />
+            case 'AddBlogCategory': return <AddBlogCategory />
             default: return <HomeFragment />
         }
     }
@@ -259,10 +278,31 @@ class SideBarComponent extends Component {
                                 </List>
                             </Collapse>
                             <Divider />
-                            <ListItem button >
-                                <ListItemIcon> <Place className={classes.icon} /></ListItemIcon>
+                            <ListItem button onClick={this.handlePlacesClick}>
+                                <ListItemIcon className={classes.icon}>
+                                    <Place  />
+                                    </ListItemIcon>
                                 <ListItemText primary="Places" />
+                                {this.state.openPlaces ? <ExpandLess /> : <ExpandMore />}
                             </ListItem>
+                            <Collapse in={this.state.openPlaces} timeout="auto" unmountOnExit>
+                                <List component="div" disablePadding>
+                                    <ListItem button className={classes.nested}  onClick={this.handleClick.bind(this, 'AllPlaces')}>
+                                        <ListItemIcon>
+                                            <StarBorder className={classes.icon} />
+                                        </ListItemIcon>
+                                        <ListItemText primary="All Places" />
+                                    </ListItem>
+                                    {/* // onClick={handleTabClick} */}
+                                    <ListItem button className={classes.nested} onClick={this.handleClick.bind(this, 'addPlace')}>
+                                        <ListItemIcon >
+                                            <Add className={classes.icon} />
+                                        </ListItemIcon>
+                                        <ListItemText primary="Add new Place" />
+                                        {/* {this.state.home ? <HomeFragment /> : null} */}
+                                    </ListItem>
+                                </List>
+                            </Collapse>
                             <Divider />
                         
                             <ListItem button  onClick={this.handleHotelClick} >
@@ -387,33 +427,31 @@ class SideBarComponent extends Component {
                             </ListItem>
                             <Collapse in={this.state.openBlog} timeout="auto" unmountOnExit>
                                 <List component="div" disablePadding>
-                                    <ListItem button className={classes.nested}  onClick={this.handleClick.bind(this, 'AllHotel')}>
+                                    <ListItem button className={classes.nested}  onClick={this.handleClick.bind(this, 'AllBlogs')}>
                                         <ListItemIcon>
                                             <StarBorder className={classes.icon} />
                                         </ListItemIcon>
                                         <ListItemText primary="All Blog Posts" />
                                     </ListItem>
                                     {/* // onClick={handleTabClick} */}
-                                    <ListItem button className={classes.nested} onClick={this.handleClick.bind(this, 'addHotel')}>
-                                        <ListItemIcon >
-                                            <Hotel className={classes.icon} />
+                                    <ListItem button className={classes.nested} onClick={this.handleClick.bind(this, 'AddBlog')}>
+                                    <ListItemIcon >
+                                            <Add className={classes.icon} />
                                         </ListItemIcon>
-                                        <ListItemText primary="Add new Blog Post" />
+                                        <ListItemText primary="Add new Blog" />
                                         {/* {this.state.home ? <HomeFragment /> : null} */}
                                     </ListItem> 
-                                     <ListItem button className={classes.nested} onClick={this.handleClick.bind(this, 'addHotel')}>
+                                     <ListItem button className={classes.nested} onClick={this.handleClick.bind(this, 'AllBlogCategory')}>
                                         <ListItemIcon >
                                             <BeachAccess className={classes.icon} />
                                         </ListItemIcon>
                                         <ListItemText primary="Blog Categories" />
-                                        {/* {this.state.home ? <HomeFragment /> : null} */}
                                     </ListItem> 
-                                    <ListItem button className={classes.nested} onClick={this.handleClick.bind(this, 'addHotel')}>
+                                    <ListItem button className={classes.nested} onClick={this.handleClick.bind(this, 'AddBlogCategory')}>
                                         <ListItemIcon >
                                             <BeachAccess className={classes.icon} />
                                         </ListItemIcon>
                                         <ListItemText primary="Add new Blog Category" />
-                                        {/* {this.state.home ? <HomeFragment /> : null} */}
                                     </ListItem> 
                                 </List>
                             </Collapse>

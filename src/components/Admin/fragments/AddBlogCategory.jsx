@@ -40,7 +40,7 @@ class AddBlogCategory extends Component {
       const data = this.state;
       console.log(data);
       blogCategoryService
-        .addBloglCategory(data)
+        .addBlogCategory(data)
         .then((response) => {
           alert(response);
         })

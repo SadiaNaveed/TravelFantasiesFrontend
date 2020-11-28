@@ -12,16 +12,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-class addBlog extends Component {
+class AddBlog extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      Title: " ",
-      Link: " ",
-      Description: " ",
+      Title: "",
+      Link: "",
+      Description: "",
       SelectedCategory: 0,
+      Categories: [],
+
     };
-    this.onDrop = this.onDrop.bind(this);
+    // this.onDrop = this.onDrop.bind(this);
     this.handleTitleChange = this.handleTitleChange.bind(this);
     this.handleLinkChange = this.handleLinkChange.bind(this);
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
@@ -49,22 +51,24 @@ class addBlog extends Component {
   handleDescriptionChange(event) {
     this.setState({ Description: event.target.value });
   }
-  
+  change = async (event) => {
+    this.setState({ SelectedCategory: event.target.value });
+};
   
   handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData();
-     formData.append("Title", this.state.Name);
-     formData.append("Link", this.state.City);
+     formData.append("Title", this.state.Title);
+     formData.append("Link", this.state.Link);
      formData.append("Description", this.state.Description);
      formData.append("Category", this.state.SelectedCategory);
      
     console.log(this.state);
     console.log(formData);
     const data = this.state;
+    console.log(data);
     BlogService
-    .addBlog
-    (formData)
+    .AddBlog(data)
       .then((response) => {
         alert(response);
       })
@@ -84,7 +88,7 @@ class addBlog extends Component {
         
         <form
           onSubmit={this.handleSubmit}
-           enctype="multipart/form-data"
+           encType="multipart/form-data"
           style={{
             marginBottom: "30px",
             paddingLeft: "30px",
@@ -101,7 +105,7 @@ class addBlog extends Component {
             <h3>Select Blog Category</h3>
             <select onChange={this.change} value={this.state.SelectedCategory}>
                 {this.state.Categories.map((Category, index) => (
-                     <option  key={Category._id} value={Category._id}> {Category.CategoryName} </option>
+                     <option  key={Category._id} value={Category._id}> {Category.Name} </option>
           
             ))}
             </select>
@@ -171,7 +175,7 @@ class addBlog extends Component {
             
             <Grid item xs={1}></Grid>
           </Grid>
-          <button variant="contained" style={{backgroudColor:"green",color: "white" , position:"absolute", left:"50%" , justifyContent: "center" , alignItems: "center"}}>
+          <button variant="contained" style={{backgroudColor:"green",color: "black" , position:"absolute", left:"50%" , justifyContent: "center" , alignItems: "center"}}>
             {" "}
             Add new Blog
         {" "}
@@ -182,4 +186,4 @@ class addBlog extends Component {
   }
 }
 
-export default addBlog;
+export default AddBlog;
