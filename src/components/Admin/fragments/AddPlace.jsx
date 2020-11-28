@@ -171,7 +171,7 @@ class addPlace extends Component {
             </Grid>
             <Grid item xs={1}></Grid>
           </Grid>
-          <button variant="contained" style={{backgroudColor:"green",color: "white" , position:"absolute", left:"50%" , justifyContent: "center" , alignItems: "center"}}>
+          <button variant="contained" style={{backgroudColor:"#339ba5",color: "black" , position:"absolute", left:"50%" , justifyContent: "center" , alignItems: "center"}}>
             {" "}
             Add new Place{" "}
           </button>
