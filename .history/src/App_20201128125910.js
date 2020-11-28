@@ -13,7 +13,7 @@ import Footer from "./components/Footer";
 import LandingPage from "./components/LandingPage";
 import ContactUs from "./components/Contactus";
 import NotFound from "./components/NotFound";
-//import Login from "./components/Login";
+import Login from "./components/Login";
 import Blog from "./components/Blog";
 //import Signup from "./components/Signup";
 import Product from "./components/products";
@@ -33,14 +33,6 @@ import AllRooms from "./components/Admin/fragments/AllRooms";
 import placeDetail from "./components/Places/PlacesToVisit";
 import RoomView from "./components/Admin/fragments/RoomView";
 import RoomDetail from "./components/Hotels/RoomDetail";
-import Tours from "./components/Tour/Tours";
-import Become_a_host from "./components/Host/Become_a_host";
-import BookTour from "./components/Bookings/BookTour";
-import Packages from "./components/Packages/Packages";
-import TourDetailPage from "./components/TourDetailPage/TourDetailPage";
-import Guide from "./components/Guide-page/Guide";
-import Signup from "./components/signup.component";
-import Login from "./components/login.component";
 
 // const handlAddToCartClick = (title) => {
 //   alert("Add to cart clicked for " +title);
@@ -85,14 +77,6 @@ function App() {
           {/* <Route path="/sign-up" exact component={Signup} /> */}
           <Route path="/itinerary/:page/:perPage" component={Itinerary} />
           <Route path="/" exact component={LandingPage} />
-          <Route path="/Tours" component={Tours} />
-          <Route path="/Become_a_host" component={Become_a_host} />
-          <Route path="/book-tour" component={BookTour} />
-          <Route path="/travel-packages" component={Packages} />
-          <Route path="/TourDetailPage" component={TourDetailPage} />
-          <Route path="/Guide" component={Guide} />
-          <Route path="/sign-up" component={Signup} />
-          <Route path="/login" component={Login} />
           <Redirect to="not-found" />
         </Switch>
         <Footer />
