@@ -30,6 +30,7 @@
     "react-images-upload": "^1.2.8",
     "react-moment": "^1.0.0",
     "react-places-autocomplete": "^7.3.0",
+    "react-player": "^2.7.0",
     "react-rating-stars-component": "^2.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
