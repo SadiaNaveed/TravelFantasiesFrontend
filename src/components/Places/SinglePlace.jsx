@@ -26,7 +26,12 @@ class SinglePlace extends Component {
     };
     //  this.onButtonClick = this.onButtonClick.bind(this);
   }
-
+  arrayBufferToBase64(buffer) {
+    var binary = "";
+    var bytes = [].slice.call(new Uint8Array(buffer));
+    bytes.forEach((b) => (binary += String.fromCharCode(b)));
+    return window.btoa(binary);
+  }
   onButtonClick = () => {
     this.props.history.push({
       pathname: "/PlaceDetail",
@@ -51,21 +56,30 @@ class SinglePlace extends Component {
         border="1px solid"
         borderColor="#C0C0C0"
       >
-        <img
-          src={this.props.place.Image}
-          style={{
-            marginLeft: "10px",
-            height: "300px",
-            width: "310px",
-            backgroundColor: grey[50],
-          }}
-          alt="hotel"
-        />
-
-        <Typography variant="h4">{this.props.place.Name}</Typography>
-        <Typography variant="h5">City {this.props.place.City}</Typography>
-        <Typography variant="h6">Ratings {this.props.place.Ratings}</Typography>
-
+        {this.props.Place.Image ? (
+          ((this.props.Place.Image =
+            "data:image/jpeg;base64," +
+            this.arrayBufferToBase64(this.props.Place.Image.data.data)),
+          (
+            <div>
+              <img
+                src={this.props.Place.Image}
+                style={{
+                  marginLeft: "10px",
+                  height: "300px",
+                  width: "310px",
+                  backgroundColor: "blue",
+                }}
+                alt="hotel"
+              />
+            </div>
+          ))
+        ) : (
+          <p>No Image</p>
+        )}
+        <Typography variant="h4">{this.props.Place.Name}</Typography>
+        <Typography variant="h5">City {this.props.Place.City}</Typography>
+        <Typography variant="h6">Ratings {this.props.Place.Ratings}</Typography>
         <Button
           style={{
             backgroundColor: "#e7e7e7",

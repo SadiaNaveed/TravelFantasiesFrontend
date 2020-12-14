@@ -36,6 +36,8 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "react-simple-animate": "^3.3.10",
+    "react-star-ratings": "^2.3.0",
+    "react-stripe-checkout": "^2.6.3",
     "react-toastify": "^6.1.0",
     "react-video-cover": "^1.2.2",
     "reactjs-popup": "^2.0.3",

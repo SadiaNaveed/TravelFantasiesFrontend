@@ -98,12 +98,6 @@ class Place extends Component {
         ) : (
           <Grid container spacing={3}>
             {this.state.places.map((place, index) => (
-              // (place.Image =
-              //   "data:image/jpeg;base64," +
-              //   this.arrayBufferToBase64(place.Image.data.data)),
-              // console.log(hotel.Image),
-              // <img src={hotel.Image} style={{height:"30px",width: "30px"}} alt='Helpful alt text'/>
-
               <SinglePlace key={index} Place={place} />
             ))}
           </Grid>
