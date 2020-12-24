@@ -39,6 +39,11 @@ import BecomeGuide from "./components/Guide-page/BecomeGuide";
 import BookTour from "./components/Bookings/BookTour";
 import Packages from "./components/Packages/Packages";
 import TourDetailPage from "./components/Tour/TourDetailPage";
+
+// import Become_a_host from "./components/Host/Become_a_host";
+import BookTour from "./components/Bookings/BookTour";
+import Packages from "./components/Packages/Packages";
+import TourDetailPage from "./components/TourDetailPage/TourDetailPage";
 import Guide from "./components/Guide-page/Guide";
 import Signup from "./components/auth/signupComponent";
 import Login from "./components/auth/loginComponent";
@@ -48,6 +53,7 @@ import MapView from "./components/Hotels/MapView";
 import Payment from "./components/Hotels/Payment";
 import ProtectedRoute from "./components/ProctedRoute";
 import userService from './services/UserService';
+import SidebarComponent from "./components/Admin/fragments/SidebarComponent";
 // const handlAddToCartClick = (title) => {
 //   alert("Add to cart clicked for " +title);
 // };
@@ -60,6 +66,7 @@ function App() {
   // const handleDecrement = () => {
   //     setCount(count - 1);
   // };
+  const [showTopMenu, setTopMenu] = React.useState(true);
 
   return (
     <Router>
@@ -88,6 +95,8 @@ function App() {
           <Route path="/HotelView" component={HotelView} />
           <Route path="/admin-dashboard" component={Dashboard} />
           <Route path="/user-dashboard" component={UserDashboard} />
+
+          <Route path="/Compare" component={Compare} />
           <Route path="/guide-dashboard" component={GuideDashboard} />
           <Route path="/HotelBooking/:id" component={HotelBooking} />
           <Route path="/HotelPayment" component={Payment} />
@@ -97,12 +106,17 @@ function App() {
           <Route path="/Tours" component={Tours} />
           <ProtectedRoute path="/Become_a_host" login={ userService.getLoggedInUser() != null  ? true : false } component={Become_a_host} />
           <ProtectedRoute path="/BecomeGuide" login={ userService.getLoggedInUser() != null  ? true : false } component={BecomeGuide} />
+          {/* <Route path="/Become_a_host" component={Become_a_host} /> */}
           <Route path="/book-tour" component={BookTour} />
           <Route path="/travel-packages" component={Packages} />
           <Route path="/TourDetailPage" component={TourDetailPage} />
           <Route path="/Guide" component={Guide} />
           <Route path="/sign-up" component={Signup} />
           <Route path="/login" component={Login} />
+          <Route path="/admin-dashboard" component={Dashboard} />
+
+          <Route path="/user-dashboard" component={UserDashboard} />
+
           <Redirect to="not-found" />
         </Switch>
         <Footer />

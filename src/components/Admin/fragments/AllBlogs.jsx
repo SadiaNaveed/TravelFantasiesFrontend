@@ -66,7 +66,7 @@ class AllBlogs extends Component {
      BlogService
         .getBlog(this.props.page, this.props.perPage)
         .then((data) => {
-          this.setState({ Blog: data });
+          this.setState({ Blogs: data });
         })
         .catch((err) => {
           console.log(err);
@@ -98,7 +98,7 @@ class AllBlogs extends Component {
                 <h1>
                     All Blogs !
                 </h1>
-                {this.state.BLOG.length == 0 ? (
+                {this.state.Blogs.length == 0 ? (
           <p>There are no Blogs</p>
         ) : (
             <Grid container spacing={0}>
@@ -107,18 +107,19 @@ class AllBlogs extends Component {
         <TableHead>
           <TableRow>
             <StyledTableCell>Blog Title</StyledTableCell>
-            <StyledTableCell align="right">Link</StyledTableCell>
-            <StyledTableCell align="right">Description</StyledTableCell>
+            <StyledTableCell align="center">Link</StyledTableCell>
+            <StyledTableCell align="center">Description</StyledTableCell>
+            <StyledTableCell align="center">Category</StyledTableCell>
+            <StyledTableCell align="center">Action</StyledTableCell>
           </TableRow>
         </TableHead>
                       <TableBody>
-                        {this.state.Blog.map((Blog, index) => (         
+                        {this.state.Blogs.map((Blog, index) => (         
             <StyledTableRow key={Blog._id}>
               <StyledTableCell component="th" scope="row">{Blog.Title}</StyledTableCell>
-              <StyledTableCell align="center">{Blog.Title}</StyledTableCell>
               <StyledTableCell align="center">{Blog.Link}</StyledTableCell>
               <StyledTableCell align="center">{Blog.Description}</StyledTableCell>
-              <StyledTableCell align="center"></StyledTableCell>
+              <StyledTableCell align="center">{Blog.Category}</StyledTableCell>
               <StyledTableCell align="center">
               <Button onClick={() => this.onViewButtonClick(Blog._id)} ><Visibility /></Button>
               <Button ><Edit /> </Button>
