@@ -34,7 +34,7 @@ import placeDetail from "./components/Places/PlacesToVisit";
 import RoomView from "./components/Admin/fragments/RoomView";
 import RoomDetail from "./components/Hotels/RoomDetail";
 import Tours from "./components/Tour/Tours";
-// import Become_a_host from "./components/Host/Become_a_host";
+import Become_a_host from "./components/Host/Become_a_host";
 import BookTour from "./components/Bookings/BookTour";
 import Packages from "./components/Packages/Packages";
 import TourDetailPage from "./components/TourDetailPage/TourDetailPage";

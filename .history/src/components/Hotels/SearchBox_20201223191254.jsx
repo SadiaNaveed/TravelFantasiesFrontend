@@ -22,7 +22,8 @@ class SearchBox extends Component {
 
   render() {
     return (
-      <div style={{ float: "right" }}>
+      <div style={{ position: "absolute", align: "right" }}>
+        <h2>Search Field</h2>
         <input
           type="search"
           className="search"
@@ -31,6 +32,7 @@ class SearchBox extends Component {
             this.setState({ searchField: e.target.value });
           }}
           onKeyDown={this.props.onSearchClicked}
+          style={{ align: "right" }}
         />
       </div>
     );

@@ -1091,7 +1091,7 @@ class Hotels extends Component {
                       <SingleHotel
                         key={index}
                         hotel={hotel}
-                        handle={this.handleCommentEdit}
+                        handle={this.props.handleCommentEdit}
                       />
                     )
                     // <li>{hotel.HotelName}</li>

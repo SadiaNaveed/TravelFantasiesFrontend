@@ -36,7 +36,6 @@ import SingleHotel from "./SingleHotel";
 import { UncontrolledCarousel } from "reactstrap";
 import update from "immutability-helper";
 import SearchBox from "./SearchBox";
-import HotelReviewService from "../../services/HotelReviewService";
 let data = [];
 let res = [];
 const useStyles = (theme) => ({
@@ -100,6 +99,11 @@ class Hotels extends Component {
   // };
   change = (e) => {
     this.setState({ value: e.target.value });
+    if (e.target.vlaue === "acsending_order") {
+      // res.sort((a, b) => a.HotelName - b.HotelName);
+      res = sortBy(this.state.hotels, ["HotelName"]);
+      console.log(res);
+    }
   };
   arrayBufferToBase64(buffer) {
     var binary = "";
@@ -122,18 +126,6 @@ class Hotels extends Component {
       .catch((err) => {
         console.log(err);
       });
-    // {
-    //   this.state.hotels.map((hotel, index) =>
-    //     HotelReviewService.getHotelRatings(hotel)
-    //       .then((data) => {
-    //         hotel.push({ Ratings: data });
-    //         console.log(hotel);
-    //       })
-    //       .catch((err) => {
-    //         console.log(err);
-    //       })
-    //   );
-    // }
   }
   onCompareClick() {
     data = [];
@@ -294,38 +286,6 @@ class Hotels extends Component {
     res = hotels.filter((hotel) =>
       hotel.HotelName.toLowerCase().includes(searchField.toLowerCase())
     );
-    {
-      this.state.value === "acsending_order" &&
-        (res = hotels.sort((a, b) => {
-          if (a.HotelName.toLowerCase() < b.HotelName.toLowerCase()) return -1;
-          // if (a.HotelName > b.HotelName) return 1;
-          //  return 0;
-        }));
-    }
-    {
-      this.state.value === "descending_order" &&
-        (res = hotels.sort((a, b) => {
-          if (a.HotelName.toLowerCase() > b.HotelName.toLowerCase()) return -1;
-          // if (a.HotelName > b.HotelName) return 1;
-          //  return 0;
-        }));
-    }
-    {
-      this.state.value === "lowest_rated" &&
-        (res = hotels.sort((a, b) => {
-          if (a.AvgRatings < b.AvgRatings) return -1;
-          // if (a.HotelName > b.HotelName) return 1;
-          //  return 0;
-        }));
-    }
-    {
-      this.state.value === "highest_rated" &&
-        (res = hotels.sort((a, b) => {
-          if (a.AvgRatings > b.AvgRatings) return -1;
-          // if (a.HotelName > b.HotelName) return 1;
-          //  return 0;
-        }));
-    }
     // console.log(this.state.results);
     // console.log(res);
     const classes = useStyles();
@@ -621,7 +581,7 @@ class Hotels extends Component {
                         name="cata_price"
                         value="paid"
                       />
-                      <label class="custom-control-label">
+                      <label class="custom-control-label" for="price_abs_pd">
                         <span class="divRateCat">
                           <span class="ml-2 font-weight-bold">Paid</span>
                         </span>
@@ -637,7 +597,7 @@ class Hotels extends Component {
                         name="cata_price"
                         value="free"
                       />
-                      <label class="custom-control-label">
+                      <label class="custom-control-label" for="price_abs_fr">
                         <span class="divRateCat">
                           <span class="ml-2 font-weight-bold">Free</span>
                         </span>
@@ -679,7 +639,9 @@ class Hotels extends Component {
                           value="courses"
                           name="cata_module[]"
                         />
-                        <label class="custom-control-label">Courses</label>
+                        <label class="custom-control-label" for="chk_courses">
+                          Courses
+                        </label>
                       </div>
                       <div class="custom-control custom-checkbox mb-2">
                         <input
@@ -691,7 +653,9 @@ class Hotels extends Component {
                           value="edegree"
                           name="cata_module[]"
                         />
-                        <label class="custom-control-label">Edegree</label>
+                        <label class="custom-control-label" for="chk_edegree">
+                          Edegree
+                        </label>
                       </div>
                       <div class="custom-control custom-checkbox mb-2">
                         <input
@@ -703,7 +667,9 @@ class Hotels extends Component {
                           value="paths"
                           name="cata_module[]"
                         />
-                        <label class="custom-control-label">Paths</label>
+                        <label class="custom-control-label" for="chk_paths">
+                          Paths
+                        </label>
                       </div>
                       <div class="custom-control custom-checkbox mb-2">
                         <input
@@ -715,7 +681,9 @@ class Hotels extends Component {
                           value="bundle"
                           name="cata_module[]"
                         />
-                        <label class="custom-control-label">Bundle</label>
+                        <label class="custom-control-label" for="chk_bundle">
+                          Bundle
+                        </label>
                       </div>
                     </div>
                   </div>
@@ -754,7 +722,9 @@ class Hotels extends Component {
                           value="B"
                           name="cata_levels[]"
                         />
-                        <label class="custom-control-label">Beginners</label>
+                        <label class="custom-control-label" for="chk_beg">
+                          Beginners
+                        </label>
                       </div>
                       <div class="custom-control custom-checkbox mb-2">
                         <input
@@ -766,7 +736,9 @@ class Hotels extends Component {
                           value="I"
                           name="cata_levels[]"
                         />
-                        <label class="custom-control-label">Intermediate</label>
+                        <label class="custom-control-label" for="chk_int">
+                          Intermediate
+                        </label>
                       </div>
                       <div class="custom-control custom-checkbox mb-2">
                         <input
@@ -778,7 +750,9 @@ class Hotels extends Component {
                           value="P"
                           name="cata_levels[]"
                         />
-                        <label class="custom-control-label">Professional</label>
+                        <label class="custom-control-label" for="chk_prof">
+                          Professional
+                        </label>
                       </div>
                       <div class="custom-control custom-checkbox mb-2">
                         <input
@@ -790,7 +764,9 @@ class Hotels extends Component {
                           value="A"
                           name="cata_levels[]"
                         />
-                        <label class="custom-control-label">All Levels</label>
+                        <label class="custom-control-label" for="chk_all">
+                          All Levels
+                        </label>
                       </div>
                     </div>
                   </div>
@@ -829,7 +805,7 @@ class Hotels extends Component {
                           name="cata_price"
                           value="free"
                         />
-                        <label class="custom-control-label">
+                        <label class="custom-control-label" for="freeCourses">
                           <span class="">Free Courses</span>
                         </label>
                       </div>
@@ -846,7 +822,7 @@ class Hotels extends Component {
                           name="cata_price"
                           value="paid"
                         />
-                        <label class="custom-control-label">
+                        <label class="custom-control-label" for="price_asc">
                           <span class="">Paid Courses</span>
                         </label>
                       </div>
@@ -888,7 +864,10 @@ class Hotels extends Component {
                             name="cata_rating"
                             value="4.5"
                           />
-                          <label class="custom-control-label">
+                          <label
+                            class="custom-control-label"
+                            for="customRadio1"
+                          >
                             <span class="divRateCat">
                               <span class="rating-stars">
                                 <span style={{ width: "61.6px" }}></span>
@@ -909,7 +888,10 @@ class Hotels extends Component {
                             name="cata_rating"
                             value="4"
                           />
-                          <label class="custom-control-label">
+                          <label
+                            class="custom-control-label"
+                            for="customRadio2"
+                          >
                             <span class="divRateCat">
                               <span class="rating-stars">
                                 <span style={{ width: "57px" }}></span>
@@ -930,7 +912,10 @@ class Hotels extends Component {
                             name="cata_rating"
                             value="3.5"
                           />
-                          <label class="custom-control-label">
+                          <label
+                            class="custom-control-label"
+                            for="customRadio3"
+                          >
                             <span class="divRateCat">
                               <span class="rating-stars">
                                 <span style={{ width: "49px" }}></span>
@@ -951,7 +936,10 @@ class Hotels extends Component {
                             name="cata_rating"
                             value="3"
                           />
-                          <label class="custom-control-label">
+                          <label
+                            class="custom-control-label"
+                            for="customRadio4"
+                          >
                             <span class="divRateCat">
                               <span class="rating-stars">
                                 <span style={{ width: "42px" }}></span>
@@ -997,7 +985,9 @@ class Hotels extends Component {
                           value="0-2"
                           name="video_duration[]"
                         />
-                        <label class="custom-control-label">0-2 Hours</label>
+                        <label class="custom-control-label" for="chk_2">
+                          0-2 Hours
+                        </label>
                         <span class="float-right catRgtTxt cata_filter_cnt"></span>
                       </div>
                       <div class="custom-control custom-checkbox mb-2">
@@ -1010,7 +1000,9 @@ class Hotels extends Component {
                           value="3-6"
                           name="video_duration[]"
                         />
-                        <label class="custom-control-label">3-6 Hours</label>
+                        <label class="custom-control-label" for="chk_6">
+                          3-6 Hours
+                        </label>
                         <span class="float-right catRgtTxt cata_filter_cnt"></span>
                       </div>
                       <div class="custom-control custom-checkbox mb-2">
@@ -1023,7 +1015,9 @@ class Hotels extends Component {
                           value="7-16"
                           name="video_duration[]"
                         />
-                        <label class="custom-control-label">7-16 Hours</label>
+                        <label class="custom-control-label" for="chk_16">
+                          7-16 Hours
+                        </label>
                         <span class="float-right catRgtTxt cata_filter_cnt"></span>
                       </div>
                       <div class="custom-control custom-checkbox mb-2">
@@ -1036,7 +1030,9 @@ class Hotels extends Component {
                           value="17"
                           name="video_duration[]"
                         />
-                        <label class="custom-control-label">17+ Hours</label>
+                        <label class="custom-control-label" for="chk_17">
+                          17+ Hours
+                        </label>
                         <span class="float-right catRgtTxt cata_filter_cnt"></span>
                       </div>
                     </div>
@@ -1081,22 +1077,17 @@ class Hotels extends Component {
               <p>Loading...</p>
             ) : (
               <Grid container spacing={3}>
-                {res.map(
-                  (hotel, index) => (
-                    // (hotel.Image =
-                    //   "data:image/jpeg;base64," +
-                    //   this.arrayBufferToBase64(hotel.Image.data.data)),
-                    console.log(hotel),
-                    (
-                      <SingleHotel
-                        key={index}
-                        hotel={hotel}
-                        handle={this.handleCommentEdit}
-                      />
-                    )
-                    // <li>{hotel.HotelName}</li>
-                  )
-                )}
+                {res.map((hotel, index) => (
+                  // (hotel.Image =
+                  //   "data:image/jpeg;base64," +
+                  //   this.arrayBufferToBase64(hotel.Image.data.data)),
+                  <SingleHotel
+                    key={index}
+                    hotel={hotel}
+                    handle={this.props.handleCommentEdit}
+                  />
+                  // <li>{hotel.HotelName}</li>
+                ))}
               </Grid>
             )}
             {/* {res.length > 1 && <AllHotels results={res} />} */}

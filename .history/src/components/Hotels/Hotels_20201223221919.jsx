@@ -313,7 +313,7 @@ class Hotels extends Component {
     {
       this.state.value === "lowest_rated" &&
         (res = hotels.sort((a, b) => {
-          if (a.AvgRatings < b.AvgRatings) return -1;
+          if (a.Ratings < b.Ratings) return -1;
           // if (a.HotelName > b.HotelName) return 1;
           //  return 0;
         }));
@@ -321,7 +321,7 @@ class Hotels extends Component {
     {
       this.state.value === "highest_rated" &&
         (res = hotels.sort((a, b) => {
-          if (a.AvgRatings > b.AvgRatings) return -1;
+          if (a.Ratings > b.Ratings) return -1;
           // if (a.HotelName > b.HotelName) return 1;
           //  return 0;
         }));
@@ -555,7 +555,7 @@ class Hotels extends Component {
                   Descending Order
                 </option>
 
-                <option
+                {/* <option
                   name="cata_sort"
                   data-filter-key="sort"
                   data-filter-value="highest_rated"
@@ -571,7 +571,7 @@ class Hotels extends Component {
                   value="lowest_rated"
                 >
                   Lowest Rated
-                </option>
+                </option> */}
               </select>
             </span>
           </div>
@@ -1091,7 +1091,7 @@ class Hotels extends Component {
                       <SingleHotel
                         key={index}
                         hotel={hotel}
-                        handle={this.handleCommentEdit}
+                        handle={this.props.handleCommentEdit}
                       />
                     )
                     // <li>{hotel.HotelName}</li>

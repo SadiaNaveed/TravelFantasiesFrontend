@@ -105,11 +105,6 @@ class SingleHotel extends Component {
         <Card body="true">
           <Card title="true">{this.props.hotel.HotelName}</Card>
           <Card title="true">{this.props.hotel.Location}</Card>
-          <Card title="true">
-            Ratings {this.props.hotel.AvgRatings == null
-              ? 0.0
-              : this.props.hotel.AvgRatings}
-          </Card>
           <Card text="true">
             <StarRatings
               rating={
@@ -121,11 +116,7 @@ class SingleHotel extends Component {
               starDimension="25px"
               starSpacing="0px"
             />
-            (
-            {this.props.hotel.CountRatings == null
-              ? 0
-              : this.props.hotel.CountRatings}
-            )
+            ({this.props.hotel.CountRatings})
           </Card>
           <FormGroup row>
             <FormControlLabel

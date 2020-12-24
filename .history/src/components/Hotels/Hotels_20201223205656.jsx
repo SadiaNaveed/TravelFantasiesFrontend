@@ -36,7 +36,6 @@ import SingleHotel from "./SingleHotel";
 import { UncontrolledCarousel } from "reactstrap";
 import update from "immutability-helper";
 import SearchBox from "./SearchBox";
-import HotelReviewService from "../../services/HotelReviewService";
 let data = [];
 let res = [];
 const useStyles = (theme) => ({
@@ -122,18 +121,6 @@ class Hotels extends Component {
       .catch((err) => {
         console.log(err);
       });
-    // {
-    //   this.state.hotels.map((hotel, index) =>
-    //     HotelReviewService.getHotelRatings(hotel)
-    //       .then((data) => {
-    //         hotel.push({ Ratings: data });
-    //         console.log(hotel);
-    //       })
-    //       .catch((err) => {
-    //         console.log(err);
-    //       })
-    //   );
-    // }
   }
   onCompareClick() {
     data = [];
@@ -298,30 +285,6 @@ class Hotels extends Component {
       this.state.value === "acsending_order" &&
         (res = hotels.sort((a, b) => {
           if (a.HotelName.toLowerCase() < b.HotelName.toLowerCase()) return -1;
-          // if (a.HotelName > b.HotelName) return 1;
-          //  return 0;
-        }));
-    }
-    {
-      this.state.value === "descending_order" &&
-        (res = hotels.sort((a, b) => {
-          if (a.HotelName.toLowerCase() > b.HotelName.toLowerCase()) return -1;
-          // if (a.HotelName > b.HotelName) return 1;
-          //  return 0;
-        }));
-    }
-    {
-      this.state.value === "lowest_rated" &&
-        (res = hotels.sort((a, b) => {
-          if (a.AvgRatings < b.AvgRatings) return -1;
-          // if (a.HotelName > b.HotelName) return 1;
-          //  return 0;
-        }));
-    }
-    {
-      this.state.value === "highest_rated" &&
-        (res = hotels.sort((a, b) => {
-          if (a.AvgRatings > b.AvgRatings) return -1;
           // if (a.HotelName > b.HotelName) return 1;
           //  return 0;
         }));
@@ -1081,22 +1044,17 @@ class Hotels extends Component {
               <p>Loading...</p>
             ) : (
               <Grid container spacing={3}>
-                {res.map(
-                  (hotel, index) => (
-                    // (hotel.Image =
-                    //   "data:image/jpeg;base64," +
-                    //   this.arrayBufferToBase64(hotel.Image.data.data)),
-                    console.log(hotel),
-                    (
-                      <SingleHotel
-                        key={index}
-                        hotel={hotel}
-                        handle={this.handleCommentEdit}
-                      />
-                    )
-                    // <li>{hotel.HotelName}</li>
-                  )
-                )}
+                {res.map((hotel, index) => (
+                  // (hotel.Image =
+                  //   "data:image/jpeg;base64," +
+                  //   this.arrayBufferToBase64(hotel.Image.data.data)),
+                  <SingleHotel
+                    key={index}
+                    hotel={hotel}
+                    handle={this.props.handleCommentEdit}
+                  />
+                  // <li>{hotel.HotelName}</li>
+                ))}
               </Grid>
             )}
             {/* {res.length > 1 && <AllHotels results={res} />} */}

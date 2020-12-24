@@ -122,18 +122,18 @@ class Hotels extends Component {
       .catch((err) => {
         console.log(err);
       });
-    // {
-    //   this.state.hotels.map((hotel, index) =>
-    //     HotelReviewService.getHotelRatings(hotel)
-    //       .then((data) => {
-    //         hotel.push({ Ratings: data });
-    //         console.log(hotel);
-    //       })
-    //       .catch((err) => {
-    //         console.log(err);
-    //       })
-    //   );
-    // }
+    {
+      this.state.hotels.map((hotel, index) =>
+        HotelReviewService.getHotelRatings(hotel)
+          .then((data) => {
+            hotel.push({ Ratings: data });
+            console.log(hotel);
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+      );
+    }
   }
   onCompareClick() {
     data = [];
@@ -313,7 +313,7 @@ class Hotels extends Component {
     {
       this.state.value === "lowest_rated" &&
         (res = hotels.sort((a, b) => {
-          if (a.AvgRatings < b.AvgRatings) return -1;
+          if (a.Ratings < b.Ratings) return -1;
           // if (a.HotelName > b.HotelName) return 1;
           //  return 0;
         }));
@@ -321,7 +321,7 @@ class Hotels extends Component {
     {
       this.state.value === "highest_rated" &&
         (res = hotels.sort((a, b) => {
-          if (a.AvgRatings > b.AvgRatings) return -1;
+          if (a.Ratings > b.Ratings) return -1;
           // if (a.HotelName > b.HotelName) return 1;
           //  return 0;
         }));
@@ -1091,7 +1091,7 @@ class Hotels extends Component {
                       <SingleHotel
                         key={index}
                         hotel={hotel}
-                        handle={this.handleCommentEdit}
+                        handle={this.props.handleCommentEdit}
                       />
                     )
                     // <li>{hotel.HotelName}</li>

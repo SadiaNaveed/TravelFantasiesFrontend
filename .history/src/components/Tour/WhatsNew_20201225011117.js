@@ -88,7 +88,7 @@ class WhatsNew extends React.Component {
                   width="100%"
                   src={
                     "data:image/jpeg;base64," +
-                    this.arrayBufferToBase64(this.state.tours[i].Images)
+                    this.arrayBufferToBase64(hotel.state.tours[i].Images)
                   }
                   alt="Card image cap"
                 />

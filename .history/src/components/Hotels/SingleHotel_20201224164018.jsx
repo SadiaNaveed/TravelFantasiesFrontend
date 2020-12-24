@@ -106,7 +106,7 @@ class SingleHotel extends Component {
           <Card title="true">{this.props.hotel.HotelName}</Card>
           <Card title="true">{this.props.hotel.Location}</Card>
           <Card title="true">
-            Ratings {this.props.hotel.AvgRatings == null
+            {this.props.hotel.AvgRatings == null
               ? 0.0
               : this.props.hotel.AvgRatings}
           </Card>
