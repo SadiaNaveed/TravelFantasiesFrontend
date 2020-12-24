@@ -34,6 +34,12 @@ import placeDetail from "./components/Places/PlacesToVisit";
 import RoomView from "./components/Admin/fragments/RoomView";
 import RoomDetail from "./components/Hotels/RoomDetail";
 import Tours from "./components/Tour/Tours";
+import Become_a_host from "./components/Host/Become_a_host";
+import BecomeGuide from "./components/Guide-page/BecomeGuide";
+import BookTour from "./components/Bookings/BookTour";
+import Packages from "./components/Packages/Packages";
+import TourDetailPage from "./components/Tour/TourDetailPage";
+
 // import Become_a_host from "./components/Host/Become_a_host";
 import BookTour from "./components/Bookings/BookTour";
 import Packages from "./components/Packages/Packages";
@@ -45,6 +51,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MapView from "./components/Hotels/MapView";
 import Payment from "./components/Hotels/Payment";
+import ProtectedRoute from "./components/ProctedRoute";
+import userService from './services/UserService';
 import SidebarComponent from "./components/Admin/fragments/SidebarComponent";
 // const handlAddToCartClick = (title) => {
 //   alert("Add to cart clicked for " +title);
@@ -85,6 +93,8 @@ function App() {
           <Route path="/SingleRoomView" component={RoomView} />
           <Route path="/RoomDetail" component={RoomDetail} />
           <Route path="/HotelView" component={HotelView} />
+          <Route path="/admin-dashboard" component={Dashboard} />
+          <Route path="/user-dashboard" component={UserDashboard} />
 
           <Route path="/Compare" component={Compare} />
           <Route path="/guide-dashboard" component={GuideDashboard} />
@@ -94,6 +104,8 @@ function App() {
           <Route path="/itinerary/:page/:perPage" component={Itinerary} />
           <Route path="/" exact component={LandingPage} />
           <Route path="/Tours" component={Tours} />
+          <ProtectedRoute path="/Become_a_host" login={ userService.getLoggedInUser() != null  ? true : false } component={Become_a_host} />
+          <ProtectedRoute path="/BecomeGuide" login={ userService.getLoggedInUser() != null  ? true : false } component={BecomeGuide} />
           {/* <Route path="/Become_a_host" component={Become_a_host} /> */}
           <Route path="/book-tour" component={BookTour} />
           <Route path="/travel-packages" component={Packages} />
@@ -108,7 +120,9 @@ function App() {
           <Redirect to="not-found" />
         </Switch>
         <Footer />
-        {/* <Counter count={count} handleIncrement={handleIncrement} handleDecrement={handleDecrement} />
+{/*
+       
+         <Counter count={count} handleIncrement={handleIncrement} handleDecrement={handleDecrement} />
       <Product title="Audi"  price="900" onAdToCart = {handlAddToCartClick} count={count}/>
       <Product title="Suzuki" price="800" onAdToCart = {handlAddToCartClick} count={count}/>
       <Product title="Mehran" price="200" onAdToCart = {handlAddToCartClick} count={count}/> */}
