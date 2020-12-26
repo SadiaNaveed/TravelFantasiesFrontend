@@ -17,15 +17,14 @@ class AddBlog extends Component {
     super(props);
     this.state = {
       Title: "",
-      Link: "",
       Description: "",
       SelectedCategory: 0,
       Categories: [],
+      selectedFile: [],
 
     };
-    // this.onDrop = this.onDrop.bind(this);
+     this.onDrop = this.onDrop.bind(this);
     this.handleTitleChange = this.handleTitleChange.bind(this);
-    this.handleLinkChange = this.handleLinkChange.bind(this);
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.change = this.change.bind(this);
@@ -45,11 +44,13 @@ class AddBlog extends Component {
   handleTitleChange(event) {
     this.setState({Title: event.target.value });
   }
-  handleLinkChange(event) {
-    this.setState({Link: event.target.value });
-  }
   handleDescriptionChange(event) {
     this.setState({ Description: event.target.value });
+  }
+  onDrop(event) {
+    this.setState({
+      selectedFile: event.target.files,
+    });
   }
   change = async (event) => {
     this.setState({ SelectedCategory: event.target.value });
@@ -59,16 +60,17 @@ class AddBlog extends Component {
     event.preventDefault();
     const formData = new FormData();
      formData.append("Title", this.state.Title);
-     formData.append("Link", this.state.Link);
      formData.append("Description", this.state.Description);
      formData.append("Category", this.state.SelectedCategory);
-     
+     for (var x = 0; x < this.state.selectedFile.length; x++) {
+      formData.append("file", this.state.selectedFile[x]);
+    }
     console.log(this.state);
     console.log(formData);
     const data = this.state;
     console.log(data);
     BlogService
-    .AddBlog(data)
+    .addBlog(formData)
       .then((response) => {
         alert(response);
       })
@@ -79,7 +81,7 @@ class AddBlog extends Component {
 
   render() {
     return (
-      <div style={{ marginTop: "100px", marginLeft: "200px" }}>
+      <div style={{ marginTop: "10px", marginLeft: "200px" }}>
         <CssBaseline />
       <AppBarComponenet />
         <h1 style={{ position: "relative", textAlign: "center", fontSize: 50 }}>
@@ -90,6 +92,7 @@ class AddBlog extends Component {
           onSubmit={this.handleSubmit}
            encType="multipart/form-data"
           style={{
+            marginTop: "70px",
             marginBottom: "30px",
             paddingLeft: "30px",
             paddingRight: "300px",
@@ -136,27 +139,6 @@ class AddBlog extends Component {
               <div class="row">
                 <div class="col-sm">
                   <label>
-                    <label>
-                      <h3>Link</h3>
-                    </label>
-                    <TextField
-                      id="outlined-basic"
-                      variant="outlined"
-                      name="Link"
-                      fullWidth
-                      value={this.state.Link}
-                      onChange={this.handleLinkChange}
-                    />
-                  </label>
-                </div>
-              </div>
-            </Grid>
-            <Grid item xs={1}></Grid>
-
-            <Grid item xs={5}>
-              <div class="row">
-                <div class="col-sm">
-                  <label>
                     <h3>Description</h3>
                   </label>
                 </div>
@@ -173,6 +155,24 @@ class AddBlog extends Component {
               </div>
             </Grid>
             
+            <Grid item xs={1}></Grid>
+          <Grid item xs={5}>
+              <div class="row">
+                <div class="col-sm">
+                  <label>
+                    <h3> Media:</h3>
+                  </label>
+                </div>
+                <div class="col-sm">
+                  <input
+                    type="file"
+                    name="file"
+                    multiple
+                    onChange={this.onDrop}
+                  />
+                </div>
+              </div>
+            </Grid>
             <Grid item xs={1}></Grid>
           </Grid>
           <button variant="contained" style={{backgroudColor:"green",color: "black" , position:"absolute", left:"50%" , justifyContent: "center" , alignItems: "center"}}>

@@ -40,22 +40,39 @@ class PlaceView extends Component {
     return window.btoa(binary);
   };
      
- 
+  componentDidMount () {
+    const placeId = queryString.parse(this.props.history.location.search);
+    const placeSearch = placeId.place;
+    console.log( placeSearch);
+placeService
+.getSinglePlace(placeSearch)
+   .then((data) => {
+       this.setState({ place: data });
+       this.setState({
+           Image: 'data:image/jpeg;base64,' + this.arrayBufferToBase64(this.state.place.Image.data.data)
+       });
+   })
+   .catch((err) => {
+     console.log(err);
+   });
+    
+};
     render() {
-// console.log(this.props.history);
-        // const classes = useStyles();
+
         return (
           <div> 
             <CssBaseline />
       <AppBarComponenet />
-      {/* {home ? <HomeFragment /> : null}   */}
-            {/* <SidebarComponent /> */}
             <div style={{ marginLeft: "50px", marginTop: "120px", marginBottom:"50px" }}>
-               <img src={this.state.Image} style={{ position:"absolute",marginLeft: "1000px", height: "500px", width: "610px", backgroundColor: grey[50] }} alt="place" />          <Typography variant='h4' style={{marginLeft:"20px", color:"#339ba5" , fontStyle:"bold"}}>
-                    {this.state.place.Name}
+               <img src={this.state.Image} style={{ position:"absolute",marginLeft: "1000px", height: "500px", width: "610px", backgroundColor: grey[50] }} alt="place" />
+               <Typography variant='h4' style={{marginLeft:"20px", color:"#339ba5" , fontStyle:"bold"}}>
+                    {this.state.place.place_name}
                 </Typography>
                 <Typography variant='h5' style={{marginLeft:"20px"}}>
-                    {this.state.place.city}
+                    {this.state.place.City}
+                </Typography>
+                <Typography variant='h6' style={{marginLeft:"20px"}}> Description
+                    {this.state.place.Description}
                 </Typography>
                 
 

@@ -1,140 +1,112 @@
-import React, { Component } from "react";
-import { Container, Row, Col, Button } from "reactstrap";
-import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-//import Toolbar from '@material-ui/core/Toolbar';
-//import Typography from '@material-ui/core/Typography';
-import Box from "@material-ui/core/Box";
-import ReactPlayer from "react-player";
-import userService from "../../services/UserService";
+import React, { Component, useCallback, useEffect } from "react";
+import BlogService from "../../services/BlogService";
+import { makeStyles, createStyles, withStyles } from "@material-ui/core/styles";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import Sidebar from "../Sidebar";
+import { Button, Card, CardContent, CardMedia, Grid } from "@material-ui/core";
+import SingleBlog from "./SingleBlog";
+import { UncontrolledCarousel } from "reactstrap";
 
-const useStyles = makeStyles((theme) => ({
-  appBar: {
-    backgroundColor: "#fff",
-  },
-  hero: {
-    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://res.cloudinary.com/twenty20/private_images/t_watermark-criss-cross-10/v1521838931000/photosp/579d7959-4d78-4208-9eac-c2fe3fe8a0ac/stock-photo-travel-words-background-traveling-traveler-wander-wanderlust-blog-blogging-579d7959-4d78-4208-9eac-c2fe3fe8a0ac.jpg')`,
-    height: "350px",
-    backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "cover",
-    position: "relative",
+const useStyles = (theme) => ({
+  root: {
     display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    color: "#fff",
-    fontSize: "4rem",
-    [theme.breakpoints.down("sm")]: {
-      height: 200,
-      fontSize: "3em",
-    },
+    marginTop: "50px",
   },
-}));
+  card: {
+    display: "flex",
+  },
+  details: {
+    display: "flex",
+    flexDirection: "column",
+  },
+  content: {
+    flex: "1 0 auto",
+  },
+  media: {
+    display: "flex",
+    height: "10px",
+    //  objectFit: "contain",
+    alignItems: "left",
+    width: "270px",
+  },
+});
 
-function Blog() {
-  const classes = useStyles();
-  return (
-    <Container>
-      <div className="App">
-        <AppBar className={classes.appBar} position="static"></AppBar>
-        <Box className={classes.hero}>
-          <Box>Top Travelling Blogs</Box>
-        </Box>
-      </div>
-      <Row>
-        <Col xs="6">
-          <h2 className="mt-4">Related Blogs</h2>
-        </Col>
-        {userService.isGuide() && (
-          <Col xs="6">
-            <Button
-              className="mt-4 ml-5"
-              style={{ float: "right", background: "green" }}
-            >
-              {" "}
-              Upload
-            </Button>
-          </Col>
+class Blog extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      Media: "",
+      Title:"",
+      Description: " ",
+      Blogs: [],
+    };
+  }
+
+  arrayBufferToBase64(buffer) {
+    var binary = "";
+    var bytes = [].slice.call(new Uint8Array(buffer));
+    bytes.forEach((b) => (binary += String.fromCharCode(b)));
+    return window.btoa(binary);
+  }
+  componentDidMount() {
+    BlogService
+      .getBlog(this.props.page, this.props.perPage)
+      .then((data) => {
+        this.setState({ Blogs: data });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  render() {
+    const handleChange = async (value) => {
+      this.setState({ city: value });
+    };
+
+    const classes = useStyles();
+    const items = [
+      {
+        src: require("../../blog1.jpg"),
+        height: "30 px",
+        altText: "Slide 1",
+        caption: "Starting from 200$",
+        header: "Give a look on Blogs",
+        key: "1",
+      },
+
+      {
+        src: require("../../blog4.jpeg"),
+        height: "30 px",
+        altText: "Slide 3",
+        caption: "Starting From 100$",
+        header: "Hit The Road of Adventure With Friends ",
+        key: "3",
+      },
+      {
+        src: require("../../blog2.jpeg"),
+        height: "30 px",
+        altText: "Slide 2",
+        caption: "Honeymoon Starting From 500$",
+        header: "Spend Pleasure Time With Your Better Half",
+        key: "2",
+      },
+    ];
+
+    return (
+      <div>
+       <UncontrolledCarousel className="danger" items={items} />
+        {this.state.blogs.length == 0 ? (
+          <p>There are no Blogs</p>
+        ) : (
+          <Grid container spacing={4}>
+            {this.state.blogs.map((blog, index) => (
+              <SingleBlog key={index} Blog={blog} />
+            ))}
+          </Grid>
         )}
-      </Row>
-      <Row className="mt-4">
-        <Col xs="4">
-          <div className="video">
-            <ReactPlayer
-              url="https://youtu.be/0fvoaoDXNVw"
-              width="345px"
-              height="300px"
-            />
-            <h3 align="center"> Kashmir </h3>
-          </div>
-        </Col>
-        <Col xs="4">
-          <div className="video">
-            <ReactPlayer
-              url="https://youtu.be/CJnXQM8lwa0"
-              width="345px"
-              height="300px"
-            />
-            <h3 align="center"> Peshawar </h3>
-          </div>
-        </Col>
-
-        <Col xs="4">
-          <div className="video">
-            <ReactPlayer
-              url="https://youtu.be/HHzqut3AMZI"
-              width="345px"
-              height="300px"
-            />
-            <h3 align="center"> Astola Island </h3>
-          </div>
-        </Col>
-      </Row>
-      <Row className="mt-3">
-        <Col xs="4">
-          <div className="video">
-            <ReactPlayer
-              url="https://youtu.be/z59kQ0tnXPs"
-              width="345px"
-              height="300px"
-            />
-            <h3 align="center"> Choukandi Tomb </h3>
-          </div>
-        </Col>
-
-        <Col xs="4">
-          <div className="video">
-            <ReactPlayer
-              url="https://youtu.be/VAHs7_Zd0LY"
-              width="345px"
-              height="300px"
-            />
-            <h3 align="center"> Hunza </h3>
-          </div>
-        </Col>
-
-        <Col xs="4">
-          <div className="video">
-            <ReactPlayer
-              url="https://youtu.be/R_t0qhgpB5I"
-              width="345px"
-              height="300px"
-            />
-            <h3 align="center"> Kashmir </h3>
-          </div>
-        </Col>
-      </Row>
-    </Container>
-  );
+      </div>
+    );
+  }
 }
-export default Blog;
-
-//export default function Sidebar(props) {
-// const classes = useStyles();
-
-//return (
-// <div className={classes.root}>
-//  <Login />
-//</div>
-//);
-//}
+export default withStyles(useStyles)(Blog);

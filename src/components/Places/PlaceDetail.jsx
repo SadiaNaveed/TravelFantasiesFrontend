@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme) => ({
     color: "#339ba5",
     paddingRight: "2rem",
     fontFamily: "Times New Roman",
-    //   fontDisplay: "swap",
     fontStyle: "italic",
     fontSize: 24,
     fontWeight: 700,
@@ -28,13 +27,11 @@ class PlaceDetail extends Component {
   constructor(props) {
         super(props);
       this.state = {
-          name: [],
-          city: [],
+        place: [],
           Image: " "
 
         }   
-  }
-  
+  } 
 
     arrayBufferToBase64(buffer) {
     var binary = '';
@@ -43,9 +40,8 @@ class PlaceDetail extends Component {
     return window.btoa(binary);
   };
      componentDidMount () {
-         //const { handle } = this.props.history.hotel
          const placeId = queryString.parse(this.props.history.location.search);
-         const placeSearch = placelId.place;
+         const placeSearch = placeId.place;
          console.log( placeSearch);
      placeService
      .getSinglePlace(placeSearch)
@@ -67,25 +63,22 @@ class PlaceDetail extends Component {
 console.log(this.props.history);
         // const classes = useStyles();
         return (
-          <div style={{ marginTop: "160px", marginBottom: "400px", marginLeft: "50px" }}> 
+          <div style={{ marginTop: "10px", marginBottom: "400px", marginLeft: "50px" }}> 
             <CssBaseline />
       <AppBarComponenet />
                     <img src={this.state.Image} style={{ position:"absolute",marginLeft: "1000px", height: "500px", width: "610px", backgroundColor: grey[50] }} alt="place" /> 
                
             
                     <Typography variant='h4' style={{marginLeft:"20px", color:"#339ba5" , fontStyle:"bold"}}>
-                    {this.state.place.Name}
+                    {this.state.place.place_name}
                 </Typography>
                 <Typography variant='h5' style={{marginLeft:"20px"}}>
                     {this.state.place.City}
                 </Typography>
-                
-
-
-                    
-   
+                <Typography variant='h7' style={{marginLeft:"20px"}}>
+                    {this.state.place.Description}
+                </Typography>  
             </div>
-           
         );
     }
 };
