@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import {
   UncontrolledCarousel,
   Card,
@@ -119,6 +120,15 @@ class Packages extends Component {
                     </tbody>
                   </Table>
                   <Button color="success">Book Now</Button>
+                  <Link to={"/PackagesDetailPage"} style={{ textDecoration: "none" }}>
+            
+              <Button style={{ marginTop: 50 }} outline color="info">
+              Learn More
+              </Button>
+          
+          </Link>
+                  
+                  
                 </ScrollAnimation>
               </CardBody>
             </Col>

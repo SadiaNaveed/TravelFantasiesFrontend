@@ -69,7 +69,13 @@ import userService from "../../../services/UserService";
 import AddTourCategory from "./AddTourCategory";
 import AllTourCategory from "./AllTourCategory";
 import AddTour from "./AddTour";
-import AllUsers from "./AllUsers";
+import AllTours from "./AllTours";
+import AllToursRequest from "./AllToursRequest";
+import AllGuides from "./AllGuides";
+import AllGuidesRequest from "./AllGuidesRequest";
+import AddPackages from "./AddPackages";
+import AllPackages from "./AllPackages";
+
 
 // const drawerWidth = 240;
 // const useStyles = theme => ({
@@ -159,6 +165,7 @@ class SideBarComponent extends Component {
       openHotel: false,
       home: true,
       openTour: false,
+      openGuide: false,
       openPackage: false,
       openBooking: false,
       openUser: false,
@@ -168,6 +175,7 @@ class SideBarComponent extends Component {
 
     this.handleHotelClick = this.handleHotelClick.bind(this);
     this.handleTourClick = this.handleTourClick.bind(this);
+    this.handleGuideClick = this.handleGuideClick.bind(this);
     this.handlePackageClick = this.handlePackageClick.bind(this);
     this.handleBookingClick = this.handleBookingClick.bind(this);
     this.handleUserClick = this.handleUserClick.bind(this);
@@ -184,6 +192,9 @@ class SideBarComponent extends Component {
   }
   handleTourClick() {
     this.setState({ openTour: !this.state.openTour });
+  }
+  handleGuideClick() {
+    this.setState({ openGuide: !this.state.openGuide });
   }
   handlePackageClick() {
     this.setState({ openPackage: !this.state.openPackage });
@@ -234,10 +245,20 @@ class SideBarComponent extends Component {
         return <AddTourCategory />;
       case "AllTourCategiries":
         return <AllTourCategory />;
+      case "AllTours":
+        return <AllTours />;
       case "AddTour":
         return <AddTour />;
-      case "AllUsers":
-        return <AllUsers />;
+      case "AllToursRequest":
+        return <AllToursRequest />;
+      case "AllGuides":
+        return <AllGuides />;
+      case "AllGuidesRequest":
+        return <AllGuidesRequest />;
+        case "AllPackages":
+        return <AllPackages />;
+      case "AddPackages":
+        return <AddPackages />;
       default:
         return <HomeFragment />;
     }
@@ -283,7 +304,7 @@ class SideBarComponent extends Component {
                 </ListItemIcon>
                 <ListItemText primary="Home" />
               </ListItem>
-              
+              <Divider />
               <ListItem button>
                 <ListItemIcon>
                   {" "}
@@ -291,7 +312,7 @@ class SideBarComponent extends Component {
                 </ListItemIcon>
                 <ListItemText primary="Posts" />
               </ListItem>
-             
+              <Divider />
               {/* <ListItem button >
                                 <ListItemIcon> <BeachAccess className={classes.icon} /></ListItemIcon>
                                 <ListItemText primary="Tours" />
@@ -306,10 +327,23 @@ class SideBarComponent extends Component {
               </ListItem>
               <Collapse in={this.state.openTour} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
+
+                <ListItem
+                    button
+                    className={classes.nested}
+                    onClick={this.handleClick.bind(this, "AllToursRequest")}
+                  >
+                    <ListItemIcon>
+                      <StarBorder className={classes.icon} />
+                    </ListItemIcon>
+                    <ListItemText primary="All ToursRequest" />
+                  </ListItem>
+
+
                   <ListItem
                     button
                     className={classes.nested}
-                    onClick={this.handleClick.bind(this, "AllHotel")}
+                    onClick={this.handleClick.bind(this, "AllTours")}
                   >
                     <ListItemIcon>
                       <StarBorder className={classes.icon} />
@@ -352,7 +386,46 @@ class SideBarComponent extends Component {
                   </ListItem>
                 </List>
               </Collapse>
-              
+              <Divider />
+
+              <ListItem button onClick={this.handleGuideClick}>
+                <ListItemIcon className={classes.icon}>
+                  <BeachAccess />
+                </ListItemIcon>
+                <ListItemText primary="Guide" />
+                {this.state.openGuide ? <ExpandLess /> : <ExpandMore />}
+              </ListItem>
+              <Collapse in={this.state.openGuide} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+
+                <ListItem
+                    button
+                    className={classes.nested}
+                    onClick={this.handleClick.bind(this, "AllGuidesRequest")}
+                  >
+                    <ListItemIcon>
+                      <StarBorder className={classes.icon} />
+                    </ListItemIcon>
+                    <ListItemText primary="All GuidesRequest" />
+                  </ListItem>
+
+
+                  <ListItem
+                    button
+                    className={classes.nested}
+                    onClick={this.handleClick.bind(this, "AllGuides")}
+                  >
+                    <ListItemIcon>
+                      <StarBorder className={classes.icon} />
+                    </ListItemIcon>
+                    <ListItemText primary="All Guides" />
+                  </ListItem>
+                  </List>
+                  </Collapse>
+              <Divider />
+
+
+
               <ListItem button onClick={this.handlePackageClick}>
                 <ListItemIcon className={classes.icon}>
                   <LocalOffer />
@@ -369,7 +442,7 @@ class SideBarComponent extends Component {
                   <ListItem
                     button
                     className={classes.nested}
-                    onClick={this.handleClick.bind(this, "AllHotel")}
+                    onClick={this.handleClick.bind(this, "AllPackages")}
                   >
                     <ListItemIcon>
                       <StarBorder className={classes.icon} />
@@ -380,7 +453,7 @@ class SideBarComponent extends Component {
                   <ListItem
                     button
                     className={classes.nested}
-                    onClick={this.handleClick.bind(this, "addHotel")}
+                    onClick={this.handleClick.bind(this, "AddPackages")}
                   >
                     <ListItemIcon>
                       <Add className={classes.icon} />
@@ -390,7 +463,7 @@ class SideBarComponent extends Component {
                   </ListItem>
                 </List>
               </Collapse>
-              
+              <Divider />
               <ListItem button>
                 <ListItemIcon>
                   {" "}
@@ -398,7 +471,7 @@ class SideBarComponent extends Component {
                 </ListItemIcon>
                 <ListItemText primary="Events" />
               </ListItem>
-              
+              <Divider />
 
               <ListItem button onClick={this.handleBookingClick}>
                 <ListItemIcon className={classes.icon}>
@@ -448,7 +521,7 @@ class SideBarComponent extends Component {
                   </ListItem>
                 </List>
               </Collapse>
-              
+              <Divider />
               <ListItem button onClick={this.handlePlacesClick}>
                 <ListItemIcon className={classes.icon}>
                   <Place />
@@ -482,7 +555,7 @@ class SideBarComponent extends Component {
                   </ListItem>
                 </List>
               </Collapse>
-              
+              <Divider />
 
               <ListItem button onClick={this.handleHotelClick}>
                 <ListItemIcon className={classes.icon}>
@@ -569,7 +642,7 @@ class SideBarComponent extends Component {
                   </ListItem>
                 </List>
               </Collapse>
-              
+              <Divider />
 
               <ListItem button onClick={this.handleUserClick}>
                 <ListItemIcon className={classes.icon}>
@@ -583,7 +656,7 @@ class SideBarComponent extends Component {
                   <ListItem
                     button
                     className={classes.nested}
-                    onClick={this.handleClick.bind(this, "AllUsers")}
+                    onClick={this.handleClick.bind(this, "AllHotel")}
                   >
                     <ListItemIcon>
                       <StarBorder className={classes.icon} />
@@ -648,7 +721,7 @@ class SideBarComponent extends Component {
                   </ListItem>
                 </List>
               </Collapse>
-              
+              <Divider />
               <ListItem button onClick={this.handleBlogClick}>
                 <ListItemIcon className={classes.icon}>
                   <Assignment />
@@ -702,7 +775,7 @@ class SideBarComponent extends Component {
                   </ListItem>
                 </List>
               </Collapse>
-              
+              <Divider />
               <ListItem button>
                 <ListItemIcon>
                   {" "}
@@ -710,17 +783,17 @@ class SideBarComponent extends Component {
                 </ListItemIcon>
                 <ListItemText primary="Settings" />
               </ListItem>
-              
+              <Divider />
               <ListItem button>
                 <ListItemIcon>
                   {" "}
                   <ExitToApp style={{ color: "blue" }} />
                 </ListItemIcon>
                 <ListItemText primary="Logout" />
-                
+                <Divider />
               </ListItem>
             </List>
-            
+            <Divider />
           </div>
         </Drawer>
         {this._renderSubComp()}

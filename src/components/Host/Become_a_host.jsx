@@ -21,15 +21,19 @@ import tourService from "../../services/TourService";
 import userService from '../../services/UserService'
 
 class BookTours extends Component {
-  
-  state = {
-    
+
+   constructor(props) {
+    super(props);
+    this.state = {
+    ImageName: " ",
     selectedPaymentMethod: null, 
     isEmailValid: false,
     email: "" ,
     Title: "",
-    Tour_Type: 0,
+    Tour_Type: " ",
     Location: "",
+    Arrival_Time:"",
+    Departure_Time:"",
     Start_Date: "",
     End_Date: "",
     Cost: 0,
@@ -37,60 +41,20 @@ class BookTours extends Component {
     no_of_days: 0,
     Total_Seats: 0,
     Available_Seats: 0,
-    Images: "images",
     Host_Id:'',
     Status: false,
     Details: '',
-    
+    selectedFile: [],
     Categories: [],
     SelectedCategory: 0,
-
-   };
+      
+      
+    };
+    this.onDrop = this.onDrop.bind(this);
+    
+  }
 
    
-   submitHandler(){
-    console.log(this.state)
-    console.log(userService.getLoggedInUser()._id)
-   Axios.get("http://localhost:4000/api/tours/unapproved")
-   .then(res =>{
-     console.log(res.data)
-   })
-   .catch(err=>{
-     console.log(err)
-   })  
- }
-
-
-
-
-
-
-   submitHandler(){
-     console.log(this.state)
-     console.log(userService.getLoggedInUser()._id)
-    Axios.post("http://localhost:4000/api/tours",{
-      Title:  this.state.Title ,
-      Description:  this.state.Description,
-      Images:  this.state.Images,
-      Host_Id: userService.getLoggedInUser()._id,
-      Start_Date:  this.state.Start_Date,
-      End_Date:  this.state.End_Date,
-      Status:  this.state.Status,
-      Total_Seats:  this.state.Total_Seats,
-      Available_Seats:  this.state.Available_Seats,
-      Tour_Type:  this.state.SelectedCategory,
-      Details:  this.state.Details,
-      Cost:  this.state.Cost,
-      no_of_days:  this.state.no_of_days,
-
-    })
-    .then(res =>{
-      console.log(res.data)
-    })
-    .catch(err=>{
-      console.log(err)
-    })  
-  }
 
    componentDidMount() {
     tourCategoryService
@@ -105,14 +69,21 @@ class BookTours extends Component {
         console.log(err);
       });
 
-      Axios.get("http://localhost:4000/api/tours/unapproved")
-   .then(res =>{
-     console.log(res.data)
-   })
-   .catch(err=>{
-     console.log(err)
-   })  
+  //     Axios.get("http://localhost:4000/api/tours/unapproved")
+  //  .then(res =>{
+  //    console.log(res.data)
+  //  })
+  //  .catch(err=>{
+  //    console.log(err)
+  //  })  
   }
+  
+  onDrop(event) {
+    this.setState({
+      selectedFile: event.target.files,
+    });
+  }
+
 
   change = async (event) => {
     console.log(event.target.value)
@@ -122,11 +93,29 @@ class BookTours extends Component {
   handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData();
-    formData.append("Category", this.state.SelectedCategory);
-    
-    console.log(this.state);
+    formData.append("Title", this.state.Title);
+    formData.append("Location", this.state.Location);
+    formData.append("Address", this.state.Address);
+    formData.append("Description", this.state.Description);
+    formData.append("Start_Date", this.state.Start_Date);
+    formData.append("End_Date", this.state.End_Date);
+    formData.append("Status", false);
+    formData.append("Cost", this.state.Cost);
+    formData.append("Arrival_Time", this.state.Arrival_Time);
+    formData.append("Departure_Time", this.state.Departure_Time);
+    formData.append("Total_Seats", this.state.Total_Seats);
+    formData.append("no_of_days", this.state.no_of_days);
+    formData.append("Tour_Type", this.state.SelectedCategory);
+    formData.append("Category", this.state.SelectedCategory_id);
+    for (var x = 0; x < this.state.selectedFile.length; x++) {
+      formData.append("file", this.state.selectedFile[x]); 
+    }
+    //console.log(this.state);
     console.log(formData);
+    console.log(this.state);
+    
     const data = this.state;
+    //console.log(data);
     tourService
       .addTour(formData)
       .then((response) => {
@@ -135,22 +124,6 @@ class BookTours extends Component {
       .catch((error) => {
         console.log(error);
       });
-  }
-
-  emailChangeHandler(value)
-   {
-    if (value.length == 0) {
-      this.setState({
-        isEmailValid: true,
-      });
-    } else {
-      this.setState({
-        isEmailValid: false,
-        email: value,
-      });
-    }
-
-
   }
   render() {
     return (
@@ -177,8 +150,7 @@ class BookTours extends Component {
                   </Col>
                   <Col md={4}>
                     <FormGroup>
-                      <Label for="Tour_Category">Tour_Category</Label>
-                      <Input type="text" name="Tour_Category"/>
+                      
                       <select
                          onChange={this.change}
                          value={this.state.SelectedCategory}
@@ -218,25 +190,56 @@ class BookTours extends Component {
                     </FormGroup>
                   </Col>
 
-                    <Col md={6} sm={12} lg={4}>
+                  <Col md={6} sm={12} lg={4}>
                       <FormGroup>
-                        <Label for="Credit">Arival_Date</Label>
-                        <Input
-                          type="5/11/2020"
-                          placeholder="Enter Arival_Date"
-                          onChange={(event)=> this.setState({Start_Date: event.target.value})}
-                          />
+                      <Label for="exampleTime">Arrival_Time</Label>
+                         <Input
+                           type="time"
+                           name="time"
+                           id="exampleTime"
+                           placeholder="time placeholder"
+                           onChange={(event)=> this.setState({Arrival_Time:event.target.value})}
+                         />
                       </FormGroup>
                     </Col>
                     <Col md={6} sm={12} lg={4}>
+                    <FormGroup>
+                      <Label for="exampleTime">Departure_Time</Label>
+                         <Input
+                           type="time"
+                           name="time"
+                           id="exampleTime"
+                           placeholder="time placeholder"
+                           onChange={(event)=> this.setState({Departure_Time:event.target.value})}
+                         />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+
+                  <Row form>
+                    <Col md={6} sm={12} lg={6}>
                       <FormGroup>
-                        <Label for="CVC">Departure_Date</Label>
-                        <Input 
-                        type="10/11/2020" 
-                        placeholder="Enter Departure_Date" 
-                        onChange={(event)=> this.setState({End_Date: event.target.value})}
-                  
-                        />
+                      <Label for="exampleDate">Start_Date</Label>
+                          <Input
+                              type="date"
+                              name="date"
+                              id="exampleDate"
+                              placeholder="date placeholder"
+                              onChange={(event)=> this.setState({Start_Date:event.target.value})}
+                         />
+                      </FormGroup>
+                    </Col>
+                    <Col md={6} sm={12} lg={6}>
+                    <FormGroup>
+                    <Label for="exampleDate">End_Date</Label>
+                    <Input
+                              type="date"
+                              name="date"
+                              id="exampleDate"
+                              placeholder="date placeholder"
+                              onChange={(event)=> this.setState({End_Date:event.target.value})}
+                         />
+                      
                       </FormGroup>
                     </Col>
                   </Row>
@@ -288,90 +291,13 @@ class BookTours extends Component {
                   
                   />
                 </FormGroup>
-                {/*
-                <Row form>
-                  <Col md={6} sm={12} lg={4}>
-                    <FormGroup>
-                      <Label for="name">Name</Label>
-                      <Input placeholder="Enter Your Full Name" />
-                    </FormGroup>
-                  </Col>
-                  <Col md={6} sm={12} lg={4}>
-                    <FormGroup>
-                      <Label for="Email">Email</Label>
-                      <Input
-                        onChange={(event) => {
-                          this.emailChangeHandler(event.target.value);
-                        }}
-                        invalid={this.state.isEmailValid}
-                        type="email"
-                        name="email"
-                        placeholder="Enter Your Email"
-                      />
-                      <FormFeedback>Oh no! Email can not be null</FormFeedback>
-                    </FormGroup>
-                  </Col>
-                  <Col md={6} sm={12} lg={4}>
-                    <FormGroup>
-                      <Label for="Contact">Contact Number</Label>
-                      <Input placeholder="Enter Your Contact Number Here" />
-                    </FormGroup>
-                  </Col>
-                </Row>
-                <FormGroup>
-                  <Label for="exampleAddress2">Address</Label>
+                <Label for="Images">Images</Label>
                   <Input
-                    type="text"
-                    name="address2"
-                    id="exampleAddress2"
-                    placeholder="Apartment, studio, or floor"
+                    type="file"
+                    name="file"
+                    multiple
+                    onChange={this.onDrop}
                   />
-                </FormGroup>
-
-                <Row form>
-                  <Col md={6}>
-                    <FormGroup>
-                      <Label for="exampleCity">City</Label>
-                      <Input type="text" name="city" id="exampleCity" />
-                    </FormGroup>
-                  </Col>
-                  <Col md={4}>
-                    <FormGroup>
-                      <Label for="exampleState">State</Label>
-                      <Input type="text" name="state" id="exampleState" />
-                    </FormGroup>
-                  </Col>
-                  <Col md={2}>
-                    <FormGroup>
-                      <Label for="exampleZip">Zip</Label>
-                      <Input type="text" name="zip" id="exampleZip" />
-                    </FormGroup>
-                  </Col>
-                </Row>
-                      */}
-                <CardTitle tag="h3">Company-Detail (optional)</CardTitle>
-                <Row form>
-                  <Col md={6}>
-                    <FormGroup>
-                      <Label for="exampleCity">Company_Name</Label>
-                      <Input type="text" name="Company_Name" id="exampleCity" />
-                    </FormGroup>
-                  </Col>
-                  <Col md={4}>
-                    <FormGroup>
-                      <Label for="exampleState">Company_Email</Label>
-                      <Input type="text" name="Company_Email" id="exampleState" />
-                    </FormGroup>
-                  </Col>
-                  <Col md={2}>
-                    <FormGroup>
-                      <Label for="exampleZip">Company_ContactNo</Label>
-                      <Input type="text" name="zip" id="exampleZip" />
-                    </FormGroup>
-                  </Col>
-                </Row>
-               
-              
                 <FormGroup check>
                  <Input type="checkbox" name="check" id="exampleCheck" />
                   <Label for="exampleCheck" check>
@@ -385,7 +311,7 @@ class BookTours extends Component {
                     textAlign: "center",
                     justifyContent: "center",
                   }}
-                  onClick={()=> this.submitHandler()}
+                  onClick={(event)=> this.handleSubmit(event)}
                 >
                   Submit
                 </Button>
@@ -461,3 +387,118 @@ export default BookTours;
 //}
  
 //export default Become_a_host;
+
+ {/*
+
+                emailChangeHandler(value)
+   {
+    if (value.length == 0) {
+      this.setState({
+        isEmailValid: true,
+      });
+    } else {
+      this.setState({
+        isEmailValid: false,
+        email: value,
+      });
+    }
+
+
+  }
+
+
+
+
+
+
+
+
+
+                <Row form>
+                  <Col md={6} sm={12} lg={4}>
+                    <FormGroup>
+                      <Label for="name">Name</Label>
+                      <Input placeholder="Enter Your Full Name" />
+                    </FormGroup>
+                  </Col>
+                  <Col md={6} sm={12} lg={4}>
+                    <FormGroup>
+                      <Label for="Email">Email</Label>
+                      <Input
+                        onChange={(event) => {
+                          this.emailChangeHandler(event.target.value);
+                        }}
+                        invalid={this.state.isEmailValid}
+                        type="email"
+                        name="email"
+                        placeholder="Enter Your Email"
+                      />
+                      <FormFeedback>Oh no! Email can not be null</FormFeedback>
+                    </FormGroup>
+                  </Col>
+                  <Col md={6} sm={12} lg={4}>
+                    <FormGroup>
+                      <Label for="Contact">Contact Number</Label>
+                      <Input placeholder="Enter Your Contact Number Here" />
+                    </FormGroup>
+                  </Col>
+                </Row>
+                <FormGroup>
+                  <Label for="exampleAddress2">Address</Label>
+                  <Input
+                    type="text"
+                    name="address2"
+                    id="exampleAddress2"
+                    placeholder="Apartment, studio, or floor"
+                  />
+                </FormGroup>
+
+                <Row form>
+                  <Col md={6}>
+                    <FormGroup>
+                      <Label for="exampleCity">City</Label>
+                      <Input type="text" name="city" id="exampleCity" />
+                    </FormGroup>
+                  </Col>
+                  <Col md={4}>
+                    <FormGroup>
+                      <Label for="exampleState">State</Label>
+                      <Input type="text" name="state" id="exampleState" />
+                    </FormGroup>
+                  </Col>
+                  <Col md={2}>
+                    <FormGroup>
+                      <Label for="exampleZip">Zip</Label>
+                      <Input type="text" name="zip" id="exampleZip" />
+                    </FormGroup>
+                  </Col>
+                </Row>
+
+
+
+
+
+
+                <CardTitle tag="h3">Company-Detail (optional)</CardTitle>
+                <Row form>
+                  <Col md={6}>
+                    <FormGroup>
+                      <Label for="exampleCity">Company_Name</Label>
+                      <Input type="text" name="Company_Name" id="exampleCity" />
+                    </FormGroup>
+                  </Col>
+                  <Col md={4}>
+                    <FormGroup>
+                      <Label for="exampleState">Company_Email</Label>
+                      <Input type="text" name="Company_Email" id="exampleState" />
+                    </FormGroup>
+                  </Col>
+                  <Col md={2}>
+                    <FormGroup>
+                      <Label for="exampleZip">Company_ContactNo</Label>
+                      <Input type="text" name="zip" id="exampleZip" />
+                    </FormGroup>
+                  </Col>
+                </Row>
+               
+                      */}
