@@ -48,11 +48,12 @@ class SinglePlace extends Component {
       <Box
         p="10px"
         bgcolor="#F0FFF0"
-        height="500px"
-        mx="30px"
+        height="385px"
+        mx="50px"
         borderRadius="6px"
-        margin="10px"
-        marginBottom="70px"
+        marginLeft="70px"
+        marginTop="30px"
+        marginBottom="30px"
         border="1px solid"
         borderColor="#C0C0C0"
       >
@@ -66,23 +67,24 @@ class SinglePlace extends Component {
                 src={this.props.Place.Image}
                 style={{
                   marginLeft: "10px",
-                  height: "300px",
-                  width: "310px",
+                  height: "250px",
+                  width: "230px",
                   backgroundColor: "blue",
                 }}
-                alt="hotel"
+                alt="place"
+
               />
             </div>
           ))
         ) : (
           <p>No Image</p>
         )}
-        <Typography variant="h4">{this.props.Place.Name}</Typography>
-        <Typography variant="h5">City {this.props.Place.City}</Typography>
-        <Typography variant="h6">Ratings {this.props.Place.Ratings}</Typography>
+        <Typography variant="h5">{this.props.Place.place_name}</Typography>
+        <Typography variant="h6">City {this.props.Place.City}</Typography>
+
         <Button
           style={{
-            backgroundColor: "#e7e7e7",
+            backgroundColor: "#008CBA",
             color: "black",
             marginLeft: "5px",
             marginRight: "5px",

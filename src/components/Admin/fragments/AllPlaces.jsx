@@ -115,24 +115,19 @@ class AllPlaces extends Component {
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>Place Name</StyledTableCell>
-            <StyledTableCell align="right">City</StyledTableCell>
-            <StyledTableCell align="right">Description</StyledTableCell>
+            <StyledTableCell align="center">Place Name</StyledTableCell>
+            <StyledTableCell align="center">City</StyledTableCell>
+            <StyledTableCell align="center">Description</StyledTableCell>
+            <StyledTableCell align="center">Actions</StyledTableCell>
           </TableRow>
         </TableHead>
                       <TableBody>
                         {this.state.places.map((place, index) => (
-                //  place.Image = 'data:image/jpeg;base64,' + this.arrayBufferToBase64(place.Image.data.data),
-         
             <StyledTableRow key={place._id}>
-              <StyledTableCell component="th" scope="row">
-                {place.placeName}
-              </StyledTableCell>
-              <StyledTableCell align="center">{place.placeName}</StyledTableCell>
+              
+              <StyledTableCell align="center">{place.place_name}</StyledTableCell>
               <StyledTableCell align="center">{place.City}</StyledTableCell>
               <StyledTableCell align="center">{place.Description}</StyledTableCell>
-                             <StyledTableCell align="center">
-            </StyledTableCell>
                             <StyledTableCell align="center">
               <Button onClick={() => this.onViewButtonClick(place._id)} ><Visibility /></Button>
               <Button ><Edit /> </Button>

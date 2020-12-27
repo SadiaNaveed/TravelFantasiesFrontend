@@ -3,7 +3,7 @@ class BlogService extends GenericService {
   constructor() {
     super();
   }
-  addHotel = (body) =>
+  addBlog = (body) =>
     this.post("Blog", body 
       , {
       headers: {
@@ -19,8 +19,8 @@ class BlogService extends GenericService {
   getBlog = (page = 1, perPage = 20) =>
     this.get("Blog?page=" + page + "&perPage=" + perPage).then();
 
-   getSingleHotel = (id) => this.get("Blog/" + id);
+   getSingleBlog = (id) => this.get("Blog/" + id);
 }
 
-let Blogervice = new BlogService();
-export default Blogervice;
+let blogService = new BlogService();
+export default blogService;
