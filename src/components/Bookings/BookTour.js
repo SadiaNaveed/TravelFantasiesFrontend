@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import Axios from "axios";
+import userService from '../../services/UserService'
 import {
   Col,
   Row,
@@ -15,6 +17,69 @@ import {
   CardBody,
 } from "reactstrap";
 class BookTours extends Component {
+  state = {
+    
+    
+     PlaceNmae: "",
+     Booking_Date:" ",
+     Arrival_Time: "",
+     Departure_Time: "",
+     Start_Date: "",
+     End_Date: "",
+     No_of_Days:0,
+     Cost: 0,
+     Persons: 0,
+     selectedPaymentMethod: null,
+     Host_Id:"",
+
+   };
+  
+
+
+   submitHandler(){
+     console.log(this.state)
+     console.log(userService.getLoggedInUser()._id)
+    Axios.post("http://localhost:4000/api/TourBookings",{
+      PlaceName:  this.state.PlaceNmae ,
+      Booking_Date:  this.state.Booking_Date,
+      Arrival_Time:  this.state.Arrival_Time,
+      Departure_Time:  this.state.Departure_Time,
+      Start_Date:  this.state.Start_Date,
+      End_Date:  this.state.End_Date,
+      No_of_Days:  this.state.No_of_Days,
+      Cost:  this.state.Cost, 
+      Persons:  this.state.Persons,
+      Status:  this.state.Status,
+      Host_Id: userService.getLoggedInUser()._id,
+      
+
+    })
+    .then(res =>{
+      console.log(res.data)
+    })
+    .catch(err=>{
+      console.log(err)
+    })  
+  }
+
+
+  emailChangeHandler(value)
+   {
+    if (value.length == 0) {
+      this.setState({
+        isEmailValid: true,
+      });
+    } else {
+      this.setState({
+        isEmailValid: false,
+        email: value,
+      });
+    }
+
+
+  }
+
+
   state = { selectedPaymentMethod: null, isEmailValid: false, email: "" };
   emailChangeHandler(value) {
     if (value.length == 0) {
@@ -33,78 +98,93 @@ class BookTours extends Component {
       <div style={{ marginTop: 50 }}>
         <Col sm="12">
           <Card>
-            <CardHeader>Please Fill Out Details To Continue</CardHeader>
+            <CardHeader>Please Fill Out The Tour Booking Form To Continue</CardHeader>
             <CardBody>
-              <CardTitle tag="h3">Personal Details</CardTitle>
               <Form>
-                <Row form>
-                  <Col md={6} sm={12} lg={4}>
-                    <FormGroup>
-                      <Label for="name">Name</Label>
-                      <Input placeholder="Enter Your Full Name" />
-                    </FormGroup>
-                  </Col>
-                  <Col md={6} sm={12} lg={4}>
-                    <FormGroup>
-                      <Label for="Email">Email</Label>
-                      <Input
-                        onChange={(event) => {
-                          this.emailChangeHandler(event.target.value);
-                        }}
-                        invalid={this.state.isEmailValid}
-                        type="email"
-                        name="email"
-                        placeholder="Enter Your Email"
-                      />
-                      <FormFeedback>Oh no! Email can not be null</FormFeedback>
-                    </FormGroup>
-                  </Col>
-                  <Col md={6} sm={12} lg={4}>
-                    <FormGroup>
-                      <Label for="Contact">Contact Number</Label>
-                      <Input placeholder="Enter Your Contact Number Here" />
-                    </FormGroup>
-                  </Col>
-                </Row>
-                <FormGroup>
-                  <Label for="exampleAddress2">Address</Label>
-                  <Input
-                    type="text"
-                    name="address2"
-                    id="exampleAddress2"
-                    placeholder="Apartment, studio, or floor"
-                  />
-                </FormGroup>
-
-                <Row form>
-                  <Col md={6}>
-                    <FormGroup>
-                      <Label for="exampleCity">City</Label>
-                      <Input type="text" name="city" id="exampleCity" />
-                    </FormGroup>
-                  </Col>
-                  <Col md={4}>
-                    <FormGroup>
-                      <Label for="exampleState">State</Label>
-                      <Input type="text" name="state" id="exampleState" />
-                    </FormGroup>
-                  </Col>
-                  <Col md={2}>
-                    <FormGroup>
-                      <Label for="exampleZip">Zip</Label>
-                      <Input type="text" name="zip" id="exampleZip" />
-                    </FormGroup>
-                  </Col>
-                </Row>
                 <CardTitle tag="h3">Details About Tour</CardTitle>
-                <FormGroup>
-                  <Label for="Place">Place</Label>
+                
+                <Row form>
+                    <Col md={6} sm={12} lg={6}>
+                    <FormGroup>
+                  <Label for="Place">Place_Name</Label>
                   <Input
                     type="text"
                     name="place"
                     placeholder="Enter the Place You want to Visit"
+                    onChange={(event)=> this.setState({PlaceName: event.target.value})}
                   />
-                </FormGroup>
+                  </FormGroup>
+                  </Col>
+
+                  <Col md={6} sm={12} lg={6}>
+                    <FormGroup>
+                    <Label for="exampleDate">Booking_Date</Label>
+                          <Input
+                              type="date"
+                              name="date"
+                              id="exampleDate"
+                              placeholder="date placeholder"
+                              onChange={(event)=> this.setState({Booking_Date:event.target.value})}
+                         />
+                  </FormGroup>
+                  </Col>
+                  </Row>
+                    
+                    <Row form>
+                    <Col md={6} sm={12} lg={6}>
+                      <FormGroup>
+                      <Label for="exampleDate">Start_Date</Label>
+                          <Input
+                              type="date"
+                              name="date"
+                              id="exampleDate"
+                              placeholder="date placeholder"
+                              onChange={(event)=> this.setState({Start_Date:event.target.value})}
+                         />
+                      </FormGroup>
+                    </Col>
+                    <Col md={6} sm={12} lg={6}>
+                    <FormGroup>
+                    <Label for="exampleDate">End_Date</Label>
+                    <Input
+                              type="date"
+                              name="date"
+                              id="exampleDate"
+                              placeholder="date placeholder"
+                              onChange={(event)=> this.setState({End_Date:event.target.value})}
+                         />
+                      
+                      </FormGroup>
+                    </Col>
+                  </Row>
+
+                <Row form>
+                    <Col md={6} sm={12} lg={6}>
+                      <FormGroup>
+                      <Label for="exampleTime">Arrival_Time</Label>
+                         <Input
+                           type="time"
+                           name="time"
+                           id="exampleTime"
+                           placeholder="time placeholder"
+                           onChange={(event)=> this.setState({Arrival_Time:event.target.value})}
+                         />
+                      </FormGroup>
+                    </Col>
+                    <Col md={6} sm={12} lg={6}>
+                    <FormGroup>
+                      <Label for="exampleTime">Departure_Time</Label>
+                         <Input
+                           type="time"
+                           name="time"
+                           id="exampleTime"
+                           placeholder="time placeholder"
+                           onChange={(event)=> this.setState({Departure_Time:event.target.value})}
+                         />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+
                 <Row form>
                   <Col md={6} sm={12} lg={4}>
                     <FormGroup>
@@ -112,6 +192,8 @@ class BookTours extends Component {
                       <Input
                         type="Number"
                         placeholder="Enter Your Budget Here"
+                        onChange={(event)=> this.setState({Cost: event.target.value})}
+                  
                       />
                     </FormGroup>
                   </Col>
@@ -121,6 +203,8 @@ class BookTours extends Component {
                       <Input
                         type="Number"
                         placeholder="Enter Number of Days You Prefer"
+                        onChange={(event)=> this.setState({No_of_Days: event.target.value})}
+                  
                       />
                     </FormGroup>
                   </Col>
@@ -130,10 +214,14 @@ class BookTours extends Component {
                       <Input
                         type="Number"
                         placeholder="How many of You will be there?"
+                        onChange={(event)=> this.setState({Persons: event.target.value})}
+                  
                       />
                     </FormGroup>
                   </Col>
                 </Row>
+
+               
                 <CardTitle tag="h3">Select Payment Method</CardTitle>
                 <Row
                   form

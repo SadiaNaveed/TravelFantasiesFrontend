@@ -16,6 +16,27 @@ import video from "../Lushgold Apparel.mp4";
 import "reactjs-popup/dist/index.css";
 import Popup from "reactjs-popup";
 import guide from "../Asserts/guide.jpg";
+import { Link } from "react-router-dom";
+//import {  Col } from "reactstrap";
+import { Animate } from "react-simple-animate";
+//import landingpage from "./src/components/Landingpage.css";
+
+import {
+  UncontrolledCarousel,
+  Card,
+  CardTitle,
+  CardText,
+  Row,
+  Col,
+  CardBody,
+  CardSubtitle,
+  CardLink,
+  CardImg,
+  Badge,
+  Table,
+} from "reactstrap";
+import ScrollAnimation from "react-animate-on-scroll";
+
 
 const Bounce = styled.div`
   animation: 5s ${keyframes`${bounce}`};
@@ -163,7 +184,7 @@ const useStyles = makeStyles((theme) => ({
   },
   tour: {
     color: "white",
-    fontSize: "40",
+    fontSize: "50",
     fontFamily: "Roboto",
     position: "absolute",
     left: "40%",
@@ -195,11 +216,84 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
+
 const LandingPage = () => {
   const classes = useStyles();
+  const items = [
+    
+    {
+      src: require("../Asserts/slider2.jpg"),
+      altText: "Slide 3",
+      caption: "Starting From 100$",
+      header: "Hit The Road of Adventure With Friends ",
+      key: "3",
+    },
+    {
+      src: require("../Asserts/slider10.jpg"),
+      altText: "Slide 2",
+      caption: "Honeymoon Starting From 500$",
+      header: "Spend Pleasure Time With Your Better Half",
+      key: "2",
+    },
+  ];
+  
 
   return (
+    
     <div>
+      <header id="showcase">
+      <div class="showcase-content">
+        <Animate
+          play={true} // set play true to start the animation
+          duration={1} // how long is the animation duration
+          delay={0.3} // how many delay seconds will apply before the animation start
+          start={{ transform: "translate(0, -500px)" }}
+          end={{ transform: "translate(0px, 0px)" }}
+          // complete={{ display: "none" }}
+          easeType="cubic-bezier(0.445, 0.05, 0.55, 0.95)"
+          // onComplete={onCompleteCallBack} // call back function when animation is completed
+        >
+          <h1 style={{ fontSize: "75px" }} class="l-heading">
+            <span style={{ color: "#56DDF8", fontFamily: "revert" }}>
+              Travel{" "}
+            </span>
+            <span style={{ color: "#56DDF8", fontFamily: "revert" }}>
+              Fantasies
+            </span>
+          </h1>
+        </Animate>
+        <Animate
+          play={true} // set play true to start the animation
+          duration={1} // how long is the animation duration
+          delay={0.3} // how many delay seconds will apply before the animation start
+          start={{ transform: "translate(-500px, 0px)" }}
+          end={{ transform: "translate(0px, 0px)" }}
+          // complete={{ display: "none" }}
+          easeType="cubic-bezier(0.445, 0.05, 0.55, 0.95)"
+          // onComplete={onCompleteCallBack} // call back function when animation is completed
+        >
+          <p style={{ fontSize: "20px" }}>A More Rewarding Way To Travel</p>
+        </Animate>
+
+        <Animate
+          play={true} // set play true to start the animation
+          duration={1} // how long is the animation duration
+          delay={0.5} // how many delay seconds will apply before the animation start
+          start={{ transform: "translate(0px, 500px)" }}
+          end={{ transform: "translate(0px, 0px)" }}
+          // complete={{ display: "none" }}
+          easeType="cubic-bezier(0.445, 0.05, 0.55, 0.95)"
+          // onComplete={onCompleteCallBack} // call back function when animation is completed
+        >
+          <SearchBar />
+
+        </Animate>
+        
+      </div>
+    </header>
+    {/*
+    <UncontrolledCarousel className="danger" items={items} />
  <video
         src={video}
         width="100%"
@@ -207,9 +301,16 @@ const LandingPage = () => {
         // controls="controls"
         autoplay="true"
         loop
-      />        
-     
-      <SearchBar />
+      />  
+      <SearchBar />      
+ */}
+
+        
+        <hr></hr>
+      
+      <hr></hr>
+            
+
       <span>
         <Bounce>
           <h1
@@ -264,7 +365,7 @@ const LandingPage = () => {
       >
         View More
       </Button>
-      <hr></hr>
+      
       <Grid container className={classes.guide}>
         <Grid item xs={5}>
           <span>
@@ -324,36 +425,43 @@ const LandingPage = () => {
       <Grid
         container
         //spacing={2}
-        style={{
+        /*</div>style={{
           // backgroundColor: "#D3D3D3",
           //borderRadius: "2rem",
           marginTop: "2.0rem",
           marginBottom: "2.0rem",
           padding: "3px",
-          height: "400px",
+          height: "1000px",
           //backgroundColor: "red",
           //marginLeft: "2.0rem",
           // padding: "20px",
           backgroundColor: "#339ba5",
-        }}
+        }} */
       >
         <Grid item xs={12}>
           <span>
             <h1 className={classes.tour}> Create A New Tour </h1>
           </span>
-          <span>
+          <hr></hr>
+
+          <hr></hr>
+               <UncontrolledCarousel className="danger" items={items} />
+            <hr></hr>
+          {/*
+            <span>
             <h3 className={classes.line}>
-              jkaaaaaaaaaaaaaaaaaaaajkdnnnnnnnnnnksnaknsknlncask ccccccc
+            
             </h3>
           </span>
-          <Button
+          */}
+        </Grid>
+        <Button
             variant="contained"
              //color="primary"
             className={classes.viewMore}
           >
             View More
           </Button>
-        </Grid>
       </Grid>
       <Grid container className={classes.guide}>
         <Grid item xs={6}>

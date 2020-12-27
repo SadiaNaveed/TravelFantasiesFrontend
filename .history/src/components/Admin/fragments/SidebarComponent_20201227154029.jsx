@@ -76,6 +76,7 @@ import AllGuidesRequest from "./AllGuidesRequest";
 import AddPackages from "./AddPackages";
 import AllPackages from "./AllPackages";
 
+
 // const drawerWidth = 240;
 // const useStyles = theme => ({
 
@@ -255,7 +256,7 @@ class SideBarComponent extends Component {
         return <AllGuides />;
       case "AllGuidesRequest":
         return <AllGuidesRequest />;
-      case "AllPackages":
+        case "AllPackages":
         return <AllPackages />;
       case "AddPackages":
         return <AddPackages />;
@@ -326,7 +327,8 @@ class SideBarComponent extends Component {
               </ListItem>
               <Collapse in={this.state.openTour} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
-                  <ListItem
+
+                <ListItem
                     button
                     className={classes.nested}
                     onClick={this.handleClick.bind(this, "AllToursRequest")}
@@ -336,6 +338,7 @@ class SideBarComponent extends Component {
                     </ListItemIcon>
                     <ListItemText primary="All ToursRequest" />
                   </ListItem>
+
 
                   <ListItem
                     button
@@ -393,7 +396,8 @@ class SideBarComponent extends Component {
               </ListItem>
               <Collapse in={this.state.openGuide} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
-                  <ListItem
+
+                <ListItem
                     button
                     className={classes.nested}
                     onClick={this.handleClick.bind(this, "AllGuidesRequest")}
@@ -403,6 +407,7 @@ class SideBarComponent extends Component {
                     </ListItemIcon>
                     <ListItemText primary="All GuidesRequest" />
                   </ListItem>
+
 
                   <ListItem
                     button
@@ -414,8 +419,11 @@ class SideBarComponent extends Component {
                     </ListItemIcon>
                     <ListItemText primary="All Guides" />
                   </ListItem>
-                </List>
-              </Collapse>
+                  </List>
+                  </Collapse>
+
+
+
 
               <ListItem button onClick={this.handlePackageClick}>
                 <ListItemIcon className={classes.icon}>

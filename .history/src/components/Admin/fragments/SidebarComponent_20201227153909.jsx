@@ -76,6 +76,7 @@ import AllGuidesRequest from "./AllGuidesRequest";
 import AddPackages from "./AddPackages";
 import AllPackages from "./AllPackages";
 
+
 // const drawerWidth = 240;
 // const useStyles = theme => ({
 
@@ -255,7 +256,7 @@ class SideBarComponent extends Component {
         return <AllGuides />;
       case "AllGuidesRequest":
         return <AllGuidesRequest />;
-      case "AllPackages":
+        case "AllPackages":
         return <AllPackages />;
       case "AddPackages":
         return <AddPackages />;
@@ -326,7 +327,8 @@ class SideBarComponent extends Component {
               </ListItem>
               <Collapse in={this.state.openTour} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
-                  <ListItem
+
+                <ListItem
                     button
                     className={classes.nested}
                     onClick={this.handleClick.bind(this, "AllToursRequest")}
@@ -336,6 +338,7 @@ class SideBarComponent extends Component {
                     </ListItemIcon>
                     <ListItemText primary="All ToursRequest" />
                   </ListItem>
+
 
                   <ListItem
                     button
@@ -393,7 +396,8 @@ class SideBarComponent extends Component {
               </ListItem>
               <Collapse in={this.state.openGuide} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
-                  <ListItem
+
+                <ListItem
                     button
                     className={classes.nested}
                     onClick={this.handleClick.bind(this, "AllGuidesRequest")}
@@ -403,6 +407,7 @@ class SideBarComponent extends Component {
                     </ListItemIcon>
                     <ListItemText primary="All GuidesRequest" />
                   </ListItem>
+
 
                   <ListItem
                     button
@@ -414,8 +419,11 @@ class SideBarComponent extends Component {
                     </ListItemIcon>
                     <ListItemText primary="All Guides" />
                   </ListItem>
-                </List>
-              </Collapse>
+                  </List>
+                  </Collapse>
+
+
+
 
               <ListItem button onClick={this.handlePackageClick}>
                 <ListItemIcon className={classes.icon}>
@@ -454,7 +462,11 @@ class SideBarComponent extends Component {
                   </ListItem>
                 </List>
               </Collapse>
+<<<<<<< HEAD
 
+=======
+              <Divider />
+>>>>>>> cc4ba9ec0ab28603c7b1543bee570dae9bebcab0
               <ListItem button>
                 <ListItemIcon>
                   {" "}
@@ -462,6 +474,10 @@ class SideBarComponent extends Component {
                 </ListItemIcon>
                 <ListItemText primary="Events" />
               </ListItem>
+<<<<<<< HEAD
+=======
+              <Divider />
+>>>>>>> cc4ba9ec0ab28603c7b1543bee570dae9bebcab0
 
               <ListItem button onClick={this.handleBookingClick}>
                 <ListItemIcon className={classes.icon}>
@@ -511,6 +527,11 @@ class SideBarComponent extends Component {
                   </ListItem>
                 </List>
               </Collapse>
+<<<<<<< HEAD
+
+=======
+              <Divider />
+>>>>>>> cc4ba9ec0ab28603c7b1543bee570dae9bebcab0
               <ListItem button onClick={this.handlePlacesClick}>
                 <ListItemIcon className={classes.icon}>
                   <Place />
@@ -544,6 +565,10 @@ class SideBarComponent extends Component {
                   </ListItem>
                 </List>
               </Collapse>
+<<<<<<< HEAD
+=======
+              <Divider />
+>>>>>>> cc4ba9ec0ab28603c7b1543bee570dae9bebcab0
 
               <ListItem button onClick={this.handleHotelClick}>
                 <ListItemIcon className={classes.icon}>
@@ -630,6 +655,10 @@ class SideBarComponent extends Component {
                   </ListItem>
                 </List>
               </Collapse>
+<<<<<<< HEAD
+=======
+              <Divider />
+>>>>>>> cc4ba9ec0ab28603c7b1543bee570dae9bebcab0
 
               <ListItem button onClick={this.handleUserClick}>
                 <ListItemIcon className={classes.icon}>
@@ -708,6 +737,11 @@ class SideBarComponent extends Component {
                   </ListItem>
                 </List>
               </Collapse>
+<<<<<<< HEAD
+
+=======
+              <Divider />
+>>>>>>> cc4ba9ec0ab28603c7b1543bee570dae9bebcab0
               <ListItem button onClick={this.handleBlogClick}>
                 <ListItemIcon className={classes.icon}>
                   <Assignment />
@@ -761,6 +795,11 @@ class SideBarComponent extends Component {
                   </ListItem>
                 </List>
               </Collapse>
+<<<<<<< HEAD
+
+=======
+              <Divider />
+>>>>>>> cc4ba9ec0ab28603c7b1543bee570dae9bebcab0
               <ListItem button>
                 <ListItemIcon>
                   {" "}
@@ -768,14 +807,26 @@ class SideBarComponent extends Component {
                 </ListItemIcon>
                 <ListItemText primary="Settings" />
               </ListItem>
+<<<<<<< HEAD
+
+=======
+              <Divider />
+>>>>>>> cc4ba9ec0ab28603c7b1543bee570dae9bebcab0
               <ListItem button>
                 <ListItemIcon>
                   {" "}
                   <ExitToApp style={{ color: "blue" }} />
                 </ListItemIcon>
                 <ListItemText primary="Logout" />
+<<<<<<< HEAD
               </ListItem>
             </List>
+=======
+                <Divider />
+              </ListItem>
+            </List>
+            <Divider />
+>>>>>>> cc4ba9ec0ab28603c7b1543bee570dae9bebcab0
           </div>
         </Drawer>
         {this._renderSubComp()}
