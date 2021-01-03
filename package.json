@@ -9,6 +9,7 @@
     "@material-ui/lab": "^4.0.0-alpha.56",
     "@material-ui/pickers": "^3.2.10",
     "@material-ui/system": "^4.9.14",
+    "@react-google-maps/api": "^2.0.2",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
@@ -51,6 +52,7 @@
     "simple-react-comments": "^1.1.0",
     "styled-components": "^5.2.0",
     "url-loader": "^4.1.0",
+    "use-places-autocomplete": "^1.7.0",
     "yup": "^0.32.8"
   },
   "scripts": {

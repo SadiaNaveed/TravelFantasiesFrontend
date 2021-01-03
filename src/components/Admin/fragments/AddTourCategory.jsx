@@ -8,9 +8,6 @@ import {
 } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import React, { Component } from "react";
-//import hotelService from "../../../services/HotelService";
-//import ImageUploader from 'react-images-upload';
-//import tourCategoryService from "../../../services/TourCategoryService";
 import tourCategoryService from "../../../services/TourCategoryService";
 
 const useStyles = makeStyles((theme) => ({
