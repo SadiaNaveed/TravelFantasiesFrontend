@@ -31,7 +31,6 @@ import HotelView from "./components/Admin/fragments/HotelView";
 import AddRoom from "./components/Admin/fragments/AddRoom";
 import AllRooms from "./components/Admin/fragments/AllRooms";
 import placeDetail from "./components/Places/PlacesToVisit";
-import PlaceDetail from "./components/Places/PlaceDetail";
 import RoomView from "./components/Admin/fragments/RoomView";
 import RoomDetail from "./components/Hotels/RoomDetail";
 import Tours from "./components/Tour/Tours";
@@ -82,7 +81,6 @@ function App() {
 <<<<<<< Updated upstream
           <Route path="/HotelMapView" component={MapView} />
 =======
-          <Route path="/PlaceDetail" componenet ={PlaceDetail}/>
 >>>>>>> Stashed changes
           <Route path="/HotelBooking" component={HotelBooking} />
           <Route path="/hotels/:page/:perPage" component={Hotels} />
