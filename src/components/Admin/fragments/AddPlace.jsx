@@ -16,21 +16,21 @@ class addPlace extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      Name: " ",
+      place_name: " ",
       City: " ",
       selectedFile: [],
       Description: " "
     };
     this.onDrop = this.onDrop.bind(this);
-    this.handleNameChange = this.handleNameChange.bind(this);
+    this.handlePlace_nameChange = this.handlePlace_nameChange.bind(this);
     this.handleCityChange = this.handleCityChange.bind(this);
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     //this.change = this.change.bind(this);
 
   }
-  handleNameChange(event) {
-    this.setState({Name: event.target.value });
+  handlePlace_nameChange(event) {
+    this.setState({place_name: event.target.value });
   }
   handleCityChange(event) {
     this.setState({ City: event.target.value });
@@ -48,7 +48,7 @@ class addPlace extends Component {
   handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData();
-     formData.append("Name", this.state.Name);
+     formData.append("Name", this.state.place_name);
      formData.append("City", this.state.City);
      formData.append("Description", this.state.Description);
      
@@ -106,8 +106,8 @@ class addPlace extends Component {
                     variant="outlined"
                     name="Place_Name"
                     fullWidth
-                    value={this.state.Name}
-                    onChange={this.handleNameChange}
+                    value={this.state.place_name}
+                    onChange={this.handlePlace_nameChange}
                   />
                 </div>
               </div>
