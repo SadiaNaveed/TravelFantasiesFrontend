@@ -24,13 +24,20 @@ const useStyles = makeStyles((theme) => ({
         super(props);
         this.state = {
             showComponent: 'false',         
-        }
+        };
     }
+
+arrayBufferToBase64(buffer) {
+    var binary = "";
+    var bytes = [].slice.call(new Uint8Array(buffer));
+    bytes.forEach((b) => (binary += String.fromCharCode(b)));
+    return window.btoa(binary);
+  }
 
    onButtonClick = () => {
      this.props.history.push({
         pathname: '/BlogDetail',
-       search: '?blog=' + this.props.hotel._id,
+       search: '?blog=' + this.props.blogs._id,
        
      })
      
@@ -43,30 +50,53 @@ const useStyles = makeStyles((theme) => ({
        const { blog, history } = this.props;
 
     return (
-      <Box p="10px" bgcolor="#F0FFF0" height="500px" mx="30px" borderRadius="6px" margin="10px" marginBottom="70px" border="1px solid" borderColor="#C0C0C0">
-        <img src={this.props.blog.Image} style={{ marginLeft: "10px", height: "300px", width: "310px", backgroundColor: grey[50] }} alt="hotel" />
-
-        <Typography variant='h4'>
-          {this.props.blog.Title}
-        </Typography>
-        <Typography variant='h5'>
-          Location {this.props.blog.Link}
-        </Typography>
-        <Typography variant='h6'>
-          Ratings {this.props.blog.Description}
-        </Typography>
+      <Box p="10px"
+      bgcolor="#F0FFF0"
+      height="385px"
+      mx="50px"
+      borderRadius="6px"
+      marginLeft="70px"
+      marginTop="30px"
+      marginBottom="30px"
+      border="1px solid"
+      borderColor="#C0C0C0"
+      >
+         {this.props.blogs.Image ? (
+          ((this.props.blogs.Image =
+            "data:image/jpeg;base64," +
+            this.arrayBufferToBase64(this.props.blogs.Image.data.data)),
+          (
+            <div>
+              <img
+                src={this.props.blogs.Image}
+                style={{
+                  marginLeft: "10px",
+                  height: "250px",
+                  width: "230px",
+                  backgroundColor: "blue",
+                }}
+                alt="blog"
+              />
+            </div>
+          ))
+        ) : (
+          <p>No Image</p>
+        )}
+        <Typography variant="h5">Title {this.props.blogs.Title}</Typography>
         
-        <Button style={{
-          backgroundColor: "#e7e7e7", color: "black", marginLeft: "5px",
-          marginRight: "5px"
-        }} onClick= {this.onButtonClick}
+        <Button
+          style={{
+            backgroundColor: "#008CBA",
+            color: "black",
+            marginLeft: "5px",
+            marginRight: "5px",
+          }}
+          onClick={this.onButtonClick}
         >
-          View Blog
-      </Button>
+          View More
+        </Button>
       </Box>
-
-  
     );
   }
-};
+}
 export default withRouter(SingleBlog);
