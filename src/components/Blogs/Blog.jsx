@@ -35,7 +35,7 @@ class Blog extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      Media: "",
+      Img: "",
       Title:"",
       Description: " ",
       Blogs: [],
@@ -96,12 +96,12 @@ class Blog extends Component {
     return (
       <div>
        <UncontrolledCarousel className="danger" items={items} />
-        {this.state.blogs.length == 0 ? (
+        {this.state.Blogs.length == 0 ? (
           <p>There are no Blogs</p>
         ) : (
           <Grid container spacing={4}>
-            {this.state.blogs.map((blog, index) => (
-              <SingleBlog key={index} Blog={blog} />
+            {this.state.Blogs.map((blog, index) => (
+              <SingleBlog key={index} blogs={blog} />
             ))}
           </Grid>
         )}
