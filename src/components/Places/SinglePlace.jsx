@@ -35,7 +35,7 @@ class SinglePlace extends Component {
   onButtonClick = () => {
     this.props.history.push({
       pathname: "/PlaceDetail",
-      search: "?place=" + this.props.place._id,
+      search: "?place=" + this.props.Place._id,
     });
   };
 
@@ -72,7 +72,6 @@ class SinglePlace extends Component {
                   backgroundColor: "blue",
                 }}
                 alt="place"
-
               />
             </div>
           ))
@@ -81,7 +80,6 @@ class SinglePlace extends Component {
         )}
         <Typography variant="h5">{this.props.Place.place_name}</Typography>
         <Typography variant="h6">City {this.props.Place.City}</Typography>
-
         <Button
           style={{
             backgroundColor: "#008CBA",
