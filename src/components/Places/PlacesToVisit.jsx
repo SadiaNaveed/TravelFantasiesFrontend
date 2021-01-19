@@ -2,12 +2,13 @@ import React, { Component, useCallback, useEffect } from "react";
 import placeService from "../../services/PlaceService";
 import { makeStyles, createStyles, withStyles } from "@material-ui/core/styles";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import Sidebar from "../Sidebar";
-import SearchIcon from "@material-ui/icons/Search";
-import cover from "../../Tourism (1).jpg";
+import SearchPlace from "./SearchPlace";
 import { Button, Card, CardContent, CardMedia, Grid } from "@material-ui/core";
 import SinglePlace from "./SinglePlace";
 import { UncontrolledCarousel } from "reactstrap";
+
+let data = [];
+let res = [];
 
 const useStyles = (theme) => ({
   root: {
@@ -27,7 +28,6 @@ const useStyles = (theme) => ({
   media: {
     display: "flex",
     height: "10px",
-    //  objectFit: "contain",
     alignItems: "left",
     width: "270px",
   },
@@ -38,11 +38,25 @@ class Place extends Component {
     super(props);
     this.state = {
       Img: "",
-      name:"",
       city: " ",
       places: [],
+      floors:[],
+      value: "",
+      inputValue: "",
+      searchField: "",
+      searchTerm: "",
+      results: [],
+      val: "ascending_order",
+      place: [],
+      loading: false,
+      searchClicked: false,
+      res: [],
     };
+    this.change = this.change.bind(this);
   }
+  change = (e) => {
+    this.setState({ value: e.target.value });
+  };
 
   arrayBufferToBase64(buffer) {
     var binary = "";
@@ -55,6 +69,7 @@ class Place extends Component {
       .getPlace(this.props.page, this.props.perPage)
       .then((data) => {
         this.setState({ places: data });
+        this.setState({ results: data });
       })
       .catch((err) => {
         console.log(err);
@@ -62,9 +77,22 @@ class Place extends Component {
   }
 
   render() {
-    const handleChange = async (value) => {
-      this.setState({ city: value });
-    };
+    const { places, searchField, searchTerm } = this.state;
+    res = places.filter((place) =>
+      place.place_name.toLowerCase().includes(searchField.toLowerCase())
+    );
+    {
+      this.state.value === "ascending_order" &&
+        (res = places.sort((a, b) => {
+          if (a.place_name.toLowerCase() < b.place_name.toLowerCase()) return -1;
+        }));
+    }
+    {
+      this.state.value === "descending_order" &&
+        (res = places.sort((a, b) => {
+          if (a.place_name.toLowerCase() > b.place_name.toLowerCase()) return -1;
+        }));
+    }
 
     const classes = useStyles();
     const items = [
@@ -95,20 +123,73 @@ class Place extends Component {
       },
     ];
 
+    let floors = [];
+    let unique;
+    const p = this.state.results;
     return (
       <div>
        <UncontrolledCarousel className="danger" items={items} />
-        {this.state.places.length == 0 ? (
-          <p>There are no places</p>
-        ) : (
-          <Grid container spacing={4}>
-            {this.state.places.map((place, index) => (
-              <SinglePlace key={index} Place={place} />
-            ))}
-          </Grid>
-        )}
+       <SearchPlace
+          placeholder="Enter Place Name"
+          onSearchClicked={(e) =>
+            this.setState({ searchField: e.target.value })
+          }
+          />
+
+          <div class="row" style={{ marginTop: "80px" }}>
+          <div class="col-md-12">
+            <span id="div_sort" class="float-right mr-4 searchSort">
+              Sort By
+              <select
+                id="cata_sort"
+                onChange={this.change}
+                value={this.state.value}
+              >
+                <option
+                  name="cata_sort"
+                  data-filter-key="sort"
+                  data-filter-value="ascending_order"
+                  value="ascending_order"
+                >
+                  Ascending Order
+                </option>
+
+                <option
+                  name="cata_sort"
+                  data-filter-key="sort"
+                  data-filter-value="descending_order"
+                  value="descending_order"
+                >
+                  Descending Order
+                </option>
+                </select>
+            </span>
+          </div>
+        </div>
+        <div class="row position-relative" id="divCatLogLeft">
+          <div class="col-xl-10 serach_pgn">
+          {res.length == 0 ? (
+              <p>Loading...</p>
+            ) : 
+            (
+              <Grid container spacing={3}>
+                {res.map(
+                  (place, index) => (
+                    console.log(place),
+                    (
+                      <SinglePlace
+                        key={index}
+                        Place={place}
+                      />
+                    )
+                  )
+                )}
+              </Grid>
+            )}
+          </div>
+        </div>
       </div>
     );
   }
 }
-export default withStyles(useStyles)(Place);
+export default Place;

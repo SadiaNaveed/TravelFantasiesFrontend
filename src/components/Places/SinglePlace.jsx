@@ -9,22 +9,17 @@ const useStyles = makeStyles((theme) => ({
     color: "#339ba5",
     paddingRight: "2rem",
     fontFamily: "Times New Roman",
-    //   fontDisplay: "swap",
     fontStyle: "italic",
     fontSize: 24,
     fontWeight: 700,
   },
 }));
-// const handleClick = () => {
-//   <HotelBooking/>
-// }
 class SinglePlace extends Component {
   constructor(props) {
     super(props);
     this.state = {
       showComponent: "false",
     };
-    //  this.onButtonClick = this.onButtonClick.bind(this);
   }
   arrayBufferToBase64(buffer) {
     var binary = "";
@@ -57,7 +52,7 @@ class SinglePlace extends Component {
         border="1px solid"
         borderColor="#C0C0C0"
       >
-        {this.props.Place.Image ? (
+        {/* {this.props.Place.Image ? (
           ((this.props.Place.Image =
             "data:image/jpeg;base64," +
             this.arrayBufferToBase64(this.props.Place.Image.data.data)),
@@ -77,7 +72,14 @@ class SinglePlace extends Component {
           ))
         ) : (
           <p>No Image</p>
-        )}
+        )} */}
+        <img
+          src={
+            "data:image/jpeg;base64," +
+            this.arrayBufferToBase64(this.props.Place.Image.data.data)
+          }
+          style={{ width: "230", height: "250" }}
+        />
         <Typography variant="h5">{this.props.Place.place_name}</Typography>
         <Typography variant="h6">City {this.props.Place.City}</Typography>
         <Button
