@@ -41,24 +41,30 @@ const useStyles = makeStyles((theme) => ({
 class addPackages extends Component {
   constructor(props) {
     super(props);
+    console.log("----packages---");
     this.state = {
-      PackageName: " ",
-      Cost: 0,
+      PackageName: "",
+      PlaceName: "",
+      Cost: "",
+      Discount: "",
       Description: "",
+      Detail: "",
       Meal: "",
       Hotel: "",
-      no_of_days: 0,
-      AllowedPersons: 0,
+      no_of_days: "",
+      AllowedPersons: "",
       Location: " ",
-      Facilities: " ",
-      Status: "Yes",
+      Status: true,
       selectedFile: [],
       ImageName: " ",
     };
     this.onDrop = this.onDrop.bind(this);
     this.handlePackageNameChange = this.handlePackageNameChange.bind(this);
+    this.handlePlaceNameChange = this.handlePlaceNameChange.bind(this);
     this.handleCostChange = this.handleCostChange.bind(this);
+    this.handleDiscountChange = this.handleDiscountChange.bind(this);
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
+    this.handleDetailChange = this.handleDetailChange.bind(this);
     this.handleMealChange = this.handleMealChange.bind(this);
     this.handleHotelChange = this.handleHotelChange.bind(this);
     this.handleno_of_daysChange = this.handleno_of_daysChange.bind(this);
@@ -66,7 +72,6 @@ class addPackages extends Component {
       this
     );
     this.handleLocationChange = this.handleLocationChange.bind(this);
-    this.handleFacilitiesChange = this.handleFacilitiesChange.bind(this);
     this.handleStatusChange = this.handleStatusChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     //this.change = this.change.bind(this);
@@ -76,12 +81,21 @@ class addPackages extends Component {
   handlePackageNameChange(event) {
     this.setState({ PackageName: event.target.value });
   }
+  handlePlaceNameChange(event) {
+    this.setState({ PlaceName: event.target.value });
+  }
   handleCostChange(event) {
     this.setState({ Cost: event.target.value });
+  }
+  handleDiscountChange(event) {
+    this.setState({ Discount: event.target.value });
   }
 
   handleDescriptionChange(event) {
     this.setState({ Description: event.target.value });
+  }
+  handleDetailChange(event) {
+    this.setState({ Detail: event.target.value });
   }
   handleMealChange(event) {
     this.setState({ Meal: event.target.value });
@@ -98,9 +112,7 @@ class addPackages extends Component {
   handleLocationChange(event) {
     this.setState({ Location: event.target.value });
   }
-  handleFacilitiesChange(event) {
-    this.setState({ Facilities: event.target.value });
-  }
+
   handleStatusChange(event) {
     this.setState({ Status: event.target.value });
   }
@@ -112,33 +124,66 @@ class addPackages extends Component {
   }
 
   handleSubmit(event) {
+    const {
+      PackageName,
+      PlaceName,
+      Cost,
+      Description,
+      Detail,
+      Meal,
+      Hotel,
+      no_of_days,
+      Location,
+      Status,
+      AllowedPersons,
+      Discount,
+      selectedFile,
+    } = this.state;
     event.preventDefault();
-    const formData = new FormData();
-    formData.append("PackageName", this.state.HotelName);
-    formData.append("Cost", this.state.Cost);
-    formData.append("Description", this.state.Description);
-    formData.append("Meal", this.state.Meal);
-    formData.append("Hotel", this.state.Hotel);
-    formData.append("no_of_days", this.state.no_of_days);
-    formData.append("AllowedPerson", this.state.AllowedPerson);
-    formData.append("Location", this.state.Location);
-    formData.append("Facilities", this.state.Facilities);
-    formData.append("Status", this.state.Status);
+    var form = document.getElementById("form");
+    var formData = new FormData(form);
+    if (
+      Hotel === "" ||
+      Detail === "" ||
+      Cost === "" ||
+      Description === "" ||
+      Meal === "" ||
+      no_of_days === "" ||
+      PackageName === "" ||
+      PlaceName === "" ||
+      Location === "" ||
+      AllowedPersons === "" ||
+      Discount === "" ||
+      Status === "" ||
+      selectedFile.length === 0
+    ) {
+      alert("Required to fill all fields");
+    } else {
+      formData.append("PackageName", this.state.PackageName);
+      formData.append("PlaceName", this.state.PlaceName);
+      formData.append("Cost", this.state.Cost);
+      formData.append("Discount", this.state.Discount);
+      formData.append("Description", this.state.Description);
+      formData.append("Detail", this.state.Detail);
+      formData.append("Meal", this.state.Meal);
+      formData.append("Hotel", this.state.Hotel);
+      formData.append("no_of_days", this.state.no_of_days);
+      formData.append("AllowedPerson", this.state.AllowedPerson);
+      formData.append("Location", this.state.Location);
+      formData.append("Status", this.state.Status);
 
-    for (var x = 0; x < this.state.selectedFile.length; x++) {
-      formData.append("file", this.state.selectedFile[x]);
+      for (var x = 0; x < this.state.selectedFile.length; x++) {
+        formData.append("photos", this.state.selectedFile[x]);
+      }
+      packagesService
+        .addPackages(formData)
+        .then((response) => {
+          alert("Successfully created!");
+        })
+        .catch((error) => {
+          console.log("----ERRORR---", error);
+        });
     }
-    console.log(this.state);
-    console.log(formData);
-    const data = this.state;
-    packagesService
-      .addPackages(formData)
-      .then((response) => {
-        alert(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
   }
   // onMarkerDragEnd = (event) => {
   // this.setState({ lat: event.latLng.lat() });
@@ -153,8 +198,9 @@ class addPackages extends Component {
     return (
       <div style={{ marginTop: 50 }}>
         <form
+          id="form"
           onSubmit={this.handleSubmit}
-          enctype="multipart/form-data"
+          encType="multipart/form-data"
           style={{
             marginBottom: "50px",
             paddingLeft: "300px",
@@ -199,14 +245,25 @@ class addPackages extends Component {
                           <MenuItem value="">
                             <em>Select</em>
                           </MenuItem>
-                          <MenuItem value={"Yes"}>Yes</MenuItem>
-                          <MenuItem value={"No"}>No</MenuItem>
+                          <MenuItem value={true}>Yes</MenuItem>
+                          <MenuItem value={false}>No</MenuItem>
                         </Select>
                       </FormGroup>
                     </Col>
                   </Row>
 
                   <Row form>
+                    <Col md={6} sm={12} lg={4}>
+                      <FormGroup>
+                        <Label for="Place Name">Place Name</Label>
+                        <Input
+                          type="name"
+                          placeholder="Enter Place Name"
+                          value={this.state.PlaceName}
+                          onChange={this.handlePlaceNameChange}
+                        />
+                      </FormGroup>
+                    </Col>
                     <Col md={6} sm={12} lg={4}>
                       <FormGroup>
                         <Label for="location">Location</Label>
@@ -219,17 +276,6 @@ class addPackages extends Component {
                       </FormGroup>
                     </Col>
 
-                    <Col md={6} sm={12} lg={4}>
-                      <FormGroup>
-                        <Label for="Meal">Meal</Label>
-                        <Input
-                          type="meal"
-                          placeholder="Meal"
-                          value={this.state.Meal}
-                          onChange={this.handleMealChange}
-                        />
-                      </FormGroup>
-                    </Col>
                     <Col md={6} sm={12} lg={4}>
                       <FormGroup>
                         <Label for="hotel">Hotel</Label>
@@ -257,6 +303,17 @@ class addPackages extends Component {
                     </Col>
                     <Col md={6} sm={12} lg={4}>
                       <FormGroup>
+                        <Label for="Discount">Discount</Label>
+                        <Input
+                          type="Number"
+                          placeholder="Enter Your Budget Here"
+                          value={this.state.Discount}
+                          onChange={this.handleDiscountChange}
+                        />
+                      </FormGroup>
+                    </Col>
+                    <Col md={6} sm={12} lg={4}>
+                      <FormGroup>
                         <Label for="Days">Days</Label>
                         <Input
                           type="Number"
@@ -277,6 +334,17 @@ class addPackages extends Component {
                         />
                       </FormGroup>
                     </Col>
+                    <Col md={6} sm={12} lg={4}>
+                      <FormGroup>
+                        <Label for="Meal">Meal</Label>
+                        <Input
+                          type="meal"
+                          placeholder="Meal"
+                          value={this.state.Meal}
+                          onChange={this.handleMealChange}
+                        />
+                      </FormGroup>
+                    </Col>
                   </Row>
 
                   <FormGroup>
@@ -287,6 +355,16 @@ class addPackages extends Component {
                       placeholder="Enter Detail"
                       value={this.state.Description}
                       onChange={this.handleDescriptionChange}
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <Label for="Detail">Detail</Label>
+                    <Input
+                      type="text"
+                      name="Detail"
+                      placeholder="Enter Detail"
+                      value={this.state.Detail}
+                      onChange={this.handleDetailChange}
                     />
                   </FormGroup>
                   <Label for="Images">Images</Label>
