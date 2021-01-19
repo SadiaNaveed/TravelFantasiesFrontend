@@ -6,10 +6,26 @@ import {
   Select,
   TextField,
 } from "@material-ui/core";
-import Grid from "@material-ui/core/Grid";
+import {
+  Col,
+  Row,
+  Button,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Card,
+  CardTitle,
+  CardText,
+  CardHeader,
+  FormFeedback,
+  CardBody,
+} from "reactstrap";
 import React, { Component } from "react";
 import BlogService from "../../../services/BlogService";
 import blogCategoryService from "../../../services/BlogCategoryService";
+import { toast } from "react-toastify";
+import Joi from "joi-browser";
 
 const useStyles = makeStyles((theme) => ({
   name: {
@@ -29,6 +45,31 @@ class AddBlogCategory extends Component {
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+  schema = {
+    Description: Joi.string().required(),
+    SelectedCategory: Joi.string().required(),
+  };
+  validate = (
+    Description,
+    SelectedCategory
+  ) => {
+    const data = {
+     Description,
+     SelectedCategory,
+    };
+    const options = { abortEarly: false };
+    const { error } = Joi.validate(data, this.schema, options);
+    console.log(error);
+    if (!error) return true;
+    const errors = {};
+    for (let item of error.details) {
+      errors[item.path[0]] = item.message;
+      toast.error(errors[item.path[0]], {
+        position: toast.POSITION.TOP_LEFT,
+      });
+    }
+    return false;
+  };
   handleCategoryNameChange(event) {
     this.setState({ CategoryName: event.target.value });
   }
@@ -38,6 +79,13 @@ class AddBlogCategory extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    if (
+      this.validate(
+        this.state.Description,
+        this.state.SelectedCategory
+      )
+    )
+      {
     const formData = new FormData();
     formData.append("CategoryName", this.state.CategoryName);
     formData.append("Description", this.state.Description);
@@ -55,88 +103,63 @@ class AddBlogCategory extends Component {
         console.log(error);
       });
   }
+}
 
   render() {
     return (
-      <div
-        style={{
-          marginTop: "100px",
-          marginLeft: "300px",
-          marginBottom: "100px",
-        }}
-      >
-        <h1 style={{ position: "relative", marginLeft: "200px", fontSize: 50 }}>
-          Add Blog Category
-        </h1>
-        <form
-          onSubmit={this.handleSubmit}
-          enctype="multipart/form-data"
-          style={{
-            marginBottom: "30px",
-            paddingLeft: "30px",
-            paddingRight: "300px",
-            borderColor: "black",
-            borderRadius: "30px",
-            borderStyle: "bold",
-          }}
-        >
-          <Grid container>
-            <Grid item xs={6}>
-              <div class="row">
-                <div class="col-sm">
-                  <label>
-                    <h3>Blog Category Name:</h3>
-                  </label>
-                </div>
-                <div class="col-sm">
-                  <TextField
-                    id="outlined-basic"
-                    variant="outlined"
-                    name="CategoryName"
-                    fullWidth
-                    value={this.state.CategoryName}
-                    onChange={this.handleCategoryNameChange}
-                  />
-                </div>
-              </div>
-            </Grid>
-            <Grid item xs={8}></Grid>
-            <Grid item xs={6}>
-              <div class="row">
-                <div class="col-sm">
-                  <label>
-                    <h3>Blog Description:</h3>
-                  </label>
-                </div>
-                <div class="col-sm">
-                  <TextField
-                    id="outlined-basic"
-                    variant="outlined"
-                    name="Description"
-                    fullWidth
-                    multiline
-                    rowsMax="5"
-                    value={this.state.Description}
-                    onChange={this.handleDescriptionChange}
-                  />
-                </div>
-              </div>
-            </Grid>
-          </Grid>
-          <button
-            variant="contained"
-            style={{
-              color: "blue",
-              position: "absolute",
-              left: "50%",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            {" "}
-            Add Blog Category{" "}
-          </button>
-        </form>
+      <div style={{ marginTop: "100px", marginLeft: "240px" }}>
+        <Col sm="12">
+          <Card>
+            <CardHeader>Please Fill Out The Form to Add Blog Category</CardHeader>
+            <CardBody>
+              <Form>
+                <CardTitle tag="h3">Details About Blog Categories</CardTitle>
+                <Row form>
+                  <Col md={6} sm={12} lg={6}>
+                    <FormGroup>
+                      <Label for="Place">Blog Category Name</Label>
+                      <Input
+                        type="text"
+                        name="CategoryName"
+                        id="exampleDate"
+                        placeholder="Blog Category Name"
+                        value={this.state.CategoryName}
+                        onChange={this.handleCategoryNameChange}
+                      />
+                    </FormGroup>
+                  </Col>
+                </Row>
+                <Row form>
+                  <Col md={6} sm={12} lg={6}>
+                    <FormGroup>
+                      <Label for="Place">Description</Label>
+                      <Input
+                        type="text"
+                        name="Description"
+                        id="exampleDate"
+                        placeholder="Description"
+                        value={this.state.Description}
+                        onChange={this.handleDescriptionChange}
+                      />
+                    </FormGroup>
+                  </Col>
+                </Row>
+                <Button
+                  style={{
+                    marginTop: 30,
+                    alignSelf: "center",
+                    textAlign: "center",
+                    justifyContent: "center",
+                  }}
+                  type="submit"
+                  onClick={this.handleSubmit}
+                >
+                  Add Blog Category
+                </Button>
+              </Form>
+            </CardBody>
+          </Card>
+        </Col>
       </div>
     );
   }

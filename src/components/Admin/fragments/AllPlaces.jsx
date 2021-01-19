@@ -66,6 +66,7 @@ class AllPlaces extends Component {
     };
     this.onViewButtonClick = this.onViewButtonClick.bind(this);
     this.onDeleteButtonClick = this.onDeleteButtonClick.bind(this);
+    this.onUpdateButtonClick = this.onUpdateButtonClick.bind(this);
   }
   arrayBufferToBase64(buffer) {
     var binary = "";
@@ -94,6 +95,12 @@ class AllPlaces extends Component {
       search: "?place=" + id,
     });
   };
+    onUpdateButtonClick = (id) => {
+      this.props.history.push({
+        pathname: "/UpdatePlace",
+        search: "?place=" + id,
+      });
+    };
   onDeleteButtonClick = (id) => {
     placeService
       .deletePlace(id)
@@ -109,63 +116,84 @@ class AllPlaces extends Component {
     return (
       <div style={{ marginLeft: "250px", marginTop: "120px" }}>
         <h1 align="center">All Places</h1>
-        {this.state.places.length == 0 ? (
-          <p>There are no places</p>
-        ) : (
-          <Grid container spacing={0}>
-            {/* //  <SingleHotel key={index} hotel={hotel} /> */}
-            <TableContainer
-              component={Paper}
-              style={{ marginBottom: "10px", marginTop: "40px" }}
-            >
-              <Table className={classes.table} aria-label="customized table">
-                <TableHead>
-                  <TableRow>
-                    <StyledTableCell align="center">Place Name</StyledTableCell>
-                    <StyledTableCell align="center">City</StyledTableCell>
-                    <StyledTableCell align="center">
-                      Description
-                    </StyledTableCell>
-                    <StyledTableCell align="center">Actions</StyledTableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {this.state.places.map((place, index) => (
-                    <StyledTableRow key={place._id}>
-                      <StyledTableCell align="center">
-                        {place.place_name}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {place.City}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {place.Description}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        <Button
-                          onClick={() => this.onViewButtonClick(place._id)}
-                        >
-                          <Visibility />
-                        </Button>
-                        <Button>
-                          <Edit />{" "}
-                        </Button>
-                        <Button
-                          onClick={() => this.onDeleteButtonClick(place._id)}
-                        >
-                          <Delete />{" "}
-                        </Button>
-                      </StyledTableCell>
-                    </StyledTableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Grid>
-        )}
+        <div class="card">
+          <header class="card-header">
+            <small class="text-muted">All Places</small>
+          </header>
+          <div class="card-body">
+            <div></div>
+
+            <div class="position-relative table-responsive">
+              <table class="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th
+                      class="font-weight-bold"
+                      style={{ verticalAlign: "middle", overflow: "hidden" }}
+                    >
+                      <div class="d-inline">Place Name</div>
+                    </th>
+                    <th
+                      class=""
+                      style={{ verticalAlign: "middle", overflow: "hidden" }}
+                    >
+                      <div class="d-inline">City</div>
+                    </th>
+                    <th
+                      class=""
+                      style={{ verticalAlign: "middle", overflow: "hidden" }}
+                    >
+                      <div class="d-inline">Description</div>
+                    </th>
+                    <th
+                      class=""
+                      style={{ verticalAlign: "middle", overflow: "hidden" }}
+                    >
+                      <div class="d-inline">Action</div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody style={{ cursor: "pointer" }}>
+                  {this.state.places.map(
+                    (place, index) => (
+                      (place.Image =
+                        "data:image/jpeg;base64," +
+                        this.arrayBufferToBase64(place.Image.data.data)),
+                      (
+                        <tr class="" tabIndex="0">
+                          <td class="font-weight-bold">{place.place_name}</td>
+                          <td class="">{place.City}</td>
+                          <td class="">{place.Description}</td>
+                          <td>
+                            <Button
+                              onClick={() => this.onViewButtonClick(place._id)}
+                            >
+                              <Visibility />
+                            </Button>
+                            <Button
+                            onClick={() => this.onUpdateButtonClick(place._id)}>
+                              <Edit />
+                            </Button>
+                            <Button
+                              onClick={() =>
+                                this.onDeleteButtonClick(place._id)
+                              }
+                            >
+                              <Delete />{" "}
+                            </Button>
+                          </td>
+                        </tr>
+                      )
+                    )
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
 }
-// export default withStyles(useStyles)(HomeFragment)
+
 export default withRouter(AllPlaces);

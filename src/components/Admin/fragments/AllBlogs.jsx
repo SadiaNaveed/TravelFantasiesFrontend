@@ -58,6 +58,7 @@ class AllBlogs extends Component {
     };
     this.onViewButtonClick = this.onViewButtonClick.bind(this);
     this.onDeleteButtonClick = this.onDeleteButtonClick.bind(this);
+    this.onUpdateButtonClick = this.onUpdateButtonClick.bind(this);
   }
   arrayBufferToBase64(buffer) {
     var binary = "";
@@ -82,7 +83,8 @@ class AllBlogs extends Component {
     });
   };
   onDeleteButtonClick = (id) => {
-    BlogService.deleteBlog(id)
+    BlogService
+    .deleteBlog(id)
       .then((response) => {
         alert(response);
       })
@@ -90,65 +92,85 @@ class AllBlogs extends Component {
         console.log(err);
       });
   };
+  onUpdateButtonClick = (id) => {
+    this.props.history.push({
+      pathname: "/UpdateBlog",
+      search: "?Blog=" + id,
+    });
+  };
 
   render() {
     return (
       <div style={{ marginLeft: "250px", marginTop: "120px" }}>
-        <h1>All Blogs !</h1>
-        {this.state.Blogs.length == 0 ? (
-          <p>There are no Blogs</p>
-        ) : (
-          <Grid container spacing={0}>
-            <TableContainer
-              component={Paper}
-              style={{ marginBottom: "10px", marginTop: "40px" }}
-            >
-              <Table className={classes.table} aria-label="customized table">
-                <TableHead>
-                  <TableRow>
-                    <StyledTableCell>Blog Title</StyledTableCell>
-                    <StyledTableCell align="center">Category</StyledTableCell>
-                    <StyledTableCell align="center">Action</StyledTableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
+        <h1>All Blogs</h1>
+        <div class="card">
+          <header class="card-header">
+            All Blogs<small class="text-muted"></small>
+          </header>
+          <div class="card-body">
+            <div></div>
+
+            <div class="position-relative table-responsive">
+              <table class="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th
+                      class="font-weight-bold"
+                      style={{ verticalAlign: "middle", overflow: "hidden" }}
+                    >
+                      <div class="d-inline">Title</div>
+                    </th>
+                    <th
+                      class=""
+                      style={{ verticalAlign: "middle", overflow: "hidden" }}
+                    >
+                      <div class="d-inline">Category</div>
+                    </th>
+                    <th
+                      class=""
+                      style={{ verticalAlign: "middle", overflow: "hidden" }}
+                    >
+                      <div class="d-inline">Action</div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody style={{ cursor: "pointer" }}>
                   {this.state.Blogs.map(
-                    (Blog, index) => (
-                      (Blog.Image =
+                    (Blogs, index) => (
+                      (Blogs.Image =
                         "data:image/jpeg;base64," +
-                        this.arrayBufferToBase64(Blog.Image.data.data)),
+                        this.arrayBufferToBase64(Blogs.Image.data.data)),
                       (
-                        <StyledTableRow key={Blog._id}>
-                          <StyledTableCell component="th" scope="row">
-                            {Blog.Title}
-                          </StyledTableCell>
-                          <StyledTableCell align="center">
-                            {Blog.Category}
-                          </StyledTableCell>
-                          <StyledTableCell align="center">
+                        <tr class="" tabIndex="0">
+                          <td class="font-weight-bold">{Blogs.Title}</td>
+                          <td class="">{Blogs.Category}</td>
+                          <td>
                             <Button
-                              onClick={() => this.onViewButtonClick(Blog._id)}
+                              onClick={() => this.onViewButtonClick(Blogs._id)}
                             >
                               <Visibility />
                             </Button>
-                            <Button>
-                              <Edit />{" "}
+                            <Button
+                            onClick={() => this.onUpdateButtonClick(Blogs._id)}>
+                              <Edit />
                             </Button>
                             <Button
-                              onClick={() => this.onDeleteButtonClick(Blog._id)}
+                              onClick={() =>
+                                this.onDeleteButtonClick(Blogs._id)
+                              }
                             >
                               <Delete />{" "}
                             </Button>
-                          </StyledTableCell>
-                        </StyledTableRow>
+                          </td>
+                        </tr>
                       )
                     )
                   )}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Grid>
-        )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
