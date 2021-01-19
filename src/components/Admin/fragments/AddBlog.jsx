@@ -7,11 +7,29 @@ import {
   Select,
   TextField,
 } from "@material-ui/core";
+import {
+  Col,
+  Row,
+  Button,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Card,
+  CardTitle,
+  CardText,
+  CardHeader,
+  FormFeedback,
+  CardBody,
+} from "reactstrap";
 import Grid from "@material-ui/core/Grid";
 import React, { Component } from "react";
 import AppBarComponenet from "./AppBar";
 import BlogService from "../../../services/BlogService";
 import BlogCategoryService from "../../../services/BlogCategoryService";
+import { toast } from "react-toastify";
+import Joi from "joi-browser";
+
 
 const useStyles = makeStyles((theme) => ({
   name: {
@@ -37,6 +55,35 @@ class AddBlog extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.change = this.change.bind(this);
   }
+  schema = {
+    Title: Joi.string().required(),
+    Description: Joi.string().required(),
+    SelectedCategory: Joi.string().required(),
+  };
+  validate = (
+    Title,
+    Description,
+    SelectedCategory
+  ) => {
+    const data = {
+      Title,
+      Description,
+      SelectedCategory,
+    };
+    const options = { abortEarly: false };
+    const { error } = Joi.validate(data, this.schema, options);
+    console.log(error);
+    if (!error) return true;
+    const errors = {};
+    for (let item of error.details) {
+      errors[item.path[0]] = item.message;
+      toast.error(errors[item.path[0]], {
+        position: toast.POSITION.TOP_LEFT,
+      });
+    }
+    return false;
+  };
+
   componentDidMount() {
     BlogCategoryService.getBlogCategory(this.props.page, this.props.perPage)
       .then((data) => {
@@ -67,6 +114,14 @@ class AddBlog extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    if (
+      this.validate(
+        this.state.Title,
+        this.state.Description,
+        this.state.SelectedCategory
+      )
+    )
+      {
     const formData = new FormData();
      formData.append("Title", this.state.Title);
      formData.append("Description", this.state.Description);
@@ -89,122 +144,94 @@ class AddBlog extends Component {
         console.log(error);
       });
   }
+}
 
   render() {
     return (
-      <div style={{ marginTop: "10px", marginLeft: "200px" }}>
+      <div style={{ marginTop: "100px", marginLeft: "240px" }}>
+        <Col sm="12">
+          <Card>
+            <CardHeader>Please Fill Out The Form to Add Blog</CardHeader>
+            <CardBody>
+              <Form>
+                <CardTitle tag="h3">Details About Blog</CardTitle>
+
+                <Row form>
+                  <Col md={6} sm={12} lg={6}>
+                    <FormGroup>
+                      <Label for="Blog">Select Blog Category</Label>
+
+                      <Select
+                        labelId="demo-simple-select-outlined-label"
+                        id="demo-simple-select-outlined"
+                        value={this.state.SelectedCategory}
+                        onChange={this.change}
+                        fullWidth
+                      >
+                        {this.state.Categories.map((Category, index) => (
+                          <MenuItem value={Category._id}>
+                            {Category.CategoryName}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormGroup>
+                  </Col>
+
+                  <Col md={6} sm={12} lg={6}>
+                    <FormGroup>
+                      <Label for="title">Title</Label>
+                      <Input
+                        type="text"
+                        name="Title"
+                        id="title"
+                        placeholder="Enter Blog Title"
+                        value={this.state.Title}
+                        onChange={this.handleTitleChange}
+                      />
+                    </FormGroup>
+                  </Col>
+                </Row>
+
+                <Row form>
+                  <Col md={6} sm={12} lg={6}>
+                    <FormGroup>
+                      <Label for="desc">Description</Label>
+                      <Input
+                        type="text"
+                        name="Description"
+                        id="desc"
+                        placeholder="Enter Description"
+                        value={this.state.Location}
+                        onChange={this.handleDescriptionChange}
+                      />
+                    </FormGroup>
+                  </Col>
+                </Row>
+                <Row form>
+                  <Col md={6} sm={12} lg={4}>
+                    <FormGroup>
+                      <Label for="exampleDate">Add Image</Label>
+                      <Input type="file" name="file" onChange={this.onDrop} />
+                    </FormGroup>
+                  </Col>
+                </Row>
+                <Button
+                  style={{
+                    marginTop: 30,
+                    alignSelf: "center",
+                    textAlign: "center",
+                    justifyContent: "center",
+                  }}
+                  type="submit"
+                  onClick={this.handleSubmit}
+                >
+                  Add Blog
+                </Button>
+              </Form>
+            </CardBody>
+          </Card>
+        </Col>
         <CssBaseline />
-        <AppBarComponenet />
-        <h1 style={{ position: "relative", textAlign: "center", fontSize: 50 }}>
-          Add New Blog
-        </h1>
-
-        <form
-          onSubmit={this.handleSubmit}
-          encType="multipart/form-data"
-          style={{
-            marginTop: "70px",
-            marginBottom: "30px",
-            paddingLeft: "30px",
-            paddingRight: "300px",
-            borderColor: "black",
-            borderRadius: "30px",
-            borderStyle: "bold",
-          }}
-        >
-          <Grid container spacing={4}>
-            <Grid item xs={1}></Grid>
-            <Grid item xs={5}>
-              <h3>Select Blog Category</h3>
-              <select
-                onChange={this.change}
-                value={this.state.SelectedCategory}
-              >
-                {this.state.Categories.map((Category, index) => (
-                  <option key={Category._id} value={Category._id}>
-                    {" "}
-                    {Category.Name}{" "}
-                  </option>
-                ))}
-              </select>
-            </Grid>
-            <Grid item xs={1}></Grid>
-            <Grid item xs={5}>
-              <div class="row">
-                <div class="col-sm">
-                  <label>
-                    <h3>Blog Title</h3>
-                  </label>
-                </div>
-                <div class="col-sm">
-                  <TextField
-                    id="outlined-basic"
-                    variant="outlined"
-                    name="Title"
-                    fullWidth
-                    value={this.state.Title}
-                    onChange={this.handleTitleChange}
-                  />
-                </div>
-              </div>
-            </Grid>
-            <Grid item xs={1}></Grid>
-
-            <Grid item xs={5}>
-              <div class="row">
-                <div class="col-sm">
-                  <label>
-                    <h3>Description</h3>
-                  </label>
-                </div>
-                <div class="col-sm">
-                  <TextField
-                    id="outlined-basic"
-                    variant="outlined"
-                    fullWidth
-                    name="Description"
-                    value={this.state.Description}
-                    onChange={this.handleDescriptionChange}
-                  />
-                </div>
-              </div>
-            </Grid>
-
-            <Grid item xs={1}></Grid>
-          <Grid item xs={5}>
-              <div class="row">
-                <div class="col-sm">
-                  <label>
-                    <h3> Media:</h3>
-                  </label>
-                </div>
-                <div class="col-sm">
-                  <input
-                    type="file"
-                    name="file"
-                    multiple
-                    onChange={this.onDrop}
-                  />
-                </div>
-              </div>
-            </Grid>
-            <Grid item xs={1}></Grid>
-          </Grid>
-          <button
-            variant="contained"
-            style={{
-              backgroudColor: "green",
-              color: "black",
-              position: "absolute",
-              left: "50%",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            {" "}
-            Add new Blog{" "}
-          </button>
-        </form>
       </div>
     );
   }

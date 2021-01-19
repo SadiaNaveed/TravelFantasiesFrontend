@@ -12,7 +12,7 @@ import { grey } from "@material-ui/core/colors";
 import { Link } from "react-router-dom";
 import queryString from "query-string";
 // import { Comment, Icon } from 'semantic-ui-react'
-import blogService from "../../../services/BlogService";
+import BlogService from "../../../services/BlogService";
 import AppBarComponenet from "./AppBar";
 
 const useStyles = makeStyles((theme) => ({
@@ -50,11 +50,11 @@ class BlogView extends Component {
     console.log(BlogSearch);
     BlogService.getSingleBlog(BlogSearch)
       .then((data) => {
-        this.setState({ Blog: data });
+        this.setState({ Blogs: data });
         this.setState({
           Image:
             "data:image/jpeg;base64," +
-            this.arrayBufferToBase64(this.state.Blog.Image.data.data),
+            this.arrayBufferToBase64(this.state.Blogs.Image.data.data),
         });
       })
       .catch((err) => {
@@ -89,13 +89,13 @@ class BlogView extends Component {
             variant="h4"
             style={{ marginLeft: "20px", color: "#339ba5", fontStyle: "bold" }}
           >
-            {this.state.Blog.Title}
+            {this.state.Blogs.Title}
           </Typography>
           <h2 style={{ marginTop: "100px", color: "#339ba5" }}>
-            Description {this.state.Blog.Title}
+            Description
           </h2>
           <Typography variant="h6" style={{ marginRight: "800px" }}>
-            {this.state.Blog.Description}
+            {this.state.Blogs.Description}
           </Typography>
         </div>
       </div>

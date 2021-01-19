@@ -60,8 +60,6 @@ class AllBlogCategory extends Component {
         .then((data) => {
           this.setState({ Blogs: data });
 
-          // setTotal(data.total);
-          // setPerPage(10);
         })
         .catch((err) => {
           console.log(err);
@@ -69,50 +67,81 @@ class AllBlogCategory extends Component {
 }
      
     render() {
-      // const classes = useStyles;
 
         return (
-            <div style={{marginLeft:"250px", marginTop:"120px"}}>
-                <h1>
-                    All Blogs
-                </h1>
-                {this.state.Blogs.length == 0 ? (
-          <p>There are no Blogs</p>
-        ) : (
-            <Grid container spacing={0}>
-              
-                {/* //  <SingleBlog key={index} Blog={Blog} /> */}
-                   <TableContainer component={Paper} style={{marginBottom:"10px", marginTop: "40px"}}>
-      <Table className={classes.table} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell> Category </StyledTableCell>
-           <StyledTableCell align="center">Action</StyledTableCell>
-          </TableRow>
-        </TableHead>
-                      <TableBody>
-                        {this.state.Blogs.map((Blog, index) => (
-         
-            <StyledTableRow key={Blog._id}>
-              <StyledTableCell component="th" scope="row">
-                {Blog.CategoryName}
-              </StyledTableCell>
-                            <StyledTableCell align="center">
-                              <Button><Visibility /></Button>
-                              <Button><Edit /> </Button>
-                              <Button><Delete /> </Button>
-                            </StyledTableCell>  
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-        </TableContainer>
-            </Grid>
-          )}     
+          <div style={{ marginLeft: "250px", marginTop: "120px" }}>
+          <h1>Blog Categories</h1>
+          {this.state.Blogs.length == 0 ? (
+            <p>Loading...</p>
+          ) : (
+            <div class="card">
+              <header class="card-header">
+              <small class="text-muted">All Categories</small>
+              </header>
+              <div class="card-body">
+                <div></div>
+                <div class="position-relative table-responsive">
+                  <table class="table table-striped table-hover">
+                    <thead>
+                      <tr>
+                        <th
+                          class="font-weight-bold"
+                          style={{
+                            verticalAlign: "middle",
+                            overflow: "hidden",
+                          }}
+                        >
+                          <div class="d-inline">Category</div>
+                        </th>
+  
+                        <th
+                          class=""
+                          style={{
+                            verticalAlign: "middle",
+                            overflow: "hidden",
+                          }}
+                        >
+                          <div class="d-inline"> Action</div>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody style={{ cursor: "pointer" }}>
+                      {this.state.Blogs.map((Blog, index) => (
+                        <tr class="" tabIndex="0">
+                          <td class="">{Blog.CategoryName}</td>
+  
+                          <td
+                            class=""
+                            style={{
+                              verticalAlign: "middle",
+                              overflow: "hidden",
+                            }}
+                          >
+                            <Button
+                              onClick={() => this.onViewButtonClick(Blog._id)}
+                            >
+                              <Visibility />
+                            </Button>
+                            <Button>
+                              <Edit />{" "}
+                            </Button>
+                            <Button
+                              onClick={() => this.onDeleteButtonClick(Blog._id)}
+                            >
+                              <Delete />{" "}
+                            </Button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
+          )}
+        </div>
         );    
     }
    
 }
-// export default withStyles(useStyles)(HomeFragment)
 export default withStyles(classes)(AllBlogCategory);
