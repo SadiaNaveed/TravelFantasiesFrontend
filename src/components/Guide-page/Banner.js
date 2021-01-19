@@ -50,7 +50,7 @@ function Banner() {
           easeType="cubic-bezier(0.445, 0.05, 0.55, 0.95)"
           // onComplete={onCompleteCallBack} // call back function when animation is completed
         >
-          <Link to={"/Become_a_host"} style={{ textDecoration: "none" }}>
+          <Link to={"/BecomeGuide"} style={{ textDecoration: "none" }}>
             <Col col="3" md="12">
               <Button style={{ marginTop: 50 }} outline color="info">
                 Become a Guide
