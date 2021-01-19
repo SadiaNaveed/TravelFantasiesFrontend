@@ -7,8 +7,8 @@ import { Animate } from "react-simple-animate";
 
 function Banner() {
   return (
-    <header id="showcase">
-      <div class="showcase-content">
+    <header id="showcase1">
+      <div class="showcase-content1">
         <Animate
           play={true} // set play true to start the animation
           duration={1} // how long is the animation duration
@@ -20,7 +20,7 @@ function Banner() {
           // onComplete={onCompleteCallBack} // call back function when animation is completed
         >
           <h1 style={{ fontSize: "75px" }} class="l-heading">
-            <span style={{ color: "#2E6E7B", fontFamily: "revert" }}>
+            <span style={{ color: "#56DDF8", fontFamily: "revert" }}>
               Travel{" "}
             </span>
             <span style={{ color: "#56DDF8", fontFamily: "revert" }}>
