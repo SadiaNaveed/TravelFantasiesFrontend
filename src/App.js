@@ -40,7 +40,14 @@ import Become_a_host from "./components/Host/Become_a_host";
 // import Become_a_host from "./components/Host/Become_a_host";
 import BookTour from "./components/Bookings/BookTour";
 import Packages from "./components/Packages/Packages";
+<<<<<<< HEAD
 import TourDetailPage from "./components/Tour/TourDetailPage";
+=======
+import BookPackages from "./components/Packages/BookPackages";
+import PackagesDetailPage from "./components/Packages/PackagesDetailPage";
+import TourDetail from "./components/Tour/TourDetail";
+//import TourDetailPage from "./components/Tour/TourDetailPage";
+>>>>>>> 3c4ae1a618efd176eb3cbf59e631e4170ccfa807
 import Guide from "./components/Guide-page/Guide";
 import Signup from "./components/auth/signupComponent";
 import Login from "./components/auth/loginComponent";
@@ -108,8 +115,16 @@ function App() {
           />
 
           <Route path="/book-tour" component={BookTour} />
+<<<<<<< HEAD
           <Route path="/travel-packages" component={Packages} />
           <Route path="/TourDetailPage" component={TourDetailPage} />
+=======
+             <Route path="/TourDetail" component={TourDetail} />
+          <Route path="/travel-packages" component={()=><Packages setcurrentPackage={setcurrentPackage}/>} />
+          <Route path="/book-packages" component={()=><BookPackages currentPackage={currentPackage}/>}/>
+          <Route path="/PackagesDetailPage" component={()=><PackagesDetailPage currentPackage={currentPackage}/>}/>
+          //<Route path="/TourDetailPage" component={TourDetailPage} />
+>>>>>>> 3c4ae1a618efd176eb3cbf59e631e4170ccfa807
           <Route path="/Guide" component={Guide} />
           <Route path="/sign-up" component={Signup} />
           <Route path="/login" component={Login} />

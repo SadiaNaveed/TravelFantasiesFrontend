@@ -37,6 +37,7 @@ const Login = (props) => {
   const classes = useStyles();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [guide, setGuide] = React.useState(false);
   return (
     // <div className={classes.container}>
     //   <div className={classes.child}>
@@ -130,24 +131,67 @@ const Login = (props) => {
             </div>
           </div>
 
-          <Button
+ <div className="form-group">
+            <label>
+              <input type="checkbox"
+                checked={guide}
+                
+                onChange={() => setGuide(!guide)}
+              />
+                Login as Guide
+            </label>
+          </div>
+<Button
             variant="contained"
             color="primary"
             onClick={(e) => {
-              userService
-                .login(email, password)
-                .then((data) => {
-                  console.log(data);
-                  window.location.href = "/";
-                })
-                .catch((err) => {
-                  console.log(err);
-                  toast.error(err.response.data, {
-                    position: toast.POSITION.TOP_LEFT,
+              if(guide)
+              {
+                userService
+                  .loginGuide(email, password)
+                  .then((data) => {
+                    console.log(data);
+                    window.location.href = "/";
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  }); 
+              }
+              else
+              {
+                userService
+                  .login(email, password)
+                  .then((data) => {
+                    console.log(data);
+                    window.location.href = "/";
+                  })
+                  .catch((err) => {
+                    console.log(err);
                   });
-                });
+              }
             }}
           >
+
+
+
+//           <Button
+//             variant="contained"
+//             color="primary"
+//             onClick={(e) => {
+//               userService
+//                 .login(email, password)
+//                 .then((data) => {
+//                   console.log(data);
+//                   window.location.href = "/";
+//                 })
+//                 .catch((err) => {
+//                   console.log(err);
+//                   toast.error(err.response.data, {
+//                     position: toast.POSITION.TOP_LEFT,
+//                   });
+//                 });
+//             }}
+//           >
             Login
           </Button>
           <p style={{ marginTop: "20px" }}>
