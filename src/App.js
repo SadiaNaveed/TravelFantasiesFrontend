@@ -31,11 +31,13 @@ import HotelView from "./components/Admin/fragments/HotelView";
 import AddRoom from "./components/Admin/fragments/AddRoom";
 import AllRooms from "./components/Admin/fragments/AllRooms";
 import placeDetail from "./components/Places/PlacesToVisit";
-import PlaceDetail from "./components/Places/PlaceDetail";
+import BlogDetail from "./components/Blogs/BlogDetail";
+import  PlaceDetail from "./components/Places/PlaceDetail";
 import RoomView from "./components/Admin/fragments/RoomView";
 import RoomDetail from "./components/Hotels/RoomDetail";
 import Tours from "./components/Tour/Tours";
 import Become_a_host from "./components/Host/Become_a_host";
+import AddBlog from "./components/Blogs/AddBlog";
 // import BecomeGuide from "./components/Guide-page/BecomeGuide";
 
 // import Become_a_host from "./components/Host/Become_a_host";
@@ -52,6 +54,10 @@ import Payment from "./components/Hotels/Payment";
 import ProtectedRoute from "./components/ProctedRoute";
 import userService from "./services/UserService";
 import SidebarComponent from "./components/Admin/fragments/SidebarComponent";
+import BlogView from "./components/Admin/fragments/BlogView";
+import UpdateBlog from "./components/Admin/fragments/UpdateBlog";
+import UpdatePlace from "./components/Admin/fragments/UpdatePlace";
+import PlaceView from "./components/Admin/fragments/PlaceView";
 import NearbyPlaces from "./components/Places/NearbyPlaces";
 import Checkout from "./components/Hotels/Checkout";
 // const handlAddToCartClick = (title) => {
@@ -81,15 +87,15 @@ function App() {
           <Route path="/not-found" component={NotFound} />
           <Route path="/hotel/add" component={addHotel} />
           <Route path="/HotelDetail" component={HotelDetail} />
-<<<<<<< Updated upstream
           <Route path="/HotelMapView" component={MapView} />
-=======
           <Route path="/PlaceDetail" componenet ={PlaceDetail}/>
->>>>>>> Stashed changes
           <Route path="/HotelBooking" component={HotelBooking} />
           <Route path="/hotels/:page/:perPage" component={Hotels} />
           <Route path="/login" component={Login} />
           <Route path="/Blog" exact component={Blog} />
+          <Route path="/BlogDetail" componenet ={BlogDetail}/>
+          <Route path="/BlogView" componenet ={BlogView}/>
+          <Route path="/UpdateBlog" componenet ={UpdateBlog}/>
           <Route path="/PlacesToVisit" component={placeDetail} />
           <Route path="/hotel/compare" component={Compare} />
           <Route path="/AddRoom" component={AddRoom} />
@@ -97,9 +103,11 @@ function App() {
           <Route path="/SingleRoomView" component={RoomView} />
           <Route path="/RoomDetail" component={RoomDetail} />
           <Route path="/HotelView" component={HotelView} />
+          <Route path="/PlaceView" component={PlaceView} />
+          <Route path="/UpdatePlace" component={UpdatePlace} />
           <Route path="/admin-dashboard" component={Dashboard} />
           <Route path="/user-dashboard" component={UserDashboard} />
-
+          <Route path="/AddBlog" exact component={AddBlog} />
           <Route path="/Compare" component={Compare} />
           <Route path="/guide-dashboard" component={GuideDashboard} />
           <Route path="/HotelBooking/:id" component={HotelBooking} />
