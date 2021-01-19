@@ -43,7 +43,8 @@ import BookTour from "./components/Bookings/BookTour";
 import Packages from "./components/Packages/Packages";
 import BookPackages from "./components/Packages/BookPackages";
 import PackagesDetailPage from "./components/Packages/PackagesDetailPage";
-import TourDetailPage from "./components/Tour/TourDetailPage";
+import TourDetail from "./components/Tour/TourDetail";
+//import TourDetailPage from "./components/Tour/TourDetailPage";
 import Guide from "./components/Guide-page/Guide";
 import Signup from "./components/auth/signupComponent";
 import Login from "./components/auth/loginComponent";
@@ -127,10 +128,11 @@ const [currentGuide, setcurrentGuide] = React.useState(true);
           /> */}
           {/* <Route path="/Become_a_host" component={Become_a_host} /> */}
           <Route path="/book-tour" component={BookTour} />
+             <Route path="/TourDetail" component={TourDetail} />
           <Route path="/travel-packages" component={()=><Packages setcurrentPackage={setcurrentPackage}/>} />
           <Route path="/book-packages" component={()=><BookPackages currentPackage={currentPackage}/>}/>
           <Route path="/PackagesDetailPage" component={()=><PackagesDetailPage currentPackage={currentPackage}/>}/>
-          <Route path="/TourDetailPage" component={TourDetailPage} />
+          //<Route path="/TourDetailPage" component={TourDetailPage} />
           <Route path="/Guide" component={Guide} />
           <Route path="/sign-up" component={Signup} />
           <Route path="/login" component={Login} />
