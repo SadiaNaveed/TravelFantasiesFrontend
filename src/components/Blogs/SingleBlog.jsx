@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
     fontStyle: "italic",
     fontSize: 24,
     fontWeight: 700,
+    marginTop: "15px",
   },
  
 }));
@@ -36,11 +37,10 @@ arrayBufferToBase64(buffer) {
 
    onButtonClick = () => {
      this.props.history.push({
-        pathname: '/BlogDetail',
-       search: '?blog=' + this.props.blogs._id,
+       pathname: "/BlogDetail",
+       search: "?Blog=" + this.props.blogs._id,
        
      })
-     
    }
 
    
@@ -52,7 +52,7 @@ arrayBufferToBase64(buffer) {
     return (
       <Box p="10px"
       bgcolor="#F0FFF0"
-      height="385px"
+      height="375px"
       mx="50px"
       borderRadius="6px"
       marginLeft="70px"
@@ -72,7 +72,7 @@ arrayBufferToBase64(buffer) {
                 style={{
                   marginLeft: "10px",
                   height: "250px",
-                  width: "230px",
+                  width: "260px",
                   backgroundColor: "blue",
                 }}
                 alt="blog"
@@ -82,7 +82,7 @@ arrayBufferToBase64(buffer) {
         ) : (
           <p>No Image</p>
         )}
-        <Typography variant="h5">Title {this.props.blogs.Title}</Typography>
+        <Typography variant="h5"> {this.props.blogs.Title}</Typography>
         
         <Button
           style={{
@@ -90,6 +90,7 @@ arrayBufferToBase64(buffer) {
             color: "black",
             marginLeft: "5px",
             marginRight: "5px",
+            marginTop: "15px",
           }}
           onClick={this.onButtonClick}
         >

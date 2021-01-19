@@ -3,9 +3,10 @@ import BlogService from "../../services/BlogService";
 import { makeStyles, createStyles, withStyles } from "@material-ui/core/styles";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import Sidebar from "../Sidebar";
-import { Button, Card, CardContent, CardMedia, Grid } from "@material-ui/core";
+import { Button, Typography, Card, CardContent, CardMedia, Grid } from "@material-ui/core";
 import SingleBlog from "./SingleBlog";
 import { UncontrolledCarousel } from "reactstrap";
+import userService from "../../services/UserService";
 
 const useStyles = (theme) => ({
   root: {
@@ -58,6 +59,12 @@ class Blog extends Component {
         console.log(err);
       });
   }
+  onButtonClick = () => {
+    this.props.history.push({
+       pathname: '/AddBlog'
+      
+    })
+  }
 
   render() {
     const handleChange = async (value) => {
@@ -96,12 +103,37 @@ class Blog extends Component {
     return (
       <div>
        <UncontrolledCarousel className="danger" items={items} />
+       <div>
+       <h1>
+Related Blogs
+       </h1>
+       {userService.isGuide() || userService.isAdmin()
+       &&
+       <Button
+          style={{
+            height: "30px",
+            width: "85px",
+            backgroundColor: "green",
+            color: "white",
+            align: "right",
+            marginLeft: "1210px",
+            marginBottom: "10px"
+          }}
+          onClick={this.onButtonClick}
+        >
+          Upload
+        </Button>  
+       
+       }
+     
+        </div>
         {this.state.Blogs.length == 0 ? (
           <p>There are no Blogs</p>
         ) : (
           <Grid container spacing={4}>
             {this.state.Blogs.map((blog, index) => (
-              <SingleBlog key={index} blogs={blog} />
+              <SingleBlog 
+              key={index} blogs={blog} />
             ))}
           </Grid>
         )}
