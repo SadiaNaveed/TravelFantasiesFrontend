@@ -13,8 +13,6 @@ class BlogCategoryService extends GenericService {
       },}
 
     );  
-  //deleteProduct = (_id) => this.delete("products/" + _id);
-  //updateProduct = (_id, data) => this.put("products/" + _id, data);
   getBlogCategory = (page = 1, perPage = 20) =>
     this.get("BlogCategory?page=" + page + "&perPage=" + perPage).then();
 
