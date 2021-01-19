@@ -41,6 +41,8 @@ import Become_a_host from "./components/Host/Become_a_host";
 // import Become_a_host from "./components/Host/Become_a_host";
 import BookTour from "./components/Bookings/BookTour";
 import Packages from "./components/Packages/Packages";
+import BookPackages from "./components/Packages/BookPackages";
+import PackagesDetailPage from "./components/Packages/PackagesDetailPage";
 import TourDetailPage from "./components/Tour/TourDetailPage";
 import Guide from "./components/Guide-page/Guide";
 import Signup from "./components/auth/signupComponent";
@@ -59,6 +61,8 @@ import UpdateHotel from "./components/Admin/fragments/UpdateHotel";
 //   alert("Add to cart clicked for " +title);
 // };
 
+
+
 function App() {
   // const[count,setCount] = React.useState(5);
   // const handleIncrement = () => {
@@ -68,6 +72,8 @@ function App() {
   //     setCount(count - 1);
   // };
   const [showTopMenu, setTopMenu] = React.useState(true);
+  const [currentPackage, setcurrentPackage] = React.useState(true);
+const [currentGuide, setcurrentGuide] = React.useState(true);
 
   return (
     <Router>
@@ -121,7 +127,9 @@ function App() {
           /> */}
           {/* <Route path="/Become_a_host" component={Become_a_host} /> */}
           <Route path="/book-tour" component={BookTour} />
-          <Route path="/travel-packages" component={Packages} />
+          <Route path="/travel-packages" component={()=><Packages setcurrentPackage={setcurrentPackage}/>} />
+          <Route path="/book-packages" component={()=><BookPackages currentPackage={currentPackage}/>}/>
+          <Route path="/PackagesDetailPage" component={()=><PackagesDetailPage currentPackage={currentPackage}/>}/>
           <Route path="/TourDetailPage" component={TourDetailPage} />
           <Route path="/Guide" component={Guide} />
           <Route path="/sign-up" component={Signup} />
