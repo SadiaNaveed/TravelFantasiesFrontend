@@ -3,8 +3,6 @@ import { Grid, Button, Typography, Box, makeStyles } from "@material-ui/core";
 import { useHistory, withRouter } from "react-router";
 import { grey } from "@material-ui/core/colors";
 import { Link } from "react-router-dom";
-  
-
 
 const useStyles = makeStyles((theme) => ({
   link: {
@@ -15,53 +13,49 @@ const useStyles = makeStyles((theme) => ({
     fontStyle: "italic",
     fontSize: 24,
     fontWeight: 700,
+    marginTop: "15px",
   },
- 
 }));
 
- class SingleBlog extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            showComponent: 'false',         
-        };
-    }
+class SingleBlog extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showComponent: "false",
+    };
+  }
 
-arrayBufferToBase64(buffer) {
+  arrayBufferToBase64(buffer) {
     var binary = "";
     var bytes = [].slice.call(new Uint8Array(buffer));
     bytes.forEach((b) => (binary += String.fromCharCode(b)));
     return window.btoa(binary);
   }
 
-   onButtonClick = () => {
-     this.props.history.push({
-        pathname: '/BlogDetail',
-       search: '?blog=' + this.props.blogs._id,
-       
-     })
-     
-   }
+  onButtonClick = () => {
+    this.props.history.push({
+      pathname: "/BlogDetail",
+      search: "?Blog=" + this.props.blogs._id,
+    });
+  };
 
-   
-   render()
-
-   {
-       const { blog, history } = this.props;
+  render() {
+    const { blog, history } = this.props;
 
     return (
-      <Box p="10px"
-      bgcolor="#F0FFF0"
-      height="385px"
-      mx="50px"
-      borderRadius="6px"
-      marginLeft="70px"
-      marginTop="30px"
-      marginBottom="30px"
-      border="1px solid"
-      borderColor="#C0C0C0"
+      <Box
+        p="10px"
+        bgcolor="#F0FFF0"
+        height="375px"
+        mx="50px"
+        borderRadius="6px"
+        marginLeft="70px"
+        marginTop="30px"
+        marginBottom="30px"
+        border="1px solid"
+        borderColor="#C0C0C0"
       >
-         {this.props.blogs.Image ? (
+        {this.props.blogs.Image ? (
           ((this.props.blogs.Image =
             "data:image/jpeg;base64," +
             this.arrayBufferToBase64(this.props.blogs.Image.data.data)),
@@ -72,7 +66,7 @@ arrayBufferToBase64(buffer) {
                 style={{
                   marginLeft: "10px",
                   height: "250px",
-                  width: "230px",
+                  width: "260px",
                   backgroundColor: "blue",
                 }}
                 alt="blog"
@@ -82,14 +76,15 @@ arrayBufferToBase64(buffer) {
         ) : (
           <p>No Image</p>
         )}
-        <Typography variant="h5">Title {this.props.blogs.Title}</Typography>
-        
+        <Typography variant="h5"> {this.props.blogs.Title}</Typography>
+
         <Button
           style={{
             backgroundColor: "#008CBA",
             color: "black",
             marginLeft: "5px",
             marginRight: "5px",
+            marginTop: "15px",
           }}
           onClick={this.onButtonClick}
         >

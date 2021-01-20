@@ -7,6 +7,11 @@ import {
   Select,
   TextField,
 } from "@material-ui/core";
+import Grid from "@material-ui/core/Grid";
+import React, { Component } from "react";
+import ImageUploader from "react-images-upload";
+import AppBarComponenet from "./AppBar";
+import PlacesService from "../../../services/PlaceService";
 import {
   Col,
   Row,
@@ -22,11 +27,6 @@ import {
   FormFeedback,
   CardBody,
 } from "reactstrap";
-import Grid from "@material-ui/core/Grid";
-import React, { Component } from "react";
-//import AppBarComponenet from "./AppBar";
-import BlogService from "../../services/BlogService";
-import BlogCategoryService from "../../services/BlogCategoryService";
 import { toast } from "react-toastify";
 import Joi from "joi-browser";
 
@@ -37,33 +37,32 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-class AddBlog extends Component {
+class addPlace extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      Title: "",
-      Description: "",
-      SelectedCategory: 0,
-      Categories: [],
+      placeName: " ",
+      City: " ",
       selectedFile: [],
+      Description: " ",
     };
     this.onDrop = this.onDrop.bind(this);
-    this.handleTitleChange = this.handleTitleChange.bind(this);
+    this.handleplaceNameChange = this.handleplaceNameChange.bind(this);
+    this.handleCityChange = this.handleCityChange.bind(this);
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.change = this.change.bind(this);
+    //this.change = this.change.bind(this);
   }
-
   schema = {
-    Title: Joi.string().required(),
+    placeName: Joi.string().required(),
+    City: Joi.string().required(),
     Description: Joi.string().required(),
-    SelectedCategory: Joi.string().required(),
   };
-  validate = (Title, Description, SelectedCategory) => {
+  validate = (placeName, City, Description) => {
     const data = {
-      Title,
+      placeName,
+      City,
       Description,
-      SelectedCategory,
     };
     const options = { abortEarly: false };
     const { error } = Joi.validate(data, this.schema, options);
@@ -78,58 +77,43 @@ class AddBlog extends Component {
     }
     return false;
   };
-
-  componentDidMount() {
-    BlogCategoryService.getBlogCategory(this.props.page, this.props.perPage)
-      .then((data) => {
-        this.setState({ Categories: data });
-        console.log(this.state.Categories);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  handleplaceNameChange(event) {
+    this.setState({ placeName: event.target.value });
   }
-  handleTitleChange(event) {
-    this.setState({ Title: event.target.value });
-  }
-  handleLinkChange(event) {
-    this.setState({ Link: event.target.value });
+  handleCityChange(event) {
+    this.setState({ City: event.target.value });
   }
   handleDescriptionChange(event) {
     this.setState({ Description: event.target.value });
   }
+
   onDrop(event) {
     this.setState({
       selectedFile: event.target.files,
     });
   }
-  change = async (event) => {
-    this.setState({ SelectedCategory: event.target.value });
-  };
 
   handleSubmit(event) {
     event.preventDefault();
     if (
       this.validate(
-        this.state.Title,
-        this.state.Description,
-        this.state.SelectedCategory
+        this.state.placeName,
+        this.state.City,
+        this.state.Description
       )
     ) {
       const formData = new FormData();
-      formData.append("Title", this.state.Title);
+      formData.append("placeName", this.state.placeName);
+      formData.append("City", this.state.City);
       formData.append("Description", this.state.Description);
-      formData.append("Category", this.state.SelectedCategory);
+
       for (var x = 0; x < this.state.selectedFile.length; x++) {
         formData.append("file", this.state.selectedFile[x]);
       }
-
       console.log(this.state);
       console.log(formData);
       const data = this.state;
-      console.log(data);
-      BlogService.addBlog(formData)
-
+      PlacesService.addPlace(formData)
         .then((response) => {
           alert(response);
         })
@@ -141,52 +125,25 @@ class AddBlog extends Component {
 
   render() {
     return (
-      <div
-        style={{
-          marginTop: "40px",
-          marginLeft: "70px",
-          marginRight: "70px",
-          marginBottom: "40px",
-        }}
-      >
+      <div style={{ marginTop: "100px", marginLeft: "240px" }}>
         <Col sm="12">
           <Card>
-            <CardHeader>Please Fill Out The Form to Add Blog</CardHeader>
+            <CardHeader>Please Fill Out The Form to Add Place</CardHeader>
             <CardBody>
               <Form>
-                <CardTitle tag="h3">Details About Blog</CardTitle>
+                <CardTitle tag="h3">Details About Place</CardTitle>
 
                 <Row form>
                   <Col md={6} sm={12} lg={6}>
                     <FormGroup>
-                      <Label for="Place">Select Blog Category</Label>
-
-                      <Select
-                        labelId="demo-simple-select-outlined-label"
-                        id="demo-simple-select-outlined"
-                        value={this.state.SelectedCategory}
-                        onChange={this.change}
-                        fullWidth
-                      >
-                        {this.state.Categories.map((Category, index) => (
-                          <MenuItem value={Category._id}>
-                            {Category.CategoryName}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormGroup>
-                  </Col>
-
-                  <Col md={6} sm={12} lg={6}>
-                    <FormGroup>
-                      <Label for="title">Title</Label>
+                      <Label for="exampleDate">Place Name</Label>
                       <Input
                         type="text"
-                        name="Title"
-                        id="title"
-                        placeholder="Enter Blog Title"
-                        value={this.state.Title}
-                        onChange={this.handleTitleChange}
+                        name="Place_Name"
+                        id="exampleDate"
+                        placeholder="Enter Place Name"
+                        value={this.state.placeName}
+                        onChange={this.handleplaceNameChange}
                       />
                     </FormGroup>
                   </Col>
@@ -195,19 +152,30 @@ class AddBlog extends Component {
                 <Row form>
                   <Col md={6} sm={12} lg={6}>
                     <FormGroup>
-                      <Label for="desc">Description</Label>
+                      <Label for="exampleDate">City</Label>
+                      <Input
+                        type="text"
+                        name="City"
+                        id="exampleDate"
+                        placeholder="Enter City name"
+                        value={this.state.City}
+                        onChange={this.handleCityChange}
+                      />
+                    </FormGroup>
+                  </Col>
+                  <Col md={6} sm={12} lg={6}>
+                    <FormGroup>
+                      <Label for="exampleDate">Description</Label>
                       <Input
                         type="text"
                         name="Description"
-                        id="desc"
+                        id="exampleDate"
                         placeholder="Enter Description"
-                        value={this.state.Location}
+                        value={this.state.Description}
                         onChange={this.handleDescriptionChange}
                       />
                     </FormGroup>
                   </Col>
-                </Row>
-                <Row form>
                   <Col md={6} sm={12} lg={4}>
                     <FormGroup>
                       <Label for="exampleDate">Add Image</Label>
@@ -225,16 +193,17 @@ class AddBlog extends Component {
                   type="submit"
                   onClick={this.handleSubmit}
                 >
-                  Add Blog
+                  Add Place
                 </Button>
               </Form>
             </CardBody>
           </Card>
         </Col>
+
         <CssBaseline />
       </div>
     );
   }
 }
 
-export default AddBlog;
+export default addPlace;

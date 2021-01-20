@@ -8,9 +8,6 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-
-//import {loadStripe} from '@stripe/stripe-js';
-
 import TopMenu from "./components/TopMenu";
 import Footer from "./components/Footer";
 import LandingPage from "./components/LandingPage";
@@ -34,20 +31,21 @@ import HotelView from "./components/Admin/fragments/HotelView";
 import AddRoom from "./components/Admin/fragments/AddRoom";
 import AllRooms from "./components/Admin/fragments/AllRooms";
 import placeDetail from "./components/Places/PlacesToVisit";
+import PlaceDetail from "./components/Places/PlaceDetail";
 import RoomView from "./components/Admin/fragments/RoomView";
 import RoomDetail from "./components/Hotels/RoomDetail";
 import Tours from "./components/Tour/Tours";
 import Become_a_host from "./components/Host/Become_a_host";
-import BecomeGuide from "./components/Guide-page/BecomeGuide";
-
+// import BecomeGuide from "./components/Guide-page/BecomeGuide";
 // import Become_a_host from "./components/Host/Become_a_host";
 import BookTour from "./components/Bookings/BookTour";
 import Packages from "./components/Packages/Packages";
+
 import BookPackages from "./components/Packages/BookPackages";
+import PackagesDetailPage from "./components/Packages/PackagesDetailPage";
 import TourDetail from "./components/Tour/TourDetail";
+//import TourDetailPage from "./components/Tour/TourDetailPage";
 import Guide from "./components/Guide-page/Guide";
-import GuideDetail from "./components/Guide-page/GuideDetail";
-import BookGuide from "./components/Guide-page/BookGuide";
 import Signup from "./components/auth/signupComponent";
 import Login from "./components/auth/loginComponent";
 import { ToastContainer, toast } from "react-toastify";
@@ -55,51 +53,21 @@ import "react-toastify/dist/ReactToastify.css";
 import MapView from "./components/Hotels/MapView";
 import Payment from "./components/Hotels/Payment";
 import ProtectedRoute from "./components/ProctedRoute";
-import PackagesDetailPage from "./components/Packages/PackagesDetailPage";
 import userService from "./services/UserService";
 import SidebarComponent from "./components/Admin/fragments/SidebarComponent";
-import { Elements } from "@stripe/react-stripe-js";
-import BlogView from "./components/Admin/fragments/BlogView";
-import UpdateBlog from "./components/Admin/fragments/UpdateBlog";
-import UpdatePlace from "./components/Admin/fragments/UpdatePlace";
-import PlaceView from "./components/Admin/fragments/PlaceView";
-import BlogDetail from "./components/Blogs/BlogDetail";
-import PlaceDetail from "./components/Places/PlaceDetail";
-// const handlAddToCartClick = (title) => {
-//   alert("Add to cart clicked for " +title);
-// };
-
-// const stripePromise=loadStripe(pk_test_51I7lIfBWL3moS0kP96i1xFyxRnCIjtZ5ONKm0kEo4GZp2K965RWgAbhPvquRSqvMRT1ARvU8lqgCcNJ90rhKb4F900EeWDT9Ry);
+import NearbyPlaces from "./components/Places/NearbyPlaces";
+import Checkout from "./components/Hotels/Checkout";
+import UpdateHotel from "./components/Admin/fragments/UpdateHotel";
+import UserView from "./components/Admin/fragments/UserView";
+import UpdateUser from "./components/Admin/fragments/UpdateUser";
+import TourDetailPage from "./components/Tour/TourDetailPage";
 
 function App() {
-  //console.log(stripePromise);
-
-  // const[count,setCount] = React.useState(5);
-  // const handleIncrement = () => {
-  //     setCount(count + 1);
-  // };
-  // const handleDecrement = () => {
-  //     setCount(count - 1);
-  // };
   const [showTopMenu, setTopMenu] = React.useState(true);
-
-  const [currentPackage, setcurrentPackage] = React.useState(true);
-  const [currentGuide, setcurrentGuide] = React.useState(true);
 
   return (
     <Router>
-      {/* <div className= 'App' >
-<div className= 'booking' >
-  <Elements stripe ={stripePromise}>
-
-  </Elements>
-
-  </div>
-
-</div> */}
-
       <div>
-        {/* <h1 style = {{backgroundColor:"aqua"}}> Products Details </h1>  */}
         <ToastContainer />
         <TopMenu condition={true} />
         <Switch>
@@ -110,13 +78,13 @@ function App() {
           <Route path="/hotel/add" component={addHotel} />
           <Route path="/HotelDetail" component={HotelDetail} />
           <Route path="/HotelMapView" component={MapView} />
+          <Route path="/PlaceDetail" componenet={PlaceDetail} />
           <Route path="/HotelBooking" component={HotelBooking} />
           <Route path="/hotels/:page/:perPage" component={Hotels} />
+          <Route path="/UserView" component={UserView} />
+          <Route path="/UserUpdate" component={UpdateUser} />
           <Route path="/login" component={Login} />
           <Route path="/Blog" exact component={Blog} />
-          <Route path="/BlogDetail" componenet={BlogDetail} />
-          <Route path="/BlogView" componenet={BlogView} />
-          <Route path="/UpdateBlog" componenet={UpdateBlog} />
           <Route path="/PlacesToVisit" component={placeDetail} />
           <Route path="/hotel/compare" component={Compare} />
           <Route path="/AddRoom" component={AddRoom} />
@@ -124,17 +92,17 @@ function App() {
           <Route path="/SingleRoomView" component={RoomView} />
           <Route path="/RoomDetail" component={RoomDetail} />
           <Route path="/HotelView" component={HotelView} />
-          <Route path="/PlaceDetail" componenet={PlaceDetail} />
+          <Route path="/HotelUpdate" component={UpdateHotel} />
           <Route path="/admin-dashboard" component={Dashboard} />
           <Route path="/user-dashboard" component={UserDashboard} />
-          <Route path="/PlaceView" component={PlaceView} />
-          <Route path="/UpdatePlace" component={UpdatePlace} />
           <Route path="/Compare" component={Compare} />
           <Route path="/guide-dashboard" component={GuideDashboard} />
           <Route path="/HotelBooking/:id" component={HotelBooking} />
+          <Route path="/HotelCheckout" component={Checkout} />
           <Route path="/HotelPayment" component={Payment} />
           {/* <Route path="/sign-up" exact component={Signup} /> */}
           <Route path="/itinerary/:page/:perPage" component={Itinerary} />
+          <Route path="/Nearby" component={NearbyPlaces} />
           <Route path="/" exact component={LandingPage} />
           <Route path="/Tours" component={Tours} />
           <ProtectedRoute
@@ -142,15 +110,8 @@ function App() {
             login={userService.getLoggedInUser() != null ? true : false}
             component={Become_a_host}
           />
-
-          {/* <ProtectedRoute
-            path="/BecomeGuide"
-            login={userService.getLoggedInUser() != null ? true : false}
-            component={BecomeGuide}
-          /> */}
-          {/* <Route path="/Become_a_host" component={Become_a_host} /> */}
-          <Route path="/TourDetail" component={TourDetail} />
           <Route path="/book-tour" component={BookTour} />
+          <Route path="/TourDetail" component={TourDetail} />
           <Route
             path="/travel-packages"
             component={() => <Packages setcurrentPackage={setcurrentPackage} />}
@@ -165,35 +126,16 @@ function App() {
               <PackagesDetailPage currentPackage={currentPackage} />
             )}
           />
-          <Route
-            path="/GuideDetail"
-            component={() => <GuideDetail currentGuide={currentGuide} />}
-          />
-          <Route
-            path="/Guide"
-            component={() => <Guide setcurrentGuide={setcurrentGuide} />}
-          />
-          <Route
-            path="/book-Guide"
-            component={() => <BookGuide currentGuide={currentGuide} />}
-          />
-          <Route path="/BecomeGuide" component={BecomeGuide} />
-
+          //
+          <Route path="/TourDetailPage" component={TourDetailPage} />
+          <Route path="/Guide" component={Guide} />
           <Route path="/sign-up" component={Signup} />
           <Route path="/login" component={Login} />
           <Route path="/admin-dashboard" component={Dashboard} />
-
           <Route path="/user-dashboard" component={UserDashboard} />
-
           <Redirect to="not-found" />
         </Switch>
         <Footer />
-        {/*
-       
-         <Counter count={count} handleIncrement={handleIncrement} handleDecrement={handleDecrement} />
-      <Product title="Audi"  price="900" onAdToCart = {handlAddToCartClick} count={count}/>
-      <Product title="Suzuki" price="800" onAdToCart = {handlAddToCartClick} count={count}/>
-      <Product title="Mehran" price="200" onAdToCart = {handlAddToCartClick} count={count}/> */}
       </div>
     </Router>
   );

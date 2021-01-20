@@ -63,8 +63,6 @@ import BlogView from "./components/Admin/fragments/BlogView";
 import UpdateBlog from "./components/Admin/fragments/UpdateBlog";
 import UpdatePlace from "./components/Admin/fragments/UpdatePlace";
 import PlaceView from "./components/Admin/fragments/PlaceView";
-import BlogDetail from "./components/Blogs/BlogDetail";
-import PlaceDetail from "./components/Places/PlaceDetail";
 // const handlAddToCartClick = (title) => {
 //   alert("Add to cart clicked for " +title);
 // };
@@ -124,11 +122,9 @@ function App() {
           <Route path="/SingleRoomView" component={RoomView} />
           <Route path="/RoomDetail" component={RoomDetail} />
           <Route path="/HotelView" component={HotelView} />
-          <Route path="/PlaceDetail" componenet={PlaceDetail} />
           <Route path="/admin-dashboard" component={Dashboard} />
           <Route path="/user-dashboard" component={UserDashboard} />
           <Route path="/PlaceView" component={PlaceView} />
-          <Route path="/UpdatePlace" component={UpdatePlace} />
           <Route path="/Compare" component={Compare} />
           <Route path="/guide-dashboard" component={GuideDashboard} />
           <Route path="/HotelBooking/:id" component={HotelBooking} />

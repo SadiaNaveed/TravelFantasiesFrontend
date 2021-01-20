@@ -80,9 +80,8 @@ class RoomView extends Component {
     };
     this.onViewButtonClick = this.onViewButtonClick.bind(this);
     this.arrayBufferToBase64 = this.arrayBufferToBase64.bind(this);
-    this.onDeleteButtonClick = this.this.onDeleteButtonClick.bind(this);
+    this.onEditButtonClick = this.onEditButtonClick.bind(this);
   }
-
   arrayBufferToBase64(buffer) {
     var binary = "";
     var bytes = [].slice.call(new Uint8Array(buffer));
@@ -122,6 +121,20 @@ class RoomView extends Component {
       });
   };
 
+  onAllRoomsClick = (id) => {
+    // let history = useHistory();
+    this.props.history.push({
+      pathname: "/RoomsView",
+      search: "?hotel=" + id,
+    });
+  };
+  onAddRoomClick = (id) => {
+    // let history = useHistory();
+    this.props.history.push({
+      pathname: "/AddRoom",
+      search: "?hotel=" + id,
+    });
+  };
   render() {
     //  const classes = useStyles();
     //  const { hotel } = this.props;
@@ -177,7 +190,11 @@ class RoomView extends Component {
                         >
                           <Visibility />
                         </Button>
-
+                        <Button
+                          onClick={() => this.onEditButtonClick(hotel._id)}
+                        >
+                          <Edit />{" "}
+                        </Button>
                         <Button
                           onClick={() => this.onDeleteButtonClick(hotel._id)}
                         >
