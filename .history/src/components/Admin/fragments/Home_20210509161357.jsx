@@ -131,6 +131,64 @@ class HomeFragment extends Component {
             </div>
           </div>
         </div>
+        <div class="card">
+          <header class="card-header">
+            All <small class="text-muted"> Hotels</small>
+          </header>
+          <div class="card-body">
+            <div></div>
+
+            <div class="position-relative table-responsive">
+              <table class="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th
+                      class="font-weight-bold"
+                      style={{ verticalAlign: "middle", overflow: "hidden" }}
+                    >
+                      <div class="d-inline">Hotel Name</div>
+                    </th>
+                    <th
+                      class=""
+                      style={{ verticalAlign: "middle", overflow: "hidden" }}
+                    >
+                      <div class="d-inline">Location</div>
+                    </th>
+                    <th
+                      class=""
+                      style={{ verticalAlign: "middle", overflow: "hidden" }}
+                    >
+                      <div class="d-inline">Cost</div>
+                    </th>
+                    <th
+                      class=""
+                      style={{ verticalAlign: "middle", overflow: "hidden" }}
+                    >
+                      <div class="d-inline">Contact No</div>
+                    </th>
+                  </tr>
+                </thead>
+                {/* <tbody style={{ cursor: "pointer" }}>
+                  {this.state.hotels.map(
+                    (hotel, index) => (
+                      (hotel.Image =
+                        "data:image/jpeg;base64," +
+                        this.arrayBufferToBase64(hotel.Image.data.data)),
+                      (
+                        <tr class="" tabIndex="0">
+                          <td class="font-weight-bold">{hotel.HotelName}</td>
+                          <td class="">{hotel.Location}</td>
+                          <td class="">{hotel.Cost}</td>
+                          <td class="">{hotel.Contactno}</td>
+                        </tr>
+                      )
+                    )
+                  )}
+                </tbody> */}
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

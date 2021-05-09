@@ -71,22 +71,22 @@ class BookPackages extends Component {
     //  const{stripe,elements}=this.props;
     //  if(!stripe||!elements)return;
     // const card= elements.getElement(caedElement);
-    console.log(this.state);
+    console.log(this.props);
     console.log(userService.getLoggedInUser()._id);
     Axios.post("http://localhost:4000/api/BookPackages", {
-      PackageName: this.state.PackageName,
-      Booking_Date: this.state.Booking_Date,
-      Arrival_Time: this.state.Arrival_Time,
-      Departure_Time: this.state.Departure_Time,
-      Start_Date: this.state.Start_Date,
-      End_Date: this.state.End_Date,
-      No_of_Days: this.state.No_of_Days,
-      Cost: this.state.Cost,
-      Discount: this.state.Discount,
-      Persons: this.state.Persons,
-      Meal: this.state.Meal,
-      Hotel: this.state.Hotel,
-      Location: this.state.Location,
+      PackageName: this.props.currentPackage.PackageName,
+      Booking_Date: this.props.currentPackage.Booking_Date,
+      Arrival_Time: this.props.currentPackage.Arrival_Time,
+      Departure_Time: this.props.currentPackage.Departure_Time,
+      Start_Date: this.props.currentPackage.Start_Date,
+      End_Date: this.props.currentPackage.End_Date,
+      No_of_Days: this.props.currentPackage.No_of_Days,
+      Cost: this.props.currentPackage.Cost,
+      Discount: this.props.currentPackage.Discount,
+      Persons: this.props.currentPackage.Persons,
+      Meal: this.props.currentPackage.Meal,
+      Hotel: this.props.currentPackage.Hotel,
+      Location: this.props.currentPackage.Location,
       Host_Id: userService.getLoggedInUser()._id,
     })
       .then((res) => {

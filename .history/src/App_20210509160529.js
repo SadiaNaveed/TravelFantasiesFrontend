@@ -110,7 +110,6 @@ function App() {
           <Route path="/hotel/add" component={addHotel} />
           <Route path="/HotelDetail" component={HotelDetail} />
           <Route path="/HotelMapView" component={MapView} />
-          <Route path="/NearbyPlaces" component={NearbyPlaces} />
           <Route path="/HotelBooking" component={HotelBooking} />
           <Route path="/hotels/:page/:perPage" component={Hotels} />
           <Route path="/login" component={Login} />

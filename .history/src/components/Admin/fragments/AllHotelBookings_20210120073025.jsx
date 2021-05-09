@@ -145,7 +145,7 @@ class AllHotelBookings extends Component {
                       class=""
                       style={{ verticalAlign: "middle", overflow: "hidden" }}
                     >
-                      <div class="d-inline">Guest Id</div>
+                      <div class="d-inline">Contact No</div>
                     </th>
                     <th
                       class=""
@@ -161,7 +161,7 @@ class AllHotelBookings extends Component {
                       <td class="font-weight-bold">{hotel.Booking_Date}</td>
                       <td class="">{hotel.Hotel_id}</td>
                       <td class="">{hotel.Cost}</td>
-                      <td class="">{hotel.Guest_id}</td>
+                      <td class="">{hotel.Contactno}</td>
                       <td class="">{hotel.No_of_Days}</td>
                       <td>
                         {/* <Button onClick={() => this.onAllRoomsClick(hotel._id)}>

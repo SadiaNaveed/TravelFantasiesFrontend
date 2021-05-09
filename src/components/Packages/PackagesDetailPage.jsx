@@ -16,17 +16,34 @@ import { Link } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 import axios from "axios";
 import "./Packages.css";
+import { Markup } from "interweave";
+
+import {
+  CardContent,
+  Typography,
+  CardActionArea,
+  makeStyles,
+} from "@material-ui/core";
 // import tours from "../components/Package";
 // import imgCard1 from "./img-card (1).jpg";
 // import imgCard2 from "./img-card (2).jpg";
 // import imgCard3 from "./img-card (3).jpg";
 // import imgCard4 from "./img-card (4).jpg";
-
+const useStyles = makeStyles({
+  root: {
+    maxWidth: 345,
+  },
+  media: {
+    height: 140,
+  },
+});
 const PackagesDetailPage = (props) => {
+  const classes = useStyles();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   console.log("---props----", props);
+  const [reviwes, setReviews] = useState([]);
   useEffect(() => {
     axios
       .get(
@@ -34,6 +51,7 @@ const PackagesDetailPage = (props) => {
       )
       .then((res) => {
         console.log("----RES----", res.data);
+        setReviews(res.data);
       })
       .catch((err) => {
         console.log("===error--", err);
@@ -51,7 +69,7 @@ const PackagesDetailPage = (props) => {
         packageID: props.currentPackage._id,
         userID: jwtDecode(jwt)._id,
       };
-
+      console.log(data);
       axios
         .post("http://localhost:4000/api/packageReview", data)
         .then((res) => {
@@ -87,7 +105,7 @@ const PackagesDetailPage = (props) => {
           <Row>
             <Col sm="8">
               <div className="tour-desc">
-                <p>{props.currentPackage.Description}</p>
+                <Markup content={props.currentPackage.Description} />
               </div>
             </Col>
             <Col sm="4">
@@ -167,6 +185,44 @@ const PackagesDetailPage = (props) => {
           </Row>
         </section>
       </Container>
+      <section className="reviews">
+        <Container>
+          <section className="tour-msg text-center">
+            <h1>Reviews and Suggestions from our clients.</h1>
+            <Row>
+              {reviwes.map((review) => {
+                return (
+                  <Col sm="4">
+                    <Card className={classes.root}>
+                      <CardActionArea>
+                        <CardContent>
+                          <Typography gutterBottom variant="h5" component="h2">
+                            {review.Username}
+                          </Typography>
+                          <Typography
+                            variant="body2"
+                            color="textSecondary"
+                            component="p"
+                          >
+                            {"Rating " + review.Ratings}
+                          </Typography>
+                          <Typography
+                            variant="body2"
+                            color="textSecondary"
+                            component="p"
+                          >
+                            {review.Comment}
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                    </Card>
+                  </Col>
+                );
+              })}
+            </Row>
+          </section>
+        </Container>
+      </section>
       <section className="reviews">
         <Container>
           <section className="tour-msg text-center">

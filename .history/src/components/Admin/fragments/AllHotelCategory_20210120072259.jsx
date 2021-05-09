@@ -11,9 +11,10 @@ import {
   withStyles,
 } from "@material-ui/core";
 import React, { Component } from "react";
+import hotelService from "../../../services/HotelService";
 import Paper from "@material-ui/core/Paper";
 import { Delete, Edit, Update, Visibility } from "@material-ui/icons";
-import roomCategoryService from "../../../services/RoomCategoryService";
+import hotelCategoryService from "../../../services/HotelCategoryService";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -48,7 +49,7 @@ const classes = (theme) => ({
   },
 });
 
-class AllRoomCategory extends Component {
+class AllHotelCategory extends Component {
   constructor() {
     super();
     this.state = {
@@ -66,8 +67,8 @@ class AllRoomCategory extends Component {
     return window.btoa(binary);
   }
   componentDidMount() {
-    roomCategoryService
-      .getRoomCategory(this.props.page, this.props.perPage)
+    hotelCategoryService
+      .getHotelCategory(this.props.page, this.props.perPage)
       .then((data) => {
         this.setState({ hotels: data });
 
@@ -84,7 +85,7 @@ class AllRoomCategory extends Component {
 
     return (
       <div style={{ marginLeft: "250px", marginTop: "120px" }}>
-        <h1>Room Categories</h1>
+        <h1>Hotel Categories</h1>
         {this.state.hotels.length == 0 ? (
           <p>Loading...</p>
         ) : (
@@ -99,16 +100,23 @@ class AllRoomCategory extends Component {
                   <thead>
                     <tr>
                       <th
-                        class=""
-                        style={{ verticalAlign: "middle", overflow: "hidden" }}
+                        class="font-weight-bold"
+                        style={{
+                          verticalAlign: "middle",
+                          overflow: "hidden",
+                        }}
                       >
                         <div class="d-inline">Category</div>
                       </th>
+
                       <th
                         class=""
-                        style={{ verticalAlign: "middle", overflow: "hidden" }}
+                        style={{
+                          verticalAlign: "middle",
+                          overflow: "hidden",
+                        }}
                       >
-                        <div class="d-inline"> Description</div>
+                        <div class="d-inline"> Action</div>
                       </th>
                     </tr>
                   </thead>
@@ -117,6 +125,27 @@ class AllRoomCategory extends Component {
                       <tr class="" tabIndex="0">
                         <td class="">{hotel.CategoryName}</td>
                         <td class="">{hotel.Description}</td>
+                        {/* <td class="">{hotel.Description}</td> */}
+                        {/* 
+                        <td
+                          class=""
+                          style={{
+                            verticalAlign: "middle",
+                            overflow: "hidden",
+                          }}
+                        >
+                          <Button
+                            onClick={() => this.onViewButtonClick(hotel._id)}
+                          >
+                            <Visibility />
+                          </Button>
+
+                          <Button
+                            onClick={() => this.onDeleteButtonClick(hotel._id)}
+                          >
+                            <Delete />{" "}
+                          </Button>
+                        </td> */}
                       </tr>
                     ))}
                   </tbody>
@@ -130,4 +159,4 @@ class AllRoomCategory extends Component {
   }
 }
 // export default withStyles(useStyles)(HomeFragment)
-export default withStyles(classes)(AllRoomCategory);
+export default withStyles(classes)(AllHotelCategory);
